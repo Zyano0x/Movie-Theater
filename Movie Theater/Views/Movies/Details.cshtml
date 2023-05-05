@@ -1,0 +1,355 @@
+﻿﻿@model Movie_Theater.ViewModels.MovieViewModel
+@using Microsoft.AspNet.Identity;
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="wrapper-container">
+    <div class="box-thumbnail box-movie">
+        <div class="box-thumbnail__info box-movie__item">
+            <div class="img">
+                <img src="@Model.PosterPath" alt="Alternate Text" />
+                @{
+                    foreach (var ms in Model.MovieSchedules)
+                    {
+                        if (ms.MovieId == Model.Id && ms.EndTime > DateTime.Now)
+                        {
+                            <a href="@Url.Action("Create","Booking", new { id = Model.Id})"><i class="fa-solid fa-ticket"></i>Đặt Vé</a>
+                            break;
+                        }
+                    }
+                }
+            </div>
+            <div class="caption">
+                <span>@Model.Title</span>
+                <div class="scores">
+                    <img src="https://www.rottentomatoes.com/assets/pizza-pie/images/icons/tomatometer/certified_fresh.75211285dbb.svg" alt="Alternate Text" />
+                    @{
+                        var movieScore = Model.Score;
+                        if (Model.ReleaseDate > DateTime.Now)
+                        {
+                            <span>...%</span>
+                        }
+                        else if (Model.Score < 1)
+                        {
+                            <span>100%</span>
+                        }
+                        else
+                        {
+                            <span>@Model.Score%</span>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="box-thumbnail__trailer">
+            <iframe style="width: 100%; height: 100%" src="@Url.Content(Model.TrailerUrl)" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <div class="box-movie-info">
+        <div class="box-movie-info__item">
+            <div class="heading-title">
+                <h6>THÔNG TIN CHI TIẾT</h6>
+            </div>
+            <div class="box-movie-info__item__content">
+                <p>@Model.Synopsis</p>
+                <ul>
+                    <li>
+                        <strong>Nhãn: </strong>
+                        <span>@Model.Rating</span>
+                    </li>
+                    <li>
+                        <strong>Thể loại: </strong>
+                        <span>
+                            @{
+                                var count = 0;
+                                foreach (var genres in Model.Genres)
+                                {
+                                    if (Model.GenreIds.Contains(genres.Id))
+                                    {
+                                        <span>
+                                            @if (count != 0)
+                                            {
+                                                <span> , </span>
+                                            }
+                                            @genres.Name
+                                        </span>
+                                        count++;
+                                    }
+                                }
+                            }
+                        </span>
+                    </li>
+                    <li>
+                        <strong>Ngôn ngữ chính: </strong>
+                        <span>@Model.OriginalLanguage</span>
+                    </li>
+                    <li>
+                        <strong>Đạo diễn: </strong>
+                        @{
+                            List<Movie_Theater.Models.Crew> lstDirection = (from crew in Model.Crews select crew).Where(crew => Model.DirectorIds.Contains(crew.Id)).ToList();
+                            count = 0;
+                            foreach (var director in lstDirection)
+                            {
+                                <span>
+                                    @if (count != 0)
+                                    {
+                                        <span> , </span>
+                                    }
+                                    <a href="@Url.Action("Details", "Crews", new { id = director.Id })">@director.Name</a>
+                                </span>
+                                count++;
+                            }
+                        }
+                    </li>
+                    <li>
+                        <strong>Sản xuất: </strong>
+                        @{
+                            List<Movie_Theater.Models.Crew> lstProducer = (from crew in Model.Crews select crew).Where(crew => Model.ProducerIds.Contains(crew.Id)).ToList();
+                            count = 0;
+                            foreach (var producer in lstProducer)
+                            {
+                                <span>
+                                    @if (count != 0)
+                                    {
+                                        <span> , </span>
+                                    }
+                                    <a href="@Url.Action("Details", "Crews", new { id = producer.Id })">@producer.Name</a>
+                                </span>
+                                count++;
+                            }
+                        }
+                    </li>
+                    <li>
+                        <strong>Biên kịch: </strong>
+                        @{
+                            List<Movie_Theater.Models.Crew> lstWriter = (from crew in Model.Crews select crew).Where(crew => Model.WriterIds.Contains(crew.Id)).ToList();
+                            count = 0;
+                            foreach (var writer in lstWriter)
+                            {
+                                <span>
+                                    @if (count != 0)
+                                    {
+                                        <span> , </span>
+                                    }
+                                    <a href="@Url.Action("Details", "Crews", new { id = writer.Id })">@writer.Name</a>
+                                </span>
+                                count++;
+                            }
+                        }
+                    </li>
+                    <li>
+                        <strong>Ngày công chiếu (Rạp): </strong>
+                        <span>@Model.ReleaseDate.ToString("dd/MM/yyyy")</span>
+                    </li>
+                    <li>
+                        <strong>Doanh thu: </strong>
+                        <span>$@Model.BoxOffice</span>
+                    </li>
+                    <li>
+                        <strong>Thời lượng: </strong>
+                        <span>@Model.Runtime Phút</span>
+                    </li>
+                    <li>
+                        <strong>Nhà phân phối: </strong>
+                        <span>@Model.Distributor</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="box-movie-info__item">
+            <div class="heading-title">
+                <h6>DIỄN VIÊN & ĐOÀN LÀM PHIM</h6>
+            </div>
+            <ul class="row box-movie-info__item__content" style="padding: 0 10px">
+                @{
+                    List<Movie_Theater.Models.Crew> lstCast = (from crew in Model.Crews select crew).Where(crew => Model.CastIds.Contains(crew.Id)).ToList();
+                    foreach (var cast in lstCast)
+                    {
+                        <li class="col m-b-2 l-2">
+                            <a href="@Url.Action("Details", "Crews", new { id = cast.Id })" class="box-movie__item">
+                                <div class="img">
+                                    <img src="@cast.AvatarPath" alt="Alternate Text" />
+                                </div>
+                                <p style="color: #0d6efd">@cast.Name</p>
+                                <p>
+                                    Diễn viên
+                                </p>
+                            </a>
+                        </li>
+                    }
+
+                    foreach (var director in lstDirection)
+                    {
+                        <li class="col m-b-2 l-2">
+                            <a href="@Url.Action("Details", "Crews", new { id = director.Id })" class="box-movie__item">
+                                <div class="img">
+                                    <img src="@director.AvatarPath" alt="Alternate Text" />
+                                </div>
+                                <p style="color: #0d6efd">@director.Name</p>
+                                <p>
+                                    Đạo diễn
+                                </p>
+                            </a>
+                        </li>
+                    }
+
+                    foreach (var producer in lstProducer)
+                    {
+                        <li class="col m-b-2 l-2">
+                            <a href="@Url.Action("Details", "Crews", new { id = producer.Id })" class="box-movie__item">
+                                <div class="img">
+                                    <img src="@producer.AvatarPath" alt="Alternate Text" />
+                                </div>
+                                <p style="color: #0d6efd">@producer.Name</p>
+                                <p>
+                                    Sản xuất
+                                </p>
+                            </a>
+                        </li>
+                    }
+
+                    foreach (var writer in lstWriter)
+                    {
+                        <li class="col m-b-2 l-2">
+                            <a href="@Url.Action("Details", "Crews", new { id = writer.Id })" class="box-movie__item">
+                                <div class="img">
+                                    <img src="@writer.AvatarPath" alt="Alternate Text" />
+                                </div>
+                                <p style="color: #0d6efd">@writer.Name</p>
+                                <p>
+                                    Biên kịch
+                                </p>
+                            </a>
+                        </li>
+                    }
+                }
+            </ul>
+
+            <div class="box-movie-info__item__more">
+                <span class="more-info">
+                    Xem Thêm
+                </span>
+                <span class="hide-info">
+                    Ẩn Bớt
+                </span>
+            </div>
+        </div>
+    </div>
+
+    @{
+        if (Model.ReleaseDate <= DateTime.Now)
+        {
+            <div class="box-review">
+                <div class="heading-title">
+                    <h6>ĐÁNH GIÁ</h6>
+                </div>
+                <div class="row box-review-body">
+                    <div class="col m-b-3 l-3">
+                        <p>
+                            <strong><i class="fa-solid fa-circle-exclamation" style="color: #fa320a"></i> Lưu ý: <br /></strong>
+                            Mọi từ ngữ xúc phạm, miệt thị đều bị <strong style="color: #fa320a">Cấm! <i class="fa-solid fa-ban"></i></strong>
+                            <br />
+                            Hãy bình luận một cách khách quan và văn minh :3
+                        </p>
+                    </div>
+                    @{
+                        var userLogin = System.Web.HttpContext.Current.User.Identity.GetUserId();
+                        var action = 1;
+                        var scores = "";
+                        var comment = "";
+                        var nameAction = "Gửi";
+                        foreach (var review in Model.Reviews)
+                        {
+                            if (review.MovieId == Model.Id && review.UserId == userLogin)
+                            {
+                                scores = review.Scores.ToString();
+                                comment = review.Comment;
+                                action = 0;
+                                nameAction = "Chỉnh sửa";
+                                break;
+                            }
+                        }
+                        <div class="col m-b-9 l-9">
+                            @using (Html.BeginForm("Review", "Movies", new { id = Model.Id, userLogin = userLogin }, FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="action" value="@action" />
+                                <input type="number" step="1" name="scores" class="scores" placeholder="Điểm số (/100) ?" value="@scores" min="1" max="100">
+                                <textarea name="comment" class="comment" placeholder="Bạn nghĩ gì về bộ phim?">@comment</textarea>
+                                <div class="box-review-body__btn-submit">
+                                    <button type="submit" class="btn btn-success">
+                                        @nameAction
+                                    </button>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="box-community-review">
+                <div class="heading-title">
+                    <h6>NHẬN XÉT CỦA CỘNG ĐỒNG</h6>
+                </div>
+                <ul class="box-community-review__body">
+                    @{
+                        var reviews = (from rv in Model.Reviews select rv).OrderByDescending(rv => rv.Time);
+                        foreach (var review in reviews)
+                        {
+                            if (review.MovieId == Model.Id)
+                            {
+                                <li class="row">
+                                    <div class="account col m-b-3 l-3">
+                                        <div>
+                                            <img src="https://images.fandango.com/cms/assets/5b6ff500-1663-11ec-ae31-05a670d2d590--rtactordefault.png" alt="Alternate Text" />
+                                            <span>
+                                                @foreach (var user in Model.Users)
+                                                {
+                                                    if (user.Id == review.UserId)
+                                                    {
+                                                        <span>@user.FullName</span>
+                                                        break;
+                                                    }
+                                                }
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="content m-b-9 l-9">
+                                        <div>
+                                            <span>
+                                                <strong>Đánh giá: </strong><span>
+                                                    @review.Scores<span>/100</span>
+                                                </span>
+                                            </span>
+                                            <span>
+                                                @if (review.IsChanged != false)
+                                                {
+                                                    <span>Đã chỉnh sửa - </span>
+                                                }
+                                                @review.Time
+                                            </span>
+                                        </div>
+                                        <p>@review.Comment</p>
+
+                                        <div class="box-movie-info__item__more">
+                                            <span class="more-info">
+                                                Xem thêm
+                                            </span>
+                                            <span class="hide-info">
+                                                Ẩn bớt
+                                            </span>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        }
+                    }
+                </ul>
+            </div>
+        }
+    }
+</div>
