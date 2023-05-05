@@ -1,0 +1,98 @@
+﻿﻿@model Movie_Theater.ViewModels.CrewViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="wrapper-container">
+    <div class="row box-biography">
+        <div class="img col m-b-3 l-3">
+            <img src="@Model.AvatarPath" alt="Alternate Text" />
+        </div>
+
+        <div class="biography col m-b-9 l-9">
+            <h1>@Model.Name</h1>
+
+            <ul>
+                <li>
+                    <span><strong>Ngày sinh: </strong>@Html.DisplayFor(m => m.DateOfBirth)</span>
+                </li>
+                <li>
+                    <span><strong>Nơi sinh: </strong>@Model.Birthplace</span>
+                </li>
+            </ul>
+
+            <p>@Model.Biography</p>
+            <div class="box-movie-info__item__more">
+                <span class="more-info">
+                    Xem thêm
+                </span>
+                <span class="hide-info">
+                    Ẩn bớt
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="box-filmography">
+        <div class="heading-title">
+            <h6>PHIM ĐÃ THAM GIA</h6>
+        </div>
+        <table>
+            <thead>
+                <tr class="row">
+                    <th class="col m-b-2 l-2">Điểm số</th>
+                    <th class="col m-b-4 l-7">Tên phim</th>
+                    @*<th class="col m-b-3 l-3">Vai trò</th>*@
+                    <th class="col m-b-2 l-2">Doanh thu($)</th>
+                    <th class="col m-b-1 l-1">Năm</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @{
+                    //var flag = 0;
+                    if (Model.Movies != null)
+                    {
+                        foreach (var movie in Model.Movies)
+                        {
+                            <tr class="row">
+                                <td class="col m-b-2 l-2"><img src="https://www.rottentomatoes.com/assets/pizza-pie/images/icons/tomatometer/certified_fresh.75211285dbb.svg" alt="Alternate Text" />@movie.Score%</td>
+                                <td class="col m-b-4 l-7"><a href="@Url.Action("Details", "Movies", new { id = movie.Id })">@movie.Title</a></td>
+                                @*<td class="col m-b-3 l-3">
+                                        @{
+                                            var count = 0;
+                                            List<int> lstCrewRole = (from crew in Model.MovieCrews where crew.MovieId == movie.Id select crew.CRoleId).ToList();
+                                            foreach (var role in Model.CRoles)
+                                            {
+                                                if (lstCrewRole.Contains(role.Id))
+                                                {
+                                                    <span>
+                                                        @if (count != 0)
+                                                        {
+                                                            <span> , </span>
+                                                        }
+                                                        @role.Name
+                                                    </span>
+                                                    count++;
+                                                }
+                                            }
+                                        }
+                                    </td>*@
+                                <td class="col m-b-2 l-2">200.100.000</td>
+                                <td class="col m-b-1 l-1">@movie.ReleaseDate.ToString("yyyy")</td>
+                            </tr>
+
+                            //flag = 1;
+
+                            @*else if(flag == 0)
+                                {
+                                    <tr> class="text-muted">No movies found.</tr>
+                                }*@
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
