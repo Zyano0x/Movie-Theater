@@ -1,0 +1,65 @@
+﻿@model Movie_Theater.ViewModels.CrewViewModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<section class="page-content">
+    
+    <!-- Default box -->
+    <div class="col-xl-10 main-content pl-xl-4 pr-xl-5">
+        <h1 class="page-title">Detail Crew</h1>
+        <nav class="page-breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/Admin/Crews">Crews</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Detail</li>
+            </ol>
+        </nav>
+    </div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateOfBirth)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateOfBirth)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Birthplace)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Birthplace)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Biography)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Biography)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AvatarPath)
+        </dt>
+
+        <dd>
+            <img src="@Model.AvatarPath" alt="Avatar" width="250px" height="250px" />
+        </dd>
+    </dl>
+
+    <div class="aside-compose">
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-warning mb-1 mb-md-0", style = "margin: 5px 0 5px 0" })
+    </div><!-- /.card-body -->
+</section>
