@@ -1414,6 +1414,7 @@
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\responsive.css" />
     <Content Include="Content\style.css" />
+    <Compile Include="Areas\Admin\Controllers\MovieSchedulesController.cs" />
     <Compile Include="Areas\Admin\Controllers\MoviesController.cs" />
     <Compile Include="Areas\Admin\Controllers\RolesController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -1658,6 +1659,9 @@
     <Content Include="Areas\Admin\Views\Roles\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Account\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Account\New.cshtml" />
+    <Content Include="Areas\Admin\Views\MovieSchedules\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\MovieSchedules\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\MovieSchedules\Edit.cshtml" />
     <None Include="Scripts\jquery-3.6.4.intellisense.js" />
     <Content Include="Scripts\jquery-3.6.4.js" />
     <Content Include="Scripts\jquery-3.6.4.min.js" />

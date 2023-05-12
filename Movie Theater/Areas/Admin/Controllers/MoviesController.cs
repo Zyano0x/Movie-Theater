@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace Movie_Theater.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Staff, Adminstrator")]
     public class MoviesController : Controller
     {
         ApplicationDbContext _dbContext = new ApplicationDbContext();
