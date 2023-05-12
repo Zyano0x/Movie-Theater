@@ -55,11 +55,11 @@ namespace Movie_Theater.Areas.Admin.Controllers
                 var user = User.Identity;
                 ViewBag.Email = GetEmail();
                 ViewBag.Username = user.Name;
-                ViewBag.DisplayMenu = "No";
+                ViewBag.DisplayMenu = false;
 
                 if (IsAdminUser())
                 {
-                    ViewBag.DisplayMenu = "Yes";
+                    ViewBag.DisplayMenu = true;
                 }
                 return View();
             }
