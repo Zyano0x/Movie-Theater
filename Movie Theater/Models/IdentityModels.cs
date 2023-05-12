@@ -43,6 +43,5 @@ namespace Movie_Theater.Models
         public System.Data.Entity.DbSet<Movie_Theater.ViewModels.CrewViewModel> CrewViewModels { get; set; }
 
         public System.Data.Entity.DbSet<Movie_Theater.ViewModels.MovieViewModel> MovieViewModels { get; set; }
-
     }
 }

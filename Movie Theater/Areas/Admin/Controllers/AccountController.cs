@@ -15,6 +15,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext _dbContext = new ApplicationDbContext();
 
         public AccountController()
         {
@@ -48,6 +49,12 @@ namespace Movie_Theater.Areas.Admin.Controllers
             {
                 _userManager = value;
             }
+        }
+
+        public ActionResult Index()
+        {
+            var user = _dbContext.Users.ToList();
+            return View(user);
         }
 
         public ActionResult Login(string returnUrl)
@@ -146,6 +153,43 @@ namespace Movie_Theater.Areas.Admin.Controllers
                 AddErrors(result);
             }
 
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+        public ActionResult New()
+        {
+            ViewBag.Role = new SelectList(_dbContext.Roles.ToList(), "Name", "Name");
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> New(NewMemberViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser
+                {
+                    UserName = model.UserName,
+                    Email = model.Email,
+                };
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    UserManager.AddToRole(user.Id, model.Role);
+                    /*await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);*/
+
+                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    return RedirectToAction("Index", "Account");
+                }
+                AddErrors(result);
+            }
+            ViewBag.Role = new SelectList(_dbContext.Roles.ToList(), "Name", "Name");
             // If we got this far, something failed, redisplay form
             return View(model);
         }
