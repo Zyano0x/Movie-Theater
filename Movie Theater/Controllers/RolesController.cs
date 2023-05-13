@@ -19,27 +19,20 @@ namespace Movie_Theater.Controllers
 
         public ActionResult Create()
         {
-            var viewModel = new RoleViewModel();
-            return View(viewModel);
+            return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(RoleViewModel viewModel)
+        public ActionResult Create(CRole role)
         {
             if (ModelState.IsValid)
             {
-                var role = new CRole
-                {
-                    Name = viewModel.Name,
-                };
-
                 _dbContext.CRoles.Add(role);
                 _dbContext.SaveChanges();
-
                 return RedirectToAction("Index");
             }
 
-            return View(viewModel);
+            return View(role);
         }
     }
 }
