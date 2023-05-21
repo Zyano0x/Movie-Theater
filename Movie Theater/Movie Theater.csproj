@@ -173,6 +173,8 @@
     <Compile Include="Areas\Admin\Controllers\CrewsController.cs" />
     <Compile Include="Areas\Admin\Controllers\GenresController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="VNPay\OrderInfo.cs" />
+    <Compile Include="VNPay\VnPayLibary.cs" />
     <Content Include="Areas\Admin\Content\assets\css\dark\style.css" />
     <Content Include="Areas\Admin\Content\assets\css\dark\style.min.css" />
     <Content Include="Areas\Admin\Content\assets\fonts\feather-font\.gitignore" />
@@ -1684,8 +1686,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -1718,7 +1718,7 @@
     <Folder Include="App_Code\" />
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Content\Images\" />
+    <Folder Include="Content\Images\Icons\" />
     <Folder Include="Data\" />
     <Folder Include="Views\Genres\" />
     <Folder Include="Views\MovieSchedules\" />

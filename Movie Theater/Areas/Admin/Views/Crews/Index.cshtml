@@ -7,7 +7,7 @@
 
 <!-- Main content -->
 <section class="page-content">
-    
+
     <!-- Default box -->
     <div class="col-xl-10 main-content pl-xl-4 pr-xl-5">
         <h1 class="page-title">Crews List</h1>
@@ -41,7 +41,10 @@
                             var i = 1;
                             foreach (var item in Model)
                             {
-                                string desc = item.Biography.Substring(0, 100);
+                                if (item.Biography != null)
+                                {
+
+                                }
                                 <tr>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Name)
@@ -53,7 +56,16 @@
                                         @Html.DisplayFor(modelItem => item.Birthplace)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(x => desc)
+
+                                        @if (item.Biography != null)
+                                        {
+                                            string desc = item.Biography.Substring(0, 100);
+                                            @Html.DisplayFor(x => desc)
+                                        }
+                                        else
+                                        {
+                                            @Html.DisplayFor(modelItem => item.Biography)
+                                        }
                                     </td>
                                     <td>
                                         @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-warning", style = "margin: 5px 0 5px 0" })
