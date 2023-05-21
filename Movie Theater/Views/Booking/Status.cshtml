@@ -1,0 +1,40 @@
+﻿@{
+    ViewBag.Title = "Status";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>RETURN URL FROM VNPAY</title>
+    <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" />
+</head>
+<body>
+    <div class="wrapper-container container">
+        <div class="header clearfix">
+            <h3 class="text-muted">Kết quả thanh toán</h3>
+        </div>
+        <div class="table-responsive">
+            <div>@ViewBag.Movie</div>
+        </div>
+        <div class="table-responsive">
+            <div>@ViewBag.Message</div>
+        </div>
+        <div class="table-responsive">
+            <div>@ViewBag.TmnCode</div>
+        </div>
+        <div class="table-responsive">
+            <div>@ViewBag.TxnRef</div>
+        </div>
+        <div class="table-responsive">
+            <div>@ViewBag.VnPayTranNo</div>
+        </div>
+        <div class="table-responsive">
+            <div>@ViewBag.Amount</div>
+        </div>
+        <div class="table-responsive">
+            <div>@ViewBag.BankCode</div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,155 @@
+﻿@model Movie_Theater.ViewModels.MovieScheduleViewModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="wrapper-container">
+    <div class="row movie-booking">
+        @{
+            foreach (var movie in Model.Movies)
+            {
+                <div class="img col m-b-3 l-3">
+                    <img src="@movie.PosterPath" alt="">
+                </div>
+                <div class="body col m-b-9 l-9">
+                    <div>
+                        <div class="info">
+                            <h6>@movie.Title</h6>
+                            <p>@movie.Synopsis</p>
+                            <ul>
+                                <li><strong>Nhãn: </strong>@movie.Rating</li>
+                                <li><strong>Thời lượng: </strong>@movie.Runtime phút</li>
+                            </ul>
+                        </div>
+                        @using (Html.BeginForm("Create", "Booking", new { id = movie.Id }, FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="booking">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MovieScheduleIds, "Lịch Chiếu : ", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownListFor(model => model.ChooseId, new SelectList(Model.MovieSchedules, "MovieScheduleId", "BeginTime"), new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.MovieScheduleIds, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <input type="number" name="Quantity" value="1" min="1" />
+                                <button type="submit" class="btn btn-booking">Đặt vé</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+@*@section scripts{
+    <script>
+        $(function () {
+            $(".btn-booking").click(function (event) {
+                event.preventDefault(); // Ngăn chặn chuyển hướng đến trang khác sau khi người dùng nhấn nút "Đặt vé"
+                var chooseId = $("#ChooseId").val(); // Lấy giá trị của trường "ChooseId" trong form
+                var quantity = $("input[name='Quantity']").val(); // Lấy giá trị của trường "Quantity" trong form
+                var paymentDetails = { chooseId: chooseId, quantity: quantity }; // Tạo đối tượng paymentDetails chứa dữ liệu cần truyền đi
+                $.ajax({
+                    url: "/Booking/Checkout",
+                    type: "POST",
+                    data: JSON.stringify(paymentDetails),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data.success) {
+                            alert("Đặt vé thành công!");
+                        }
+                        else {
+                            alert("Đặt vé không thành công. Vui lòng thử lại sau!");
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert("Lỗi khi đặt vé: " + thrownError);
+                    }
+                });
+            });
+        });
+    </script>
+}*@
+
+
+<style>
+    .movie-booking .img img {
+        width: 100%;
+        border-radius: 5px;
+    }
+
+    .movie-booking .body > div {
+        height: 100%;
+        padding: 10px;
+        background-color: #f3f3f3;
+        border-radius: 4px;
+    }
+
+    .movie-booking .info {
+        height: calc(100% - 50px);
+        padding: 16px;
+        border: 2px solid #5e5e5e5e;
+        border-radius: 4px;
+    }
+
+        .movie-booking .info h6 {
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .movie-booking .info p {
+            text-align: justify;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 6;
+            margin-bottom: 10px;
+        }
+
+        .movie-booking .info ul li:not(:first-child) {
+            margin-top: 10px;
+        }
+
+        .movie-booking .info ul li strong {
+            margin-right: 5px;
+        }
+
+    .movie-booking .booking {
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        margin-top: 10px;
+    }
+
+        .movie-booking .booking > div {
+            display: flex;
+            align-items: center;
+            margin-right: 40px;
+        }
+
+            .movie-booking .booking > div label {
+                width: max-content;
+                margin-right: 5px;
+            }
+
+            .movie-booking .booking > div select {
+                width: max-content;
+            }
+
+        .movie-booking .booking input {
+            margin-right: 10px;
+            padding-left: 10px;
+        }
+
+        .movie-booking .booking button {
+            color: #3a3a3a;
+            background-color: #f7c12f;
+        }
+
+            .movie-booking .booking button:hover {
+                background-color: #f7c12f91;
+            }
+</style>
