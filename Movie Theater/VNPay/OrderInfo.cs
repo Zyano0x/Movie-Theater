@@ -9,6 +9,7 @@ namespace Movie_Theater.VNPay
     {
         public long OrderId { get; set; }
         public long Amount { get; set; }
+        public int Quantity { get; set; }
         public string OrderDesc { get; set; }
 
         public DateTime CreatedDate { get; set; }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
 namespace Movie_Theater.Models
 {
@@ -91,6 +92,7 @@ namespace Movie_Theater.Models
     public class NewMemberViewModel
     {
         [Required]
+        [Display(Name = "Username")]
         public string UserName { get; set; }
 
         public string Role { get; set; }

@@ -52,39 +52,39 @@ License: You must have a valid license purchased only from above link or https:/
                             <span class="link-title">Dashboard</span>
                         </a>
                     </li>
-                    <li class="nav-item nav-category">web apps</li>
+                    @*<li class="nav-item nav-category">web apps</li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#emails" role="button" aria-expanded="false" aria-controls="emails">
+                <i class="link-icon" data-feather="mail"></i>
+                <span class="link-title">Email</span>
+                <i class="link-arrow" data-feather="chevron-down"></i>
+            </a>
+            <div class="collapse" id="emails">
+                <ul class="nav sub-menu">
                     <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#emails" role="button" aria-expanded="false" aria-controls="emails">
-                            <i class="link-icon" data-feather="mail"></i>
-                            <span class="link-title">Email</span>
-                            <i class="link-arrow" data-feather="chevron-down"></i>
-                        </a>
-                        <div class="collapse" id="emails">
-                            <ul class="nav sub-menu">
-                                <li class="nav-item">
-                                    <a href="pages/email/inbox.html" class="nav-link">Inbox</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pages/email/read.html" class="nav-link">Read</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pages/email/compose.html" class="nav-link">Compose</a>
-                                </li>
-                            </ul>
-                        </div>
+                        <a href="pages/email/inbox.html" class="nav-link">Inbox</a>
                     </li>
                     <li class="nav-item">
-                        <a href="pages/apps/chat.html" class="nav-link">
-                            <i class="link-icon" data-feather="message-square"></i>
-                            <span class="link-title">Chat</span>
-                        </a>
+                        <a href="pages/email/read.html" class="nav-link">Read</a>
                     </li>
                     <li class="nav-item">
-                        <a href="pages/apps/calendar.html" class="nav-link">
-                            <i class="link-icon" data-feather="calendar"></i>
-                            <span class="link-title">Calendar</span>
-                        </a>
+                        <a href="pages/email/compose.html" class="nav-link">Compose</a>
                     </li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a href="pages/apps/chat.html" class="nav-link">
+                <i class="link-icon" data-feather="message-square"></i>
+                <span class="link-title">Chat</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="pages/apps/calendar.html" class="nav-link">
+                <i class="link-icon" data-feather="calendar"></i>
+                <span class="link-title">Calendar</span>
+            </a>
+        </li>*@
                     <li class="nav-item nav-category">Components</li>
                     <li class="nav-item">
                         <a class="nav-link" href="/Admin/Genres" role="button">
@@ -110,19 +110,24 @@ License: You must have a valid license purchased only from above link or https:/
                             <span class="link-title">Roles</span>
                         </a>
                     </li>
-                    @if (ViewBag.DisplayMenu == true)
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" href="/Admin/Account" role="button">
-                                <i class="link-icon" data-feather="layout"></i>
-                                <span class="link-title">Accounts</span>
-                            </a>
-                        </li>
-                    }
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Admin/Account" role="button">
+                            <i class="link-icon" data-feather="layout"></i>
+                            <span class="link-title">Accounts</span>
+                        </a>
+                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="/Admin/MovieSchedules" role="button">
                             <i class="link-icon" data-feather="smile"></i>
                             <span class="link-title">Movie Schedules</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Admin/MovieTickets" role="button">
+                            <i class="link-icon" data-feather="smile"></i>
+                            <span class="link-title">Movie Tickets</span>
                         </a>
                     </li>
                     <li class="nav-item nav-category">Pages</li>
@@ -155,23 +160,20 @@ License: You must have a valid license purchased only from above link or https:/
                             </ul>
                         </div>
                     </li>
-                    @if (ViewBag.DisplayMenu == true)
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="collapse" href="#authPages" role="button" aria-expanded="false" aria-controls="authPages">
-                                <i class="link-icon" data-feather="unlock"></i>
-                                <span class="link-title">Authentication</span>
-                                <i class="link-arrow" data-feather="chevron-down"></i>
-                            </a>
-                            <div class="collapse" id="authPages">
-                                <ul class="nav sub-menu">
-                                    <li class="nav-item">
-                                        <a href="/Admin/Account/New" class="nav-link">Register New Member</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                    }
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#authPages" role="button" aria-expanded="false" aria-controls="authPages">
+                            <i class="link-icon" data-feather="unlock"></i>
+                            <span class="link-title">Authentication</span>
+                            <i class="link-arrow" data-feather="chevron-down"></i>
+                        </a>
+                        <div class="collapse" id="authPages">
+                            <ul class="nav sub-menu">
+                                <li class="nav-item">
+                                    <a href="/Admin/Account/New" class="nav-link">Register New Member</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#errorPages" role="button" aria-expanded="false" aria-controls="errorPages">
                             <i class="link-icon" data-feather="cloud-off"></i>
@@ -189,13 +191,13 @@ License: You must have a valid license purchased only from above link or https:/
                             </ul>
                         </div>
                     </li>
-                    <li class="nav-item nav-category">Docs</li>
-                    <li class="nav-item">
-                        <a href="https://www.nobleui.com/html/documentation/docs.html" target="_blank" class="nav-link">
-                            <i class="link-icon" data-feather="hash"></i>
-                            <span class="link-title">Documentation</span>
-                        </a>
-                    </li>
+                    @*<li class="nav-item nav-category">Docs</li>
+        <li class="nav-item">
+            <a href="https://www.nobleui.com/html/documentation/docs.html" target="_blank" class="nav-link">
+                <i class="link-icon" data-feather="hash"></i>
+                <span class="link-title">Documentation</span>
+            </a>
+        </li>*@
                 </ul>
             </div>
         </nav>
@@ -413,12 +415,12 @@ License: You must have a valid license purchased only from above link or https:/
                             </li>*@
                         <li class="nav-item dropdown nav-profile">
                             <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="https://via.placeholder.com/30x30" alt="profile">
+                                <img src="https://i.pinimg.com/564x/be/f7/64/bef76458c1dad6675c552e5567908ce5.jpg" alt="profile">
                             </a>
                             <div class="dropdown-menu" aria-labelledby="profileDropdown">
                                 <div class="dropdown-header d-flex flex-column align-items-center">
                                     <div class="figure mb-3">
-                                        <img src="https://via.placeholder.com/80x80" alt="">
+                                        <img src="https://i.pinimg.com/564x/be/f7/64/bef76458c1dad6675c552e5567908ce5.jpg" alt="">
                                     </div>
                                     <div class="info text-center">
                                         <p class="name font-weight-bold mb-0">@ViewBag.Username</p>
