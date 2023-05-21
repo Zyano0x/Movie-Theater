@@ -179,6 +179,7 @@
     <Compile Include="Migrations\202305211117059_AddStatusMovieTicket.designer.cs">
       <DependentUpon>202305211117059_AddStatusMovieTicket.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\AccessDeniedAuthorizeAttribute.cs" />
     <Compile Include="VNPay\OrderInfo.cs" />
     <Compile Include="VNPay\VnPayLibary.cs" />
     <Content Include="Areas\Admin\Content\assets\css\dark\style.css" />
@@ -1722,6 +1723,7 @@
     <Content Include="Views\Crews\Index.cshtml" />
     <Content Include="Views\Booking\Create.cshtml" />
     <Content Include="Views\Booking\Status.cshtml" />
+    <Content Include="Areas\Admin\Views\Account\AccessDenied.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

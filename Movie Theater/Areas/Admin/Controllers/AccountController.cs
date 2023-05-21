@@ -8,10 +8,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace Movie_Theater.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Adminstrator")]
+    [AccessDeniedAuthorize(Roles = "Adminstrator")]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -52,7 +53,12 @@ namespace Movie_Theater.Areas.Admin.Controllers
             }
         }
 
-        
+        [AllowAnonymous]
+        public ActionResult AccessDenied()
+        {
+            return View();
+        }
+
         public ActionResult Index()
         {
             var user = _dbContext.Users.ToList();
@@ -375,7 +381,8 @@ namespace Movie_Theater.Areas.Admin.Controllers
             ViewBag.ReturnUrl = returnUrl;
             return View(model);
         }
-    
+
+        [AllowAnonymous]
         public ActionResult SignOut()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
