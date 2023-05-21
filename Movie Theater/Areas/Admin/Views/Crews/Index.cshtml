@@ -41,6 +41,7 @@
                             var i = 1;
                             foreach (var item in Model)
                             {
+                                string desc = item.Biography.Substring(0, 100);
                                 <tr>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Name)
@@ -52,7 +53,7 @@
                                         @Html.DisplayFor(modelItem => item.Birthplace)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Biography)
+                                        @Html.DisplayFor(x => desc)
                                     </td>
                                     <td>
                                         @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-warning", style = "margin: 5px 0 5px 0" })

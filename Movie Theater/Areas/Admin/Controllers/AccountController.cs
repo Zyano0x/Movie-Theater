@@ -51,6 +51,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
             }
         }
 
+        [Authorize(Roles = "Staff, Adminstrator")]
         public ActionResult Index()
         {
             var user = _dbContext.Users.ToList();
