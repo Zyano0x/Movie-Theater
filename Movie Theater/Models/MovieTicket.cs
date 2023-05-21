@@ -28,5 +28,8 @@ namespace Movie_Theater.Models
 
         [Column(Order = 6)]
         public DateTime TimeBooking { get; set; }
+
+        [Column(Order = 7)]
+        public int Status { get; set; }
     }
 }

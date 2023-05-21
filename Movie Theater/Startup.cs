@@ -55,6 +55,13 @@ namespace Movie_Theater
                 role.Name = "Staff";
                 RoleManager.Create(role);
             }
+
+            if (!RoleManager.RoleExists("User"))
+            {
+                var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
+                role.Name = "User";
+                RoleManager.Create(role);
+            }
         }
     }
 }

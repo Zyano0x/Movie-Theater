@@ -4,38 +4,262 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/grid.css")
+    @Styles.Render("~/Content/style.css")
     @Scripts.Render("~/bundles/modernizr")
 
+    <script>
+        $(document).ready(function () {
+            //Slide banner
+            var widthBoxBanner = $('.box-banner').width();
+            $('.box-banner__item > div').css('width', widthBoxBanner);
+
+            //Lấy số lượng slide
+            var maxCounter = $('.box-banner').find('.box-banner__item').length;
+            //Lần đầu load sẽ vào ngay slide 1
+            $('#radio1').prop('checked', true);
+            var counter = 2;
+            //Khi ta click vào slide bất kì slide thì slide chuyển tiếp theo sẽ là slide kế sau slide ta vào click.
+            $('.manual-btn').click(function () {
+                var checked = $(this).attr('for').slice(-1);
+                counter = parseInt(checked);
+            })
+            //Chuyển slide cách nhau 0.6s
+            setInterval(function () {
+                if (counter != -maxCounter) {
+                    document.getElementById('radio' + Math.abs(counter)).checked = true;
+                }
+                else {
+                    counter++;
+                    document.getElementById('radio' + Math.abs(counter)).checked = true;
+                }
+                counter++;
+                if (counter > maxCounter) {
+                    counter = -maxCounter;
+                }
+                if (counter == 0) {
+                    counter = 2;
+                }
+            }, 6000);
+
+            //Slide movie
+            var slideWidth = $('.wrapper-box-movie__item .box-movie').width();// Lấy chiều dài của .box-movie để sử dụng cho việc chuyển slide
+            //btn-next
+            $('.wrapper-box-movie__item').on('click', '.btn-next', function () {//Bắt sự kiện click của .btn-next
+                $(this).prop('disabled', true);// Vô hiệu hóa btn sau khi click (tránh trường hợp click 2 nhanh liên tiếp)
+
+                $(this).closest('.box-movie').find('.btn-prev').show();//Tìm và css cho .btn-prev hiện lên
+                $(this).closest('.box-movie').find('.btn-prev').prop('disabled', false);//Kích hoạt btn-prev (Trong trường hợp đã click btn-prev sau đó nó ẩn đi)
+
+                $(this).closest('.box-movie').find('.box-movie__item:first').animate({
+                    marginLeft: "-=" + slideWidth
+                }, 500, function () {//Chạy slide với thời gian 0.5s
+                    var marginLeft = parseInt($(this).closest('.box-movie').find('.box-movie__item:first').css('margin-left'));// Lấy giá trị margin-left để ẩn .btn-next
+                    if (marginLeft < -slideWidth) {
+                        $(this).closest('.box-movie').find('.btn-next').hide();
+                    }
+                    else {
+                        // Kích hoạt lại nút sau khi hoàn thành hiệu ứng trượt
+                        $(this).closest('.box-movie').find('.btn-next').prop('disabled', false);
+                    }
+                });
+            });
+            //btn-prev
+            $('.wrapper-box-movie__item').on('click', '.btn-prev', function () {
+                $(this).prop('disabled', true);
+
+                $(this).closest('.box-movie').find('.btn-next').show();
+                $(this).closest('.box-movie').find('.btn-next').prop('disabled', false);
+
+
+                $(this).closest('.box-movie').find('.box-movie__item:first').animate({
+                    marginLeft: "+=" + slideWidth
+                }, 500, function () {
+                    var marginLeft = parseInt($(this).closest('.box-movie').find('.box-movie__item:first').css('margin-left'));
+                    if (marginLeft > -slideWidth) {
+                        $(this).closest('.box-movie').find('.btn-prev').hide();
+                    }
+                    else {
+                        $(this).closest('.box-movie').find('.btn-prev').prop('disabled', false);
+                    }
+                });
+            });
+
+            //Hiện lựa chọn lọc
+            $('.filter-nav__item > button').click(function () {
+                $(this).siblings('ul').slideToggle();
+            });
+            //Ẩn lựa chọn lọc khi nhấn chuột ngoài đối tượng
+            $(document).mouseup(function (e) {
+                var container = $(".filter-nav__item ul");
+                if (!container.is(e.target) && container.has(e.target).length === 0) {
+                    container.hide();
+                }
+            });
+            //Ẩn lực chọn lọc bằng nút x
+            $('.filter-nav__item ul i').click(function () {
+                $('.filter-nav__item ul').hide();
+            });
+
+            //Xem thêm diễn viên & đoàn làm phim
+            $('.box-movie-info__item .box-movie-info__item__more .more-info').click(function () {//Bắt sự kiện click
+                $('ul.box-movie-info__item__content').css('height', 'unset');
+                $('.box-movie-info__item .box-movie-info__item__more .more-info').css('display', 'none');
+                $('.box-movie-info__item .box-movie-info__item__more .hide-info').css('display', 'block');
+            });
+
+            $('.box-movie-info__item  .box-movie-info__item__more .hide-info').click(function () {
+                $('ul.box-movie-info__item__content').css('height', '251px');
+                $('.box-movie-info__item  .box-movie-info__item__more .hide-info').css('display', 'none');
+                $('.box-movie-info__item  .box-movie-info__item__more .more-info').css('display', 'block');
+            });
+
+            //Ẩn nút xem thêm nội dung đối với câc bình luận ngắn
+            $(".box-community-review__body .content > p").each(function () {
+                if ($(this).height() < 90) {
+                    $(this).siblings('.box-movie-info__item__more').hide();
+                }
+            });
+
+            //Xem thêm nội dung bình luận
+            $('.box-community-review__body').on('click', '.more-info', function () {
+                $(this).closest('.content').find('p').css('-webkit-box-orient', 'unset');
+                $(this).hide();
+                $(this).siblings('.hide-info').show();
+            });
+            $('.box-community-review__body').on('click', '.hide-info', function () {
+                $(this).closest('.content').find('p').css('-webkit-box-orient', 'vertical');
+                $(this).hide();
+                $(this).siblings('.more-info').show();
+            });
+
+            //Xem thêm tiểu sử
+            $('.box-biography').on('click', '.more-info', function () {
+                $(this).closest('.biography').find('p').css('-webkit-box-orient', 'unset');
+                $(this).hide();
+                $(this).siblings('.hide-info').show();
+            });
+            $('.box-biography').on('click', '.hide-info', function () {
+                $(this).closest('.biography').find('p').css('-webkit-box-orient', 'vertical');
+                $(this).hide();
+                $(this).siblings('.more-info').show();
+            });
+
+            //Vô hiệu hóa search-button khi search-field chưa có dữ liệu và ngược lại sẽ khởi động search-button
+            const searchField = document.getElementById('search-field');
+            const searchButton = document.getElementById('search-button');
+
+            searchField.addEventListener('input', function () {
+                searchButton.disabled = searchField.value === '';
+            });
+
+            //Ẩn lọc phim
+            if ($('.box-discovery__body > strong > span').text() != 'Rất tiếc! Không có phim nào cả!') {
+                $('.box-discovery__filters-nav').css('display', 'flex');
+            }
+        })
+    </script>
 </head>
 <body>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
-        <div class="container">
-            @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+        <div class="grid wide container">
+            <a href="@Url.Action("Index","Home")"><img style="width: 100px" src="http://amovie.gozha.net/images/logo.png" alt="Alternate Text" /></a>
+
+            <div class="collapse navbar-collapse d-sm-inline-flex">
+                <ul id="header-navbar" class="flex-grow-1">
+                    <li>@Html.ActionLink("Trang chủ", "Index", "Home")</li>
+                    <li>
+                        <div>
+                            @Html.ActionLink("Phim", "Index", "ListMovie")
+                            <i class="fa-solid fa-plus"></i>
+                        </div>
+                        <ul class="sub-navbar">
+                            <li>@Html.ActionLink("Phim đang chiếu", "Index", "ListMovie", new { FilterMoviesByType = "MoviesInTheater" }, null)</li>
+                            <li>@Html.ActionLink("Phim sắp chiếu", "Index", "ListMovie", new { FilterMoviesByType = "UpcomingMovies" }, null)</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div>
+                            <span>Thể loại</span>
+                            <i class="fa-solid fa-plus"></i>
+                        </div>
+                        <ul class="sub-navbar">
+                            <li>@Html.ActionLink("Hành động", "Index", "ListMovie", new { FilterMovieByGenre = 1 }, null)</li>
+                            <li>@Html.ActionLink("Hài kịch", "Index", "ListMovie", new { FilterMovieByGenre = 2 }, null)</li>
+                            <li>@Html.ActionLink("Tài liệu", "Index", "ListMovie", new { FilterMovieByGenre = 3 }, null)</li>
+                            <li>@Html.ActionLink("Drama", "Index", "ListMovie", new { FilterMovieByGenre = 4 }, null)</li>
+                            <li>@Html.ActionLink("Tưởng tượng", "Index", "ListMovie", new { FilterMovieByGenre = 5 }, null)</li>
+                            <li>@Html.ActionLink("Kinh dị", "Index", "ListMovie", new { FilterMovieByGenre = 6 }, null)</li>
+                            <li>@Html.ActionLink("Âm Nhạc", "Index", "ListMovie", new { FilterMovieByGenre = 7 }, null)</li>
+                            <li>@Html.ActionLink("Huyền Bí", "Index", "ListMovie", new { FilterMovieByGenre = 8 }, null)</li>
+                            <li>@Html.ActionLink("Tình Cảm", "Index", "ListMovie", new { FilterMovieByGenre = 9 }, null)</li>
+                            <li>@Html.ActionLink("Giật Gân", "Index", "ListMovie", new { FilterMovieByGenre = 10 }, null)</li>
+                            <li>@Html.ActionLink("Viễn Tây", "Index", "ListMovie", new { FilterMovieByGenre = 11 }, null)</li>
+                            <li>@Html.ActionLink("Khoa Học Viễn Tưởng", "Index", "ListMovie", new { FilterMovieByGenre = 12 }, null)</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div>
+                            @Html.ActionLink("Tin tức", "", "")
+                        </div>
+                    </li>
                 </ul>
-                 @Html.Partial("_LoginPartial")
+                <div id="login">
+                    @Html.ActionLink("Đăng nhập", "Login", "Login", new { @class = "display-none login-failse" })
+                    <div class="login-true">
+                        <div class="box-img">
+                            <img src="http://amovie.gozha.net/images/client-photo/auth.png" alt="Ảnh đại diện" />
+                        </div>
+                        <div class="box-acc nav-link">
+                            <span class="nav-link">
+                                Tài khoản
+                                <i class="fa-solid fa-angle-down"></i>
+                            </span>
+                            <ul class="sub-navbar">
+                                <li>@Html.Partial("_LoginPartial")</li>
+                                <li>@Html.ActionLink("Thông tin tài khoản", "", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                                <li>@Html.ActionLink("Danh sách đặt vé", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="box-menu">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
             </div>
+
+            @using (Html.BeginForm("Index", "ListMovie", FormMethod.Post))
+            {
+                <div class="navbar__search">
+                    <div>
+                        <input id="search-field" type="text" name="SearchString" placeholder="Nhập tên phim cần tìm kiếm..." />
+                        <button type="submit" class="navbar__search__icon" id="search-button" disabled>
+                            @* disabled: vô hiệu hóa btn *@
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+            </div>
+        }
         </div>
     </nav>
-    <div class="container body-content">
+
+    <div class="grid wide bg-white">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
     </div>
+    <footer style="text-align: center">
+        <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
 </body>
 </html>

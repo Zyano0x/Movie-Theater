@@ -8,9 +8,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace Movie_Theater.Areas.Admin.Controllers
 {
+    [AccessDeniedAuthorize(Roles = "Adminstrator")]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -51,18 +53,26 @@ namespace Movie_Theater.Areas.Admin.Controllers
             }
         }
 
+        [AllowAnonymous]
+        public ActionResult AccessDenied()
+        {
+            return View();
+        }
+
         public ActionResult Index()
         {
             var user = _dbContext.Users.ToList();
             return View(user);
         }
 
+        [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
@@ -157,12 +167,14 @@ namespace Movie_Theater.Areas.Admin.Controllers
             return View(model);
         }
 
+        [AllowAnonymous]
         public ActionResult New()
         {
             ViewBag.Role = new SelectList(_dbContext.Roles.ToList(), "Name", "Name");
             return View();
         }
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> New(NewMemberViewModel model)
         {
@@ -369,7 +381,8 @@ namespace Movie_Theater.Areas.Admin.Controllers
             ViewBag.ReturnUrl = returnUrl;
             return View(model);
         }
-    
+
+        [AllowAnonymous]
         public ActionResult SignOut()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
