@@ -1,0 +1,95 @@
+﻿@model IEnumerable<Movie_Theater.Models.ApplicationUser>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Main content -->
+<section class="page-content">
+
+    <!-- Default box -->
+    <div class="col-xl-10 main-content pl-xl-4 pr-xl-5">
+        <h1 class="page-title">Accounts List</h1>
+        <nav class="page-breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Accounts</a></li>
+                <li class="breadcrumb-item active" aria-current="page">List</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="aside-compose">
+        <a href="/Admin/Account/New" class="btn btn-success">Add New</a>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-12 col-xl-12 stretch-card">
+            <div class="row flex-grow">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Password</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            var i = 1;
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UserName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Email)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PasswordHash)
+                                    </td>
+                                    <td>
+                                        <button type="submit" class="btn btn-danger delete-btn" data-id="@item.Id" style="margin: 5px 0;">Disable</button>
+                                    </td>
+                                </tr>
+                                i++;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- /.card-body -->
+</section>
+<!-- /.content -->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(function () {
+        $('.delete-btn').click(function (e) {
+            e.preventDefault();
+
+            if (confirm("Are you sure you want to disable this account?")) {
+                var id = $(this).data('id');
+                $.ajax({
+                    url: '/Admin/Account/Disable',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (result) {
+                        if (result.success) {
+                            window.location.reload();
+                        } else {
+                            alert(result.message);
+                        }
+                    },
+                    error: function () {
+                        alert('An error occurred while disabling the account.');
+                    }
+                });
+            }
+        });
+    });
+</script>
