@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Net.Sockets;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Movie_Theater.Areas.Admin.Controllers
 {
@@ -18,6 +20,26 @@ namespace Movie_Theater.Areas.Admin.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private ApplicationDbContext _dbContext = new ApplicationDbContext();
+
+        public Boolean IsAdminUser()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = User.Identity;
+                ApplicationDbContext context = new ApplicationDbContext();
+                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                var s = UserManager.GetRoles(user.GetUserId());
+                if (s[0].ToString() == "Adminstrator")
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
 
         public AccountController()
         {
@@ -53,16 +75,16 @@ namespace Movie_Theater.Areas.Admin.Controllers
             }
         }
 
-        [AllowAnonymous]
-        public ActionResult AccessDenied()
-        {
-            return View();
-        }
-
         public ActionResult Index()
         {
             var user = _dbContext.Users.ToList();
             return View(user);
+        }
+
+        [AllowAnonymous]
+        public ActionResult AccessDenied()
+        {
+            return View();
         }
 
         [AllowAnonymous]
@@ -184,6 +206,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
                 {
                     UserName = model.UserName,
                     Email = model.Email,
+                    IsEnabled = true
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -204,6 +227,40 @@ namespace Movie_Theater.Areas.Admin.Controllers
             ViewBag.Role = new SelectList(_dbContext.Roles.ToList(), "Name", "Name");
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        [HttpPost]
+        public JsonResult Disable(string id)
+        {
+            var user = _dbContext.Users.Find(id);
+            if (user == null)
+            {
+                return Json(new { success = false, message = "Record not found." });
+            }
+
+            user.IsEnabled = false;
+            _dbContext.Users.Attach(user);
+            _dbContext.Entry(user).State = System.Data.Entity.EntityState.Modified;
+            _dbContext.SaveChanges();
+
+            return Json(new { success = true });
+        }
+
+        [HttpPost]
+        public JsonResult Enable(string id)
+        {
+            var user = _dbContext.Users.Find(id);
+            if (user == null)
+            {
+                return Json(new { success = false, message = "Record not found." });
+            }
+
+            user.IsEnabled = true;
+            _dbContext.Users.Attach(user);
+            _dbContext.Entry(user).State = System.Data.Entity.EntityState.Modified;
+            _dbContext.SaveChanges();
+
+            return Json(new { success = true });
         }
 
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
