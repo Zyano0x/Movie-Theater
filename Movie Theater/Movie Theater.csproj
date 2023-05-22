@@ -179,6 +179,10 @@
     <Compile Include="Migrations\202305211117059_AddStatusMovieTicket.designer.cs">
       <DependentUpon>202305211117059_AddStatusMovieTicket.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202305220508309_UpdateApplicationUser.cs" />
+    <Compile Include="Migrations\202305220508309_UpdateApplicationUser.designer.cs">
+      <DependentUpon>202305220508309_UpdateApplicationUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\AccessDeniedAuthorizeAttribute.cs" />
     <Compile Include="VNPay\OrderInfo.cs" />
     <Compile Include="VNPay\VnPayLibary.cs" />
@@ -1771,6 +1775,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202305211117059_AddStatusMovieTicket.resx">
       <DependentUpon>202305211117059_AddStatusMovieTicket.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305220508309_UpdateApplicationUser.resx">
+      <DependentUpon>202305220508309_UpdateApplicationUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
