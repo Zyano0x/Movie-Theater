@@ -37,6 +37,7 @@ namespace Movie_Theater
                 var user = new ApplicationUser();
                 user.UserName = "Zyano";
                 user.Email = "nthdm00@gmail.com";
+                user.IsEnabled = true;
                 string userPWD = "0x1337";
 
                 var checkUser = UserManager.Create(user, userPWD);
