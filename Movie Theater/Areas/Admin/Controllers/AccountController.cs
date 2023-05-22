@@ -41,6 +41,13 @@ namespace Movie_Theater.Areas.Admin.Controllers
             return false;
         }
 
+        String GetEmail()
+        {
+            var userId = User.Identity.GetUserId();
+            var user = _dbContext.Users.FirstOrDefault(u => u.Id == userId);
+            return user.Email;
+        }
+
         public AccountController()
         {
         }
@@ -77,6 +84,12 @@ namespace Movie_Theater.Areas.Admin.Controllers
 
         public ActionResult Index()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                var userInfo = User.Identity;
+                ViewBag.Email = GetEmail();
+                ViewBag.Username = userInfo.Name;
+            }
             var user = _dbContext.Users.ToList();
             return View(user);
         }
@@ -112,7 +125,8 @@ namespace Movie_Theater.Areas.Admin.Controllers
                 case SignInStatus.Success:
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
-                    return View("Lockout");
+                    ModelState.AddModelError("", "Tài Khoản Của Bạn Đã Bị Khóa");
+                    return View(model);
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
