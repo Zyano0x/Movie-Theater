@@ -6,14 +6,14 @@
 }
 
 <section class="page-content">
-    
+
     <!-- Default box -->
-    <div class="col-xl-10 main-content pl-xl-4 pr-xl-5">
-        <h1 class="page-title">Edit Movie</h1>
+    <div class="main-content">
+        <h4 class="page-title">Chỉnh sửa phim</h4>
         <nav class="page-breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/Admin/Movies">Movies</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Edit</li>
+                <li class="breadcrumb-item"><a href="/Admin/Movies">Phim</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Chỉnh sửa</li>
             </ol>
         </nav>
     </div>
@@ -27,130 +27,136 @@
             @Html.HiddenFor(model => model.Id)
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset" })
+                <div class="col-md-12 padding-left-right-unset">
                     @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.OriginalLanguage, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.OriginalLanguage, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.OriginalLanguage, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.ReleaseDate, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.ReleaseDate, htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset" })
+                <div class="col-md-12 padding-left-right-unset">
                     @Html.EditorFor(model => model.ReleaseDate, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.ReleaseDate, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Synopsis, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.Synopsis, htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset" })
+                <div class="col-md-12 padding-left-right-unset">
                     @Html.EditorFor(model => model.Synopsis, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Synopsis, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Rating, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.Rating, htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset" })
+                <div class="col-md-12 padding-left-right-unset">
                     @Html.EditorFor(model => model.Rating, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Rating, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Runtime, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.Runtime, htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset" })
+                <div class="col-md-12 padding-left-right-unset">
                     @Html.EditorFor(model => model.Runtime, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Runtime, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.BoxOffice, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.BoxOffice, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.BoxOffice, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.GenreIds, "Thể Loại", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.GenreIds, "Thể Loại", htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset" })
+                <div class="col-md-12 padding-left-right-unset">
                     @Html.ListBoxFor(model => model.GenreIds, new MultiSelectList(Model.Genres, "Id", "Name"), new { @class = "form-control", style = "height: 200px" })
                     @Html.ValidationMessageFor(model => model.GenreIds, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.CastIds, "Diễn Viên", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.CastIds, "Diễn Viên", htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset" })
+                <div class="col-md-12 padding-left-right-unset">
                     @Html.ListBoxFor(model => model.CastIds, new MultiSelectList(Model.Casts, "Id", "Name"), new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.CastIds, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.DirectorIds, "Đạo Diễn", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.DirectorIds, "Đạo Diễn", htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset" })
+                <div class="col-md-12 padding-left-right-unset">
                     @Html.ListBoxFor(model => model.DirectorIds, new MultiSelectList(Model.Directors, "Id", "Name"), new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.DirectorIds, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.ProducerIds, "Sản Xuất", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.ListBoxFor(model => model.ProducerIds, new MultiSelectList(Model.Producers, "Id", "Name"), new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.ProducerIds, "", new { @class = "text-danger" })
+                @Html.LabelFor(model => model.PosterPath, htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset" })
+                <div class="col-md-12 padding-left-right-unset">
+                    @Html.EditorFor(model => model.PosterPath, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PosterPath, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-12 padding-left-right-unset" style=" display: flex; align-items: end; margin-bottom: 30px; margin-top: 20px;">
+                    <input type="file" name="fileUpload" id="fileUpload" accept="image/*"
+                           style="display:none;" />
+                    <div style="flex: 1;text-align: center;">
+                        <img style="max-width: unset; width: 150px; " src="@Model.PosterPath" alt="Alternate Text" id="pictureUpload" />
+                    </div>
+                    <input type="button" id="btnUpload" value="Chọn Ảnh" class="btn btn-success" />
                 </div>
             </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.WriterIds, "Biên Kịch", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.ListBoxFor(model => model.WriterIds, new MultiSelectList(Model.Writers, "Id", "Name"), new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.WriterIds, "", new { @class = "text-danger" })
-                </div>
-            </div>
+            @section upload
+{
+                <script>
+                    $(function () {
+                        $('#btnUpload').click(function () {
+                            $('#fileUpload').trigger('click');
+                        });
+                    });
+                    $('#fileUpload').change(function () {
+                        if (window.FormData !== undefined) {
+                            var fileUpload = $('#fileUpload').get(0);
+                            var files = fileUpload.files;
+                            var formData = new FormData();
+                            formData.append('file', files[0]);
+
+                            $.ajax(
+                                {
+                                    type: 'POST',
+                                    url: '/Admin/Movies/ProcessUpload',
+                                    contentType: false,
+                                    processData: false,
+                                    data: formData,
+                                    success: function (urlImage) {
+
+                                        $('#pictureUpload').attr('src', urlImage);
+                                        $('#PosterPath').val(urlImage);
+                                    },
+                                    error: function (err) {
+                                        alert('Error ', err.statusText);
+                                    }
+                                });
+                        }
+                    });
+                </script>
+            }
+
+            @section Scripts {
+                @Scripts.Render("~/bundles/jqueryval")
+            }
 
             <div class="form-group">
-                @Html.LabelFor(model => model.PosterPath, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    <img src="@Url.Content(Model.PosterPath)" alt="Poster" />
-                    @Html.HiddenFor(model => model.PosterPath, new { htmlAttributes = new { @class = "form-control" } })
-                    <br />
-                    <input type="file" name="Poster" id="Poster" />
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Distributor, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Distributor, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Distributor, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.TrailerUrl, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.TrailerUrl, htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset" })
+                <div class="col-md-12 padding-left-right-unset">
                     @Html.EditorFor(model => model.TrailerUrl, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.TrailerUrl, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Save" class="btn btn-danger" style="margin: 10px 0 10px 0" />
-                    <a href="/Admin/Movies" class="btn btn-secondary">Back</a>
+            <div class="form-group text-align-end">
+                <div class="col-md-offset-2 col-md-12 padding-left-right-unset">
+                    <input type="submit" value="Lưu Thay Đổi" class="btn btn-danger mr-2" style="margin: 10px 0 10px 0" />
+                    <a href="/Admin/Movies" class="btn btn-secondary">Quay Lại</a>
                 </div>
             </div>
         </div>

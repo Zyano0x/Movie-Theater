@@ -53,6 +53,12 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -175,6 +181,7 @@
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Content Include="Areas\Admin\Content\assets\css\dark\style.css" />
     <Content Include="Areas\Admin\Content\assets\css\dark\style.min.css" />
+    <Content Include="Areas\Admin\Content\assets\css\Style-admin.css" />
     <Content Include="Areas\Admin\Content\assets\fonts\feather-font\.gitignore" />
     <Content Include="Areas\Admin\Content\assets\fonts\feather-font\css\iconfont.css" />
     <Content Include="Areas\Admin\Content\assets\fonts\feather-font\examples\index.css" />
@@ -183,9 +190,14 @@
     <Content Include="Areas\Admin\Content\assets\fonts\overpass\demo.html" />
     <Content Include="Areas\Admin\Content\assets\fonts\overpass\stylesheet.css" />
     <Content Include="Areas\Admin\Content\assets\images\404.svg" />
+    <Content Include="Areas\Admin\Content\assets\images\bg-load.png" />
+    <Content Include="Areas\Admin\Content\assets\images\crew_default.png" />
     <Content Include="Areas\Admin\Content\assets\images\favicon.png" />
     <Content Include="Areas\Admin\Content\assets\images\logo-placeholder.png" />
+    <Content Include="Areas\Admin\Content\assets\images\movie-ticket-01 .png" />
+    <Content Include="Areas\Admin\Content\assets\images\movie_default.png" />
     <Content Include="Areas\Admin\Content\assets\images\placeholder.jpg" />
+    <Content Include="Areas\Admin\Content\assets\images\play.png" />
     <Content Include="Areas\Admin\Content\assets\images\screenshots\dark.jpg" />
     <Content Include="Areas\Admin\Content\assets\images\screenshots\light.jpg" />
     <Content Include="Areas\Admin\Content\assets\js\ace.js" />
@@ -1411,6 +1423,10 @@
     <Content Include="Areas\Admin\Content\assets\vendors\tinymce\tinymce.min.js" />
     <Content Include="Areas\Admin\Content\assets\vendors\typeahead.js\typeahead.bundle.min.js" />
     <Content Include="Content\grid.css" />
+    <Content Include="Content\Images\Icons\popcorn_icon.png" />
+    <Content Include="Content\Images\Icons\user-icon.png" />
+    <Content Include="Content\Images\PosterMovie\Spider-Man - Far From Home.jpg" />
+    <Content Include="Content\Images\PosterMovie\Suzume.jpg" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\responsive.css" />
     <Content Include="Content\style.css" />
@@ -1421,10 +1437,12 @@
     <Compile Include="Controllers\CrewsController.cs" />
     <Compile Include="Controllers\GenresController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ListMovieController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MovieSchedulesController.cs" />
     <Compile Include="Controllers\MoviesController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Controllers\SliderController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1436,6 +1454,10 @@
     <Compile Include="Migrations\202305111533499_PopulateCRoles.designer.cs">
       <DependentUpon>202305111533499_PopulateCRoles.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202305211302180_big-update-database.cs" />
+    <Compile Include="Migrations\202305211302180_big-update-database.designer.cs">
+      <DependentUpon>202305211302180_big-update-database.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Crew.cs" />
     <Compile Include="Models\CRole.cs" />
@@ -1446,6 +1468,7 @@
     <Compile Include="Models\MovieSchedule.cs" />
     <Compile Include="Models\MovieTicket.cs" />
     <Compile Include="Models\Review.cs" />
+    <Compile Include="Models\Slider.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="ViewModels\CrewViewModel.cs" />
@@ -1650,7 +1673,6 @@
     <Content Include="Areas\Admin\Views\Genres\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Crews\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Crews\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Crews\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Movies\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Movies\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Movies\Edit.cshtml" />
@@ -1684,8 +1706,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -1708,21 +1728,20 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Movies\Details.cshtml" />
-    <Content Include="Views\Crews\Create.cshtml" />
-    <Content Include="Views\Crews\Delete.cshtml" />
     <Content Include="Views\Crews\Details.cshtml" />
-    <Content Include="Views\Crews\Edit.cshtml" />
-    <Content Include="Views\Crews\Index.cshtml" />
+    <Content Include="Views\Slider\Index.cshtml" />
+    <Content Include="Views\Slider\Create.cshtml" />
+    <Content Include="Views\Slider\Edit.cshtml" />
+    <Content Include="Views\ListMovie\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Content\assets\images\CrewAvatar\" />
+    <Folder Include="Areas\Admin\Content\assets\images\PosterMovie\" />
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Content\Images\" />
+    <Folder Include="Content\Images\Slider\" />
     <Folder Include="Data\" />
-    <Folder Include="Views\Genres\" />
-    <Folder Include="Views\MovieSchedules\" />
-    <Folder Include="Views\Roles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
@@ -1757,6 +1776,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202305111533499_PopulateCRoles.resx">
       <DependentUpon>202305111533499_PopulateCRoles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305211302180_big-update-database.resx">
+      <DependentUpon>202305211302180_big-update-database.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

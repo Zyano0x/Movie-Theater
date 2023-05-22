@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace Movie_Theater.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Staff, Adminstrator")]
+    //[Authorize(Roles = "Staff, Adminstrator")]
     public class CrewsController : Controller
     {
         ApplicationDbContext _dbContext = new ApplicationDbContext();
@@ -18,31 +18,6 @@ namespace Movie_Theater.Areas.Admin.Controllers
         {
             var crew = _dbContext.Crews.ToList();
             return View(crew);
-        }
-
-        public ActionResult Details(int id)
-        {
-            var crew = _dbContext.Crews.Find(id);
-            if (crew == null)
-            {
-                return HttpNotFound();
-            }
-
-            var movieC = (from m in _dbContext.MovieCrews select m).Where(m => m.CrewId == id);
-            var viewModel = new CrewViewModel
-            {
-                Id = crew.Id,
-                Name = crew.Name,
-                DateOfBirth = crew.DateOfBirth,
-                Birthplace = crew.Birthplace,
-                Biography = crew.Biography,
-                AvatarPath = crew.AvatarPath,
-                Movies = (from mv in _dbContext.Movies select mv).Where(mv => movieC.Any(mc => mc.MovieId == mv.Id)),
-                MovieCrews = (from mc in _dbContext.MovieCrews select mc).Where(mc => mc.CrewId == id),
-                CRoles = (from cr in _dbContext.CRoles select cr)
-            };
-
-            return View(viewModel);
         }
 
         public ActionResult Create()
@@ -55,18 +30,6 @@ namespace Movie_Theater.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (Avatar != null && Avatar.ContentLength > 0)
-                {
-                    var fileName = Path.GetFileName(Avatar.FileName);
-                    var path = Path.Combine(Server.MapPath("~/Content/Images/"), fileName);
-                    Avatar.SaveAs(path);
-                    viewModel.AvatarPath = "/Content/Images/" + fileName;
-                }
-                else
-                {
-                    viewModel.AvatarPath = "/Content/Images/Default.jpg";
-                }
-
                 var crew = new Crew
                 {
                     Name = viewModel.Name,
@@ -120,6 +83,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
                 crew.DateOfBirth = castViewModel.DateOfBirth;
                 crew.Birthplace = castViewModel.Birthplace;
                 crew.Biography = castViewModel.Biography;
+                crew.AvatarPath = castViewModel.AvatarPath;
 
                 // Save changes to the database
                 _dbContext.SaveChanges();
@@ -153,6 +117,16 @@ namespace Movie_Theater.Areas.Admin.Controllers
             _dbContext.SaveChanges();
 
             return Json(new { success = true });
+        }
+
+        public string ProcessUpload(HttpPostedFileBase file)
+        {
+            if (file == null)
+            {
+                return "";
+            }
+            file.SaveAs(Server.MapPath("~/Areas/Admin/Content/assets/images/CrewAvatar/" + file.FileName));
+            return "/Areas/Admin/Content/assets/images/CrewAvatar/" + file.FileName;
         }
     }
 }

@@ -1,9 +1,13 @@
-﻿using Movie_Theater.Models;
+﻿using Movie_Theater.Migrations;
+using Movie_Theater.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using System.Xml.Linq;
 
 namespace Movie_Theater.ViewModels
@@ -24,50 +28,37 @@ namespace Movie_Theater.ViewModels
         [Display(Name = "Tóm Tắt Nội Dung")]
         public string Synopsis { get; set; }
 
+        [Required(ErrorMessage = "Vui Lòng Nhập Nhãn")]
         [Display(Name = "Nhãn")]
-        public string Rating { get; set; }
+        public int Rating { get; set; }
 
+        [Required(ErrorMessage = "Vui Lòng Nhập Thời Lượng Phim")]
         [Display(Name = "Thời Lượng")]
         [DisplayFormat(DataFormatString = "{0:F1}m")]
         public int Runtime { get; set; }
 
-        [Display(Name = "Doanh Thu (VNĐ)")]
-        [DisplayFormat(DataFormatString = "{0:F1}M")]
-        public float BoxOffice { get; set; }
-
-        [Display(Name = "Ngôn Ngữ Chính")]
-        public string OriginalLanguage { get; set; }
-
         [Display(Name = "Điểm Đánh Giá")]
         public int Score { get; set; }
 
-        [Display(Name = "Nhà Phân Phối")]
-        public string Distributor { get; set; }
-
+        [Required(ErrorMessage = "Vui Lòng Nhập Đường Dẫn Trailer")]
         [Display(Name = "Trailer")]
         [DataType(DataType.Url)]
         public string TrailerUrl { get; set; }
 
-        [Required(ErrorMessage = "vui Lòng Chọn Thể Loại")]
+        [Required(ErrorMessage = "Vui Lòng Chọn Thể Loại")]
         public List<int> GenreIds { get; set; }
         [Display(Name = "Thể Loại")]
         public IEnumerable<Genre> Genres { get; set; }
 
+        [Required(ErrorMessage = "Vui Lòng Chọn Diễn Viên")]
         public List<int> CastIds { get; set; }
         [Display(Name = "Diễn Viên")]
         public IEnumerable<Crew> Casts { get; set; }
 
+        [Required(ErrorMessage = "Vui Lòng Chọn Đạo Diễn")]
         public List<int> DirectorIds { get; set; }
         [Display(Name = "Đạo diễn")]
         public IEnumerable<Crew> Directors { get; set; }
-
-        public List<int> ProducerIds { get; set; }
-        [Display(Name = "Sản xuất")]
-        public IEnumerable<Crew> Producers { get; set; }
-
-        public List<int> WriterIds { get; set; }
-        [Display(Name = "Biên kịch")]
-        public IEnumerable<Crew> Writers { get; set; }
 
         public IEnumerable<Crew> Crews { get; set; }
 
@@ -77,6 +68,7 @@ namespace Movie_Theater.ViewModels
 
         public virtual IEnumerable<ApplicationUser> Users { get; set; }
 
+        [Required(ErrorMessage = "Vui Lòng Chọn Ảnh Bìa Phim")]
         [Display(Name = "Poster")]
         public string PosterPath { get; set; }
     }

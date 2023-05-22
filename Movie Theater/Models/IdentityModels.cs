@@ -29,6 +29,7 @@ namespace Movie_Theater.Models
         public DbSet<Review> Reviews { get; set; }
         public DbSet<MovieSchedule> MovieSchedules { get; set; }
         public DbSet<MovieTicket> MovieTickets { get; set; }
+        public DbSet<Slider> Slider { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

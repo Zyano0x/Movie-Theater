@@ -1,0 +1,194 @@
+﻿@model PagedList.IPagedList<Movie_Theater.Models.Movie>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="wrapper-container">
+    <div class="box-discovery">
+        <div class="box-discovery__header">
+            <h5 style="text-transform: uppercase;"><i class="fa-solid fa-photo-film"></i>  @ViewBag.heading</h5>
+        </div>
+
+        @*<div class="box-discovery__filters-nav">
+                <div class="filter-nav__item">
+                    <button>Sắp xếp<i class="fa-solid fa-chevron-down"></i></button>
+                    <ul>
+                        <li>
+                            <i class="fa-solid fa-circle-xmark"></i>
+                        </li>
+                        <li>
+                            <span>Mới nhất</span>
+                            <input type="radio" name="Sort" />
+                        </li>
+                        <li>
+                            <span>A -> Z</span>
+                            <input type="radio" name="Sort" />
+                        </li>
+                        <li>
+                            <span>Điểm số giảm dần</span>
+                            <input type="radio" name="Sort" />
+                        </li>
+                        <li>
+                            <span>Điểm số tăng dần</span>
+                            <input type="radio" name="Sort" />
+                        </li>
+                    </ul>
+                </div>
+                <div class="filter-nav__item">
+                    <button>Thể loại<i class="fa-solid fa-chevron-down"></i></button>
+                    <ul>
+                        <li>
+                            <i class="fa-solid fa-circle-xmark"></i>
+                        </li>
+                        <li>
+                            <span id="1">Hành động</span>
+                            <input type="checkbox" name="Sort" />
+                        </li>
+                        <li>
+                            <span>Phiêu lưu</span>
+                            <input type="checkbox" name="Sort" />
+                        </li>
+                        <li>
+                            <span>Anime</span>
+                            <input type="checkbox" name="Sort" />
+                        </li>
+                        <li>
+                            <span>Hài kịch</span>
+                            <input type="checkbox" name="Sort" />
+                        </li>
+                        <li>
+                            <span>Drama</span>
+                            <input type="checkbox" name="Sort" />
+                        </li>
+                        <li>
+                            <span>Hoạt hình</span>
+                            <input type="checkbox" name="Sort" />
+                        </li>
+                        <li>
+                            <button>Xóa tất cả</button>
+                            <button>Áp dụng</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>*@
+
+        <div class="row sm-gutter box-discovery__body">
+            @{
+                if (Model.Count == 0)
+                {
+                    <strong><i class="fa-solid fa-face-sad-tear"></i><span>Rất tiếc! Không có phim nào!</span></strong>
+                }
+                else
+                {
+                    var count = 0;
+                    foreach (var movie in Model)
+                    {
+                        <div class="box-discovery__body__item col m-b-2_4 l-2_4">
+                            <div class="img">
+                                <img src="@movie.PosterPath" alt="Alternate Text" />
+
+                                <div>
+                                    <a href="@Url.Action("details", "movies", new { id = movie.Id })">Xem chi tiết</a>
+                                    @{
+                                        if (ViewBag.scheduleId.Contains(movie.Id))
+                                        {
+                                            <a href="@Url.Action("Create","Booking", new { id = movie.Id})">Đặt vé</a>
+                                        }
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="caption">
+                                <div class="scores">
+                                    <img src="~/Content/Images/Icons/popcorn_icon.png" alt="Alternate Text" />
+                                    @{
+                                        var movieScore = movie.Score;
+                                        if (movie.ReleaseDate > DateTime.Now)
+                                        {
+                                            <strong>...%</strong>
+                                        }
+                                        else if (movieScore < 1)
+                                        {
+                                            <strong>100%</strong>
+                                        }
+                                        else
+                                        {
+                                            <strong>@movieScore%</strong>
+                                        }
+                                    }
+                                </div>
+                                <span>@movie.Title</span>
+                                <span>Ra mắt: @movie.ReleaseDate.ToShortDateString()</span>
+                            </div>
+                        </div>
+
+                        count++;
+                    }
+
+                    <div>
+                        <div class="PageNumber" style="display: flex; justify-content: center; ">
+                            @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    .MenuTrang li {
+        display: inline;
+    }
+
+    .pagination {
+        display: inline-block;
+        padding-left: 0;
+        margin: 20px 0;
+        border-radius: 4px;
+    }
+
+        .pagination > li > a {
+            position: relative;
+            float: left;
+            padding: 6px 12px;
+            margin-left: -1px;
+            line-height: 1.42857143;
+            color: #337ab7;
+            text-decoration: none;
+            background-color: #fff;
+            border: 1px solid #ddd;
+        }
+
+        .pagination > .active > a {
+            z-index: 3;
+            color: #fff !important;
+            cursor: default;
+            background-color: #337ab7;
+            border-color: #337ab7;
+        }
+</style>
+
+<script>
+    $(document).ready(function () {
+        var maxLength = 100;
+        $(".show-read-more").each(function () {
+            var myStr = $(this).text();
+            if ($.trim(myStr).length > maxLength) {
+                var newStr = myStr.substring(0, maxLength);
+                var removedStr = myStr.substring(maxLength, $.trim(myStr).length);
+                $(this).empty().html(newStr);
+
+                $(this).append('<a href="javascript:void(0);" class="read-more">xem tiếp...</a>');
+
+                $(this).append('<span class="more-text">' + removedStr + '</span>');
+            }
+        });
+        $(".read-more").click(function () {
+            $(this).siblings(".more-text").contents().unwrap();
+            $(this).remove();
+        });
+    });
+</script>

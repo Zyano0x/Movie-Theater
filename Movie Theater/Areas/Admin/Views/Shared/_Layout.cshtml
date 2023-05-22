@@ -27,6 +27,12 @@ License: You must have a valid license purchased only from above link or https:/
     <link rel="stylesheet" href="~/Areas/Admin/Content/assets/css/dark/style.css">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="~/Areas/Admin/Content/assets/images/favicon.png" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    @Styles.Render("~/Areas/Admin/Content/assets/css/style-admin.css")
 </head>
 <body>
     <div class="main-wrapper">
@@ -50,39 +56,6 @@ License: You must have a valid license purchased only from above link or https:/
                         <a href="/Admin/Home" class="nav-link">
                             <i class="link-icon" data-feather="box"></i>
                             <span class="link-title">Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="nav-item nav-category">web apps</li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#emails" role="button" aria-expanded="false" aria-controls="emails">
-                            <i class="link-icon" data-feather="mail"></i>
-                            <span class="link-title">Email</span>
-                            <i class="link-arrow" data-feather="chevron-down"></i>
-                        </a>
-                        <div class="collapse" id="emails">
-                            <ul class="nav sub-menu">
-                                <li class="nav-item">
-                                    <a href="pages/email/inbox.html" class="nav-link">Inbox</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pages/email/read.html" class="nav-link">Read</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pages/email/compose.html" class="nav-link">Compose</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a href="pages/apps/chat.html" class="nav-link">
-                            <i class="link-icon" data-feather="message-square"></i>
-                            <span class="link-title">Chat</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="pages/apps/calendar.html" class="nav-link">
-                            <i class="link-icon" data-feather="calendar"></i>
-                            <span class="link-title">Calendar</span>
                         </a>
                     </li>
                     <li class="nav-item nav-category">Components</li>
@@ -188,13 +161,6 @@ License: You must have a valid license purchased only from above link or https:/
                                 </li>
                             </ul>
                         </div>
-                    </li>
-                    <li class="nav-item nav-category">Docs</li>
-                    <li class="nav-item">
-                        <a href="https://www.nobleui.com/html/documentation/docs.html" target="_blank" class="nav-link">
-                            <i class="link-icon" data-feather="hash"></i>
-                            <span class="link-title">Documentation</span>
-                        </a>
                     </li>
                 </ul>
             </div>
@@ -895,5 +861,8 @@ License: You must have a valid license purchased only from above link or https:/
     <script src="~/Areas/Admin/Content/assets/js/dashboard.js"></script>
     <script src="~/Areas/Admin/Content/assets/js/datepicker.js"></script>
     <!-- end custom js for this page -->
+
+    @RenderSection("scripts", required: false)
+    @RenderSection("upload", required: false)
 </body>
 </html>

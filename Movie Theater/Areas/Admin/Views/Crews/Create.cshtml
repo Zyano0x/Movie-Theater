@@ -6,14 +6,14 @@
 }
 
 <section class="page-content">
-    
+
     <!-- Default box -->
-    <div class="col-xl-10 main-content pl-xl-4 pr-xl-5">
-        <h1 class="page-title">Add New Crew</h1>
+    <div class="main-content">
+        <h4 class="page-title">Thêm Nhân Sự Phim</h4>
         <nav class="page-breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/Admin/Crews">Crews</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Add New</li>
+                <li class="breadcrumb-item"><a href="/Admin/Crews">Đoàn làm phim</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Thêm mới</li>
             </ol>
         </nav>
     </div>
@@ -24,49 +24,106 @@
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
-                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset padding-left-right-unset" })
+                <div class="col-md-12 padding-left-right-unset">
                     @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.DateOfBirth, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.DateOfBirth, htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset" })
+                <div class="col-md-12 padding-left-right-unset">
                     @Html.EditorFor(model => model.DateOfBirth, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Birthplace, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.Birthplace, htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset" })
+                <div class="col-md-12 padding-left-right-unset">
                     @Html.EditorFor(model => model.Birthplace, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Birthplace, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Biography, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.Biography, htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset" })
+                <div class="col-md-12 padding-left-right-unset">
                     @Html.TextAreaFor(model => model.Biography, new { @class = "form-control", rows = "15" })
                     @Html.ValidationMessageFor(model => model.Biography, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.AvatarPath, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    <input type="file" name="Avatar" id="Avatar" />
+                @Html.LabelFor(model => model.AvatarPath, htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset" })
+                <div class="col-md-12 padding-left-right-unset">
+                    @Html.EditorFor(model => model.AvatarPath, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.AvatarPath, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-12 padding-left-right-unset" style=" display: flex; align-items: end; margin-bottom: 30px; margin-top: 20px;">
+                    <input type="file" name="fileUpload" id="fileUpload" accept="image/*"
+                           style="display:none;" />
+                    <div style="flex: 1;text-align: center;">
+                        @if (Model != null && Model.AvatarPath != null)
+                        {
+                            <img style="max-width: unset; width: 150px; " src="@Model.AvatarPath" alt="Alternate Text" id="pictureUpload" />
+                        }
+                        else
+                        {
+                            <img style="max-width: unset; width: 150px; " src="~/Areas/Admin/Content/assets/images/crew_default.png" alt="Alternate Text" id="pictureUpload" />
+                        }
+                    </div>
+                    <input type="button" id="btnUpload" value="Chọn Ảnh" class="btn btn-success" />
                 </div>
             </div>
 
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-primary mb-1 mb-md-0" />
+            @section upload
+{
+                <script>
+                    $(function () {
+                        $('#btnUpload').click(function () {
+                            $('#fileUpload').trigger('click');
+                        });
+                    });
+                    $('#fileUpload').change(function () {
+                        if (window.FormData !== undefined) {
+                            var fileUpload = $('#fileUpload').get(0);
+                            var files = fileUpload.files;
+                            var formData = new FormData();
+                            formData.append('file', files[0]);
+
+                            $.ajax(
+                                {
+                                    type: 'POST',
+                                    url: '/Admin/Crews/ProcessUpload',
+                                    contentType: false,
+                                    processData: false,
+                                    data: formData,
+                                    success: function (urlImage) {
+
+                                        $('#pictureUpload').attr('src', urlImage);
+                                        $('#AvatarPath').val(urlImage);
+                                    },
+                                    error: function (err) {
+                                        alert('Error ', err.statusText);
+                                    }
+                                });
+                        }
+                    });
+                </script>
+            }
+
+            <div class="form-group text-align-end">
+                <div class="col-md-offset-2 col-md-12 padding-left-right-unset">
+                    <input type="submit" value="Thêm Nhân Sự" class="btn btn-primary mb-1 mb-md-0 mr-2" />
+                    <a href="/Admin/Crews" class="btn btn-secondary">Quay Lại</a>
                 </div>
             </div>
+
+            @section Scripts {
+                @Scripts.Render("~/bundles/jqueryval")
+            }
         </div>
     }
     <!-- /.card-body -->

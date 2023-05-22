@@ -8,12 +8,12 @@
 <section class="page-content">
 
     <!-- Default box -->
-    <div class="col-xl-10 main-content pl-xl-4 pr-xl-5">
-        <h1 class="page-title">Edit Movie Genre</h1>
+    <div class="main-content">
+        <h4 class="page-title">Chỉnh sửa lịch chiếu</h4>
         <nav class="page-breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/Admin/Genres">Genres</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Edit</li>
+                <li class="breadcrumb-item"><a href="/Admin/Genres">Lịch chiếu</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Chỉnh sửa</li>
             </ol>
         </nav>
     </div>
@@ -22,38 +22,35 @@
         @Html.AntiForgeryToken()
 
         <div class="form-horizontal">
-            <h4>MovieSchedule</h4>
-            <hr />
+            <div class="form-group">
+                @if (ViewBag.Error != "")
+                {
+                    <strong class="" style="color: red;"><i class="fa-solid fa-triangle-exclamation"></i> @ViewBag.Error</strong>
+                }
+            </div>
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             @Html.HiddenFor(model => model.MovieScheduleId)
 
             <div class="form-group">
-                @Html.LabelFor(model => model.MovieId, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.MovieId, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.MovieId, "", new { @class = "text-danger" })
+                @Html.LabelFor(model => model.MovieIds, "Phim", htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset" })
+                <div class="col-md-12 padding-left-right-unset padding-left-right-unset">
+                    @Html.DropDownListFor(model => model.MovieId, new SelectList(Model.Movies, "Id", "Title"), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.MovieIds, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(model => model.BeginTime, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                <div class="col-md-12 padding-left-right-unset padding-left-right-unset">
                     @Html.EditorFor(model => model.BeginTime, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.BeginTime, "", new { @class = "text-danger" })
                 </div>
             </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Save" class="btn btn-primary mr-2 mb-2 mb-md-0 text-white" style="margin: 10px 0 10px 0" />
-                    <a href="/Admin/MovieSchedules" class="btn btn-secondary mb-1 mb-md-0">Back</a>
+            <div class="form-group text-align-end">
+                <div class="col-md-offset-2 col-md-12 padding-left-right-unset padding-left-right-unset">
+                    <input type="submit" value="Lưu Thay Đổi" class="btn btn-primary mr-2 mb-2 mb-md-0 text-white"/>
+                    <a href="/Admin/MovieSchedules" class="btn btn-secondary mb-1 mb-md-0">Quay Lại</a>
                 </div>
             </div>
         </div>

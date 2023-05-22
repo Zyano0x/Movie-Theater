@@ -1,0 +1,92 @@
+﻿/*Ghi đè - begin*/
+.text-danger {
+    display: block;
+    margin-top: 10px;
+}
+
+.page-title {
+    color: #727cf5;
+    text-transform: uppercase;
+}
+
+.table td {
+    white-space: unset;
+}
+
+.form-control, select {
+    font-size: 15px;
+}
+
+select {
+    padding: .75rem;
+}
+
+.form-control {
+    padding: 1px .75rem;
+}
+
+.table thead th {
+    text-align: center;
+}
+
+/*Ghi đè - end*/
+.table > tbody > tr > td:last-child > div {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+    .table > tbody > tr > td:last-child > div > a:first-child {
+        margin: 5px 5px 5px 0;
+    }
+
+.text-align-end {
+    text-align: end !important;
+}
+
+.margin-left-right-unset {
+    margin-left: unset !important;
+    margin-right: unset !important;
+}
+
+.padding-left-right-unset {
+    padding-left: unset !important;
+    padding-right: unset !important;
+}
+
+
+
+.poster_path,
+.avatar_path {
+    text-align: center;
+}
+
+.table td.poster_path > img,
+.table td.avatar_path > img {
+    width: 80px;
+    height: unset;
+    border-radius: 4px;
+}
+
+.biography {
+    display: block;
+    overflow: auto;
+    line-height: 1.5;
+    padding-right: 5px;
+    text-align: justify;
+}
+
+.biography-crews {
+    height: 102px;
+}
+
+.biography::-webkit-scrollbar {
+    width: 2px;
+}
+
+.biography::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.biography::-webkit-scrollbar-thumb {
+    background: #888;
+}
