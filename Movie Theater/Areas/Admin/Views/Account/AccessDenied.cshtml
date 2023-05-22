@@ -1,16 +1,58 @@
 ﻿
 @{
     ViewBag.Title = "Access Denied";
-    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    Layout = null;
 }
 
-<section class="page-content">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Access Denied</title>
+    <!-- core:css -->
+    <link rel="stylesheet" href="~/Areas/Admin/Content/assets/vendors/core/core.css">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <!-- end plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="~/Areas/Admin/Content/assets/fonts/feather-font/css/iconfont.css">
+    <link rel="stylesheet" href="~/Areas/Admin/Content/assets/vendors/flag-icon-css/css/flag-icon.min.css">
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="~/Areas/Admin/Content/assets/css/dark/style.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="~/Areas/Admin/Content/assets/images/favicon.png" />
+</head>
+<body>
+    <div class="main-wrapper">
+        <div class="page-wrapper full-page">
+            <div class="page-content d-flex align-items-center justify-content-center">
 
-    <!-- Default box -->
-    <div class="col-xl-10 main-content pl-xl-4 pr-xl-5">
-        <h1 class="text-danger">@ViewBag.Title</h1>
-        <p class="text-danger">Bạn không được phép truy cập vào tài nguyên đã yêu cầu.</p>
+                <div class="row w-100 mx-0 auth-page">
+                    <div class="col-md-8 col-xl-6 mx-auto d-flex flex-column align-items-center">
+                        <img src="~/Areas/Admin/Content/assets/images/404.svg" class="img-fluid mb-2" alt="404">
+                        <h1 class="font-weight-bold mb-22 mt-2 tx-80 text-danger">@ViewBag.Title</h1>
+                        <h6 class="text-muted mb-3 text-center">Oopps!! You don't have access to this site.</h6>
+                        <a href="/Admin/Home" class="btn btn-primary">Back to home</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
-    <!-- /.card-body -->
-</section>
-<!-- /.content -->
+
+    <!-- core:js -->
+    <script src="~/Areas/Admin/Content/assets/vendors/core/core.js"></script>
+    <!-- endinject -->
+    <!-- plugin js for this page -->
+    <!-- end plugin js for this page -->
+    <!-- inject:js -->
+    <script src="~/Areas/Admin/Content/assets/vendors/feather-icons/feather.min.js"></script>
+    <script src="~/Areas/Admin/Content/assets/js/template.js"></script>
+    <!-- endinject -->
+    <!-- custom js for this page -->
+    <!-- end custom js for this page -->
+</body>
+</html>

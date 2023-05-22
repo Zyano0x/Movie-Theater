@@ -87,6 +87,8 @@ namespace Movie_Theater.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        public bool? IsEnabled { get; set; }
     }
 
     public class NewMemberViewModel
@@ -112,6 +114,8 @@ namespace Movie_Theater.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        public bool? IsEnabled { get; set; }
     }
 
     public class ResetPasswordViewModel

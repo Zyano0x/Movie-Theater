@@ -16,6 +16,7 @@ namespace Movie_Theater.Models
 
         [Column(Order = 2)]
         public int MovieId { get; set; }
+        public Movie Movie { get; set; }
 
         [Column(Order = 3)]
         public DateTime BeginTime { get; set; }

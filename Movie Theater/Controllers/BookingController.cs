@@ -48,7 +48,7 @@ namespace Movie_Theater.Controllers
                 MovieId = id,
                 Quantity = Quantity,
                 UserId = System.Web.HttpContext.Current.User.Identity.GetUserId(),
-                SchedulesId = viewModel.ChooseId,
+                MovieScheduleId = viewModel.ChooseId,
                 TimeBooking = DateTime.Now,
                 Status = 0
             };

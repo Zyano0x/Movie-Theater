@@ -6,7 +6,7 @@
 }
 
 <!-- Main content -->
-<section class="page-content">
+<section>
 
     <!-- Default box -->
     <div class="col-xl-10 main-content pl-xl-4 pr-xl-5">
@@ -41,14 +41,13 @@
                             foreach (var item in Model)
                             {
                                 <tr>
-                                    <td>@item.MovieId</td>
+                                    <td>@item.Movie.Title</td>
                                     <td>@item.BeginTime</td>
                                     <td>@item.EndTime</td>
                                     <td>
                                         @Html.ActionLink("Edit", "Edit", new { id = item.MovieScheduleId }, new { @class = "btn btn-warning", style = "margin: 5px 0 5px 0" })
                                         <button type="submit" class="btn btn-danger delete-btn" data-id="@item.MovieScheduleId" style="margin: 5px 0;">Delete</button>
                                     </td>
-                                    <td></td>
                                 </tr>
                                 i++;
                             }
@@ -62,7 +61,7 @@
 </section>
 <!-- /.content -->
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script>
     $(function () {
         $('.delete-btn').click(function (e) {
