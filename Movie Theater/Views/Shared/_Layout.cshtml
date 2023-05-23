@@ -1,13 +1,25 @@
-﻿<!DOCTYPE html>
+﻿@using Movie_Theater.Models
+@using System.Linq
+@{
+    string username = Session["Username"] as string;
+}
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+
     <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <link rel="shortcut icon" href="~/Areas/Admin/Content/assets/images/play.png" />
 
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/grid.css")
@@ -61,7 +73,8 @@
                     marginLeft: "-=" + slideWidth
                 }, 500, function () {//Chạy slide với thời gian 0.5s
                     var marginLeft = parseInt($(this).closest('.box-movie').find('.box-movie__item:first').css('margin-left'));// Lấy giá trị margin-left để ẩn .btn-next
-                    if (marginLeft < -slideWidth) {
+                    if (marginLeft = -(slideWidth * 2)) {
+
                         $(this).closest('.box-movie').find('.btn-next').hide();
                     }
                     else {
@@ -82,7 +95,8 @@
                     marginLeft: "+=" + slideWidth
                 }, 500, function () {
                     var marginLeft = parseInt($(this).closest('.box-movie').find('.box-movie__item:first').css('margin-left'));
-                    if (marginLeft > -slideWidth) {
+                    if (marginLeft == 0) {
+
                         $(this).closest('.box-movie').find('.btn-prev').hide();
                     }
                     else {
@@ -163,75 +177,146 @@
             if ($('.box-discovery__body > strong > span').text() != 'Rất tiếc! Không có phim nào cả!') {
                 $('.box-discovery__filters-nav').css('display', 'flex');
             }
-        })
+            //Ẩn hiện navbar
+            var prevScrollPos = window.pageYOffset;
+            window.onscroll = function () {
+                var currentScrollPos = window.pageYOffset;
+                if (prevScrollPos > currentScrollPos) {
+                    document.getElementById("navbar").classList.remove("navbar-hidden");
+                } else {
+                    document.getElementById("navbar").classList.add("navbar-hidden");
+                }
+                prevScrollPos = currentScrollPos;
+            };
+
+            //Chuyển bg
+            // Sử dụng một biến để theo dõi trạng thái hiện tại của nút
+            var isClicked = false;
+
+            // Kiểm tra nếu đã có trạng thái được lưu trong Local Storage
+            var savedState = localStorage.getItem('cssState');
+            if (savedState) {
+                isClicked = JSON.parse(savedState);
+                applyCSS(isClicked);
+            }
+
+            $(".change-bg-btn > i").click(function () {
+                isClicked = !isClicked;
+                applyCSS(isClicked);
+                saveState(isClicked);
+            });
+
+            function applyCSS(isClicked) {
+                if (isClicked) {
+                    // Áp dụng CSS khi trạng thái đã được lưu
+                    $('.navbar, body, .wrapper-container ').css('background-color', '#212529');
+                    $(':root').css('--search-bg-color', '#989898');
+                    $('.change-bg-btn > i, body').css('color', '#fff');
+                    $('a, .box-movie-info__item__more').not('.container a, .table a, .btn-create a, .box-movie__item .img a, .box-discovery__body__item a, .pagination a').css('color', '#f7c12f');
+                    $('.box-movie__item, .box-discovery__body__item').hover(
+                        function () {
+                            $(this).find('.caption').css('color', '#f7c12f');
+                        },
+                        function () {
+                            $(this).find('.caption').css('color', '');
+                        }
+                    );
+                } else {
+                    // Xóa CSS khi click lần thứ hai
+                    $('.change-bg-btn > i, .navbar, body, .wrapper-container, :root, a, .box-movie-info__item__more').removeAttr('style');
+                    $('.box-movie__item, .box-discovery__body__item').off('mouseenter mouseleave');
+                }
+            }
+
+            function saveState(isClicked) {
+                // Lưu trạng thái vào Local Storage
+                localStorage.setItem('cssState', JSON.stringify(isClicked));
+            }
+        });
+
+        //Trang load
+        window.addEventListener('load', function () {
+            setTimeout(function () {
+                document.getElementById('loader').style.display = 'none'; // Ẩn phần tử loader
+                document.getElementById('content').style.display = 'block'; // Hiển thị nội dung trang web
+            }, 600); // Thời gian delay là 2 giây (2000 milliseconds)
+        });
+
     </script>
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+    <div id="loader" class="loader-wrapper">
+        <div class="loader"></div>
+        <p>Loading...</p>
+    </div>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark" id="navbar">
         <div class="grid wide container">
             <a href="@Url.Action("Index","Home")"><img style="width: 100px" src="http://amovie.gozha.net/images/logo.png" alt="Alternate Text" /></a>
-
-            <div class="collapse navbar-collapse d-sm-inline-flex">
+            <div>
                 <ul id="header-navbar" class="flex-grow-1">
-                    <li>@Html.ActionLink("Trang chủ", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Trang Chủ", "Index", "Home")</li>
                     <li>
-                        <div>
-                            @Html.ActionLink("Phim", "Index", "ListMovie")
-                            <i class="fa-solid fa-plus"></i>
-                        </div>
+                        @Html.ActionLink("Phim", "Index", "ListMovie")
                         <ul class="sub-navbar">
                             <li>@Html.ActionLink("Phim đang chiếu", "Index", "ListMovie", new { FilterMoviesByType = "MoviesInTheater" }, null)</li>
                             <li>@Html.ActionLink("Phim sắp chiếu", "Index", "ListMovie", new { FilterMoviesByType = "UpcomingMovies" }, null)</li>
                         </ul>
                     </li>
                     <li>
-                        <div>
-                            <span>Thể loại</span>
-                            <i class="fa-solid fa-plus"></i>
-                        </div>
+                        <span>Thể Loại</span>
+
                         <ul class="sub-navbar">
-                            <li>@Html.ActionLink("Hành động", "Index", "ListMovie", new { FilterMovieByGenre = 1 }, null)</li>
-                            <li>@Html.ActionLink("Hài kịch", "Index", "ListMovie", new { FilterMovieByGenre = 2 }, null)</li>
-                            <li>@Html.ActionLink("Tài liệu", "Index", "ListMovie", new { FilterMovieByGenre = 3 }, null)</li>
-                            <li>@Html.ActionLink("Drama", "Index", "ListMovie", new { FilterMovieByGenre = 4 }, null)</li>
-                            <li>@Html.ActionLink("Tưởng tượng", "Index", "ListMovie", new { FilterMovieByGenre = 5 }, null)</li>
-                            <li>@Html.ActionLink("Kinh dị", "Index", "ListMovie", new { FilterMovieByGenre = 6 }, null)</li>
-                            <li>@Html.ActionLink("Âm Nhạc", "Index", "ListMovie", new { FilterMovieByGenre = 7 }, null)</li>
-                            <li>@Html.ActionLink("Huyền Bí", "Index", "ListMovie", new { FilterMovieByGenre = 8 }, null)</li>
-                            <li>@Html.ActionLink("Tình Cảm", "Index", "ListMovie", new { FilterMovieByGenre = 9 }, null)</li>
-                            <li>@Html.ActionLink("Giật Gân", "Index", "ListMovie", new { FilterMovieByGenre = 10 }, null)</li>
-                            <li>@Html.ActionLink("Viễn Tây", "Index", "ListMovie", new { FilterMovieByGenre = 11 }, null)</li>
-                            <li>@Html.ActionLink("Khoa Học Viễn Tưởng", "Index", "ListMovie", new { FilterMovieByGenre = 12 }, null)</li>
+                            @{
+                                ApplicationDbContext _dbContext = new ApplicationDbContext();
+                                var genres = _dbContext.Genres.ToList();
+
+                                foreach (var item in genres)
+                                {
+                                    <li> @Html.ActionLink(item.Name, "index", "listmovie", new { filtermoviebygenre = item.Id }, null) </li>
+                                }
+                            }
                         </ul>
                     </li>
-                    <li>
-                        <div>
-                            @Html.ActionLink("Tin tức", "", "")
-                        </div>
+                    @*<li>
+                            <span>Quản Lý</span>
+
+                            <ul class="sub-navbar">
+                                <li>@Html.ActionLink("Phim", "Index", "Movies", new { FilterMoviesByType = "MoviesInTheater" }, null)</li>
+                                <li>@Html.ActionLink("Thể Loại", "Index", "Genres", new { FilterMoviesByType = "MoviesInTheater" }, null)</li>
+                                <li>@Html.ActionLink("Lịch Chiếu", "Index", "MovieSchedules", new { FilterMoviesByType = "UpcomingMovies" }, null)</li>
+                                <li>@Html.ActionLink("Nhân Sự Phim", "Index", "Crews", new { FilterMoviesByType = "UpcomingMovies" }, null)</li>
+                                <li>@Html.ActionLink("Slide Show", "Index", "SlideShow", new { FilterMoviesByType = "UpcomingMovies" }, null)</li>
+                                <li>@Html.ActionLink("Đặt vé", "Index", "Home", new { FilterMoviesByType = "UpcomingMovies" }, null)</li>
+                                <li>@Html.ActionLink("Phòng", "Index", "Home", new { FilterMoviesByType = "UpcomingMovies" }, null)</li>
+                                <li>@Html.ActionLink("Ghế", "Index", "Home", new { FilterMoviesByType = "UpcomingMovies" }, null)</li>
+                            </ul>
+                        </li>*@
+                    <li class="change-bg-btn">
+                        <i class="fa-solid fa-sun"></i>
                     </li>
                 </ul>
                 <div id="login">
                     @Html.ActionLink("Đăng nhập", "Login", "Login", new { @class = "display-none login-failse" })
                     <div class="login-true">
                         <div class="box-img">
-                            <img src="http://amovie.gozha.net/images/client-photo/auth.png" alt="Ảnh đại diện" />
+                            <img src="\Content\Images\Icons\user-icon.png" alt="Ảnh đại diện" style="height: 30px; width: 30px;" />
                         </div>
                         <div class="box-acc nav-link">
                             <span class="nav-link">
-                                Tài khoản
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <span>@username</span>
+                                }
+                                else
+                                {
+                                    <span>Tài khoản</span>
+                                }
                                 <i class="fa-solid fa-angle-down"></i>
                             </span>
-                            <ul class="sub-navbar">
-                                <li>@Html.Partial("_LoginPartial")</li>
-                                <li>@Html.ActionLink("Thông tin tài khoản", "", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                                <li>@Html.ActionLink("Danh sách đặt vé", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                            </ul>
 
+                            @Html.Partial("_LoginPartial")
                         </div>
                     </div>
-                </div>
-                <div class="box-menu">
-                    <i class="fa-solid fa-bars"></i>
                 </div>
             </div>
 
@@ -242,24 +327,37 @@
                         <input id="search-field" type="text" name="SearchString" placeholder="Nhập tên phim cần tìm kiếm..." />
                         <button type="submit" class="navbar__search__icon" id="search-button" disabled>
                             @* disabled: vô hiệu hóa btn *@
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+
+        @using (Html.BeginForm("Index", "ListMovie", FormMethod.Post))
+        {
+            <div class="navbar__search">
+                <div>
+                    <input id="search-field" type="text" name="SearchString" placeholder="Tìm kiếm phim theo tên , mô tả ..." />
+                    <button type="submit" class="navbar__search__icon" id="search-button" disabled>
+                        @* disabled: vô hiệu hóa btn *@
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
                 </div>
             </div>
         }
-        </div>
     </nav>
 
     <div class="grid wide bg-white">
         @RenderBody()
     </div>
     <footer style="text-align: center">
-        <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        <p>Copyright &copy; @DateTime.Now.Year - 1337 Team. All rights reserved</p>
     </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
-
+    @RenderSection("upload", required: false)
 </body>
 </html>

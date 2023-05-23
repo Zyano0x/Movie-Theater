@@ -12,18 +12,15 @@ using VNPAY_CS_ASPX;
 
 namespace Movie_Theater.Controllers
 {
+    [Authorize]
     public class BookingController : Controller
     {
         ApplicationDbContext _dbContext = new ApplicationDbContext();
-        public ActionResult Index()
-        {
-            return View();
-        }
 
         public ActionResult Create(int id)
         {
             var movieSchedules = _dbContext.MovieSchedules.Where(s => s.MovieId == id && s.EndTime > DateTime.Now).ToList();
-            var movieScheduleIds = movieSchedules.Select(s => s.MovieScheduleId).ToList();
+            var movieScheduleIds = movieSchedules.Select(s => s.Id).ToList();
             var viewModel = new MovieScheduleViewModel
             {
                 Movies = _dbContext.Movies.Where(m => m.Id == id),
@@ -136,7 +133,7 @@ namespace Movie_Theater.Controllers
                             _dbContext.SaveChanges();
                         }
                         //Thanh toán thành công
-                        ViewBag.Message = "Thanh toán thành công hóa đơn: " + orderId + " | Mã giao dịch: " + vnpayTranId;
+                        ViewBag.Message = "Thanh toán thành công " + "-" + " Mã giao dịch: " + vnpayTranId;
                         
                     }
                     else

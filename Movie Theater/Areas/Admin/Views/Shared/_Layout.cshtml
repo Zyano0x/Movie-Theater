@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@{ 
+    string username = Session["Username"] as string;
+    string email = Session["Email"] as string;
+}
+
+<!DOCTYPE html>
 <!--
 Template Name: NobleUI - Admin & Dashboard Template
 Author: NobleUI
@@ -27,6 +32,12 @@ License: You must have a valid license purchased only from above link or https:/
     <link rel="stylesheet" href="~/Areas/Admin/Content/assets/css/dark/style.css">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="~/Areas/Admin/Content/assets/images/favicon.png" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    @Styles.Render("~/Areas/Admin/Content/assets/css/style-admin.css")
 </head>
 <body>
     <div class="main-wrapper">
@@ -94,13 +105,13 @@ License: You must have a valid license purchased only from above link or https:/
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/Admin/Crews" role="button">
-                            <i class="link-icon" data-feather="anchor"></i>
+                            <i class="link-icon" data-feather="user-plus"></i>
                             <span class="link-title">Crews</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/Admin/Movies" role="button">
-                            <i class="link-icon" data-feather="inbox"></i>
+                            <i class="link-icon" data-feather="film"></i>
                             <span class="link-title">Movies</span>
                         </a>
                     </li>
@@ -113,20 +124,20 @@ License: You must have a valid license purchased only from above link or https:/
 
                     <li class="nav-item">
                         <a class="nav-link" href="/Admin/Account" role="button">
-                            <i class="link-icon" data-feather="layout"></i>
+                            <i class="link-icon" data-feather="x-octagon"></i>
                             <span class="link-title">Accounts</span>
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="/Admin/MovieSchedules" role="button">
-                            <i class="link-icon" data-feather="smile"></i>
+                            <i class="link-icon" data-feather="calendar"></i>
                             <span class="link-title">Movie Schedules</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/Admin/MovieTickets" role="button">
-                            <i class="link-icon" data-feather="book"></i>
+                            <i class="link-icon" data-feather="shopping-cart"></i>
                             <span class="link-title">Movie Tickets</span>
                         </a>
                     </li>
@@ -249,8 +260,8 @@ License: You must have a valid license purchased only from above link or https:/
                                         <img src="https://i.pinimg.com/564x/be/f7/64/bef76458c1dad6675c552e5567908ce5.jpg" alt="">
                                     </div>
                                     <div class="info text-center">
-                                        <p class="name font-weight-bold mb-0">@ViewBag.Username</p>
-                                        <p class="email text-muted mb-3">@ViewBag.Email</p>
+                                        <p class="name font-weight-bold mb-0">@username</p>
+                                        <p class="email text-muted mb-3">@email</p>
                                     </div>
                                 </div>
                                 <div class="dropdown-body">
@@ -301,5 +312,8 @@ License: You must have a valid license purchased only from above link or https:/
     <script src="~/Areas/Admin/Content/assets/js/dashboard.js"></script>
     <script src="~/Areas/Admin/Content/assets/js/datepicker.js"></script>
     <!-- end custom js for this page -->
+
+    @RenderSection("scripts", required: false)
+    @RenderSection("upload", required: false)
 </body>
 </html>

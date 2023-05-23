@@ -9,28 +9,28 @@
 <section>
     
     <!-- Default box -->
-    <div class="col-xl-10 main-content pl-xl-4 pr-xl-5">
-        <h1 class="page-title">Movie Genres List</h1>
+    <div class="main-content">
+        <h4 class="page-title">Danh Sách Thể Loại</h4>
         <nav class="page-breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Genres</a></li>
-                <li class="breadcrumb-item active" aria-current="page">List</li>
+                <li class="breadcrumb-item"><a href="#">Thể loại</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Danh sách</li>
             </ol>
         </nav>
     </div>
-    <div class="aside-compose">
-        <a href="/Admin/Genres/Create" class="btn btn-success">Add New</a>
+    <div class="aside-compose text-align-end">
+        <a href="/Admin/Genres/Create" class="btn btn-success">Thêm Thể Loại</a>
     </div>
     <hr />
-    <div class="row">
+    <div class="row margin-left-right-unset">
         <div class="col-12 col-xl-12 stretch-card">
             <div class="row flex-grow">
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>Genre ID</th>
-                            <th>Name</th>
-                            <th></th>
+                            <th class="col-md-2">Mã thể loại</th>
+                            <th class="col-md-8">Tên thể loại</th>
+                            <th class="col-md-2"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,11 +40,13 @@
                             foreach (var item in Model)
                             {
                                 <tr>
-                                    <td>@item.Id</td>
-                                    <td>@item.Name</td>
-                                    <td>
-                                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-warning", style = "margin: 5px 0 5px 0" })
-                                        <button type="submit" class="btn btn-danger delete-btn" data-id="@item.Id" style="margin: 5px 0;">Delete</button>
+                                    <td class="col-md-2">@item.Id</td>
+                                    <td class="col-md-8">@item.Name</td>
+                                    <td class="col-md-2">
+                                        <div>
+                                            @Html.ActionLink("Sửa", "Edit", new { id = item.Id }, new { @class = "btn btn-warning", style = "margin: 5px 0 5px 0" })
+                                            <button type="submit" class="btn btn-danger delete-btn" data-id="@item.Id" style="margin: 5px 0;">Xóa</button>
+                                        </div>
                                     </td>
                                 </tr>
                                 i++;
@@ -65,7 +67,7 @@
         $('.delete-btn').click(function (e) {
             e.preventDefault();
 
-            if (confirm("Are you sure you want to delete this genre?")) {
+            if (confirm("Bạn chắc chắn muốn xóa thể loại phim này?")) {
                 var id = $(this).data('id');
                 $.ajax({
                     url: '/Admin/Genres/Delete',

@@ -8,32 +8,32 @@
 <section>
     
     <!-- Default box -->
-    <div class="col-xl-10 main-content pl-xl-4 pr-xl-5">
-        <h1 class="page-title">Movies List</h1>
+    <div class="main-content">
+        <h4 class="page-title">Danh sách phim</h4>
         <nav class="page-breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Movies</a></li>
-                <li class="breadcrumb-item active" aria-current="page">List</li>
+                <li class="breadcrumb-item"><a href="#">Phim</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Danh sách</li>
             </ol>
         </nav>
     </div>
-    <div class="aside-compose">
-        <a href="/Admin/Movies/Create" class="btn btn-success">Add New</a>
+    <div class="aside-compose text-align-end">
+        <a href="/Admin/Movies/Create" class="btn btn-success">Thêm Phim</a>
     </div>
     <hr />
-    <div class="row">
+    <div class="row margin-left-right-unset">
         <div class="col-12 col-xl-12 stretch-card">
             <div class="row flex-grow">
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>Title</th>
-                            <th>Release Day</th>
-                            <th>Rating</th>
-                            <th>Runtime</th>
-                            <th>Box Office</th>
-                            <th>Original Language</th>
-                            <th></th>
+                            <th class="col-md-2">Tên phim</th>
+                            <th class="col-md-1">Poster</th>
+                            <th class="col-md-1">Ngày công chiếu</th>
+                            <th class="col-md-1">Nhãn</th>
+                            <th class="col-md-1">Thời lượng</th>
+                            <th class="col-md-4">Tóm tắt nội dung</th>
+                            <th class="col-md-2"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -43,28 +43,31 @@
                             foreach (var item in Model)
                             {
                                 <tr>
-                                    <td>
+                                    <td class="col-md-2">
                                         @Html.DisplayFor(modelItem => item.Title)
                                     </td>
-                                    <td>
+                                    <td class="col-md-1 poster_path">
+                                        <img src="@item.PosterPath" alt="@item.PosterPath" />
+                                    </td>
+                                    <td class="col-md-1">
                                         @Html.DisplayFor(modelItem => item.ReleaseDate)
                                     </td>
-                                    <td>
+                                    <td class="col-md-1">
                                         @Html.DisplayFor(modelItem => item.Rating)
                                     </td>
-                                    <td>
+                                    <td class="col-md-1">
                                         @Html.DisplayFor(modelItem => item.Runtime)
                                     </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.BoxOffice)
+                                    <td class="col-md-4">
+                                        <div class="biography biography-crews">
+                                            @Html.DisplayFor(modelItem => item.Synopsis)
+                                        </div>
                                     </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.OriginalLanguage)
-                                    </td>
-                                    <td>
-                                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-warning", style = "margin: 5px 0 5px 0" })
-                                        @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-secondary", style = "margin: 5px 0 5px 0" })
-                                        <button type="submit" class="btn btn-danger delete-btn" data-id="@item.Id" style="margin: 5px 0;">Delete</button>
+                                    <td class="col-md-2">
+                                        <div>
+                                            @Html.ActionLink("Sửa", "Edit", new { id = item.Id }, new { @class = "btn btn-warning mr-2" })
+                                            <button type="submit" class="btn btn-danger delete-btn" data-id="@item.Id" style="margin: 5px 0;">Xóa</button>
+                                        </div>
                                     </td>
                                 </tr>
                                 i++;
@@ -85,7 +88,7 @@
         $('.delete-btn').click(function (e) {
             e.preventDefault();
 
-            if (confirm("Are you sure you want to delete this movie?")) {
+            if (confirm("Bạn có chắc chắn muốn xóa phim này?")) {
                 var id = $(this).data('id');
                 $.ajax({
                     url: '/Admin/Movies/Delete',

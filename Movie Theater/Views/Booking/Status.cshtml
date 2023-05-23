@@ -1,40 +1,67 @@
 ﻿@{
-    ViewBag.Title = "Status";
+    ViewBag.Title = "Trạng Thái - A Movie";
+    Layout = null;
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>RETURN URL FROM VNPAY</title>
-    <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" />
-</head>
-<body>
-    <div class="wrapper-container container">
-        <div class="header clearfix">
-            <h3 class="text-muted">Kết quả thanh toán</h3>
+@*<!DOCTYPE html>
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>RETURN URL FROM VNPAY</title>
+        <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" />
+    </head>
+    <body>
+        <div class="wrapper-container container">
+            <div class="header clearfix">
+                <h3 class="text-muted">Kết quả thanh toán</h3>
+            </div>
+            <div class="table-responsive">
+                <div>@ViewBag.Movie</div>
+            </div>
+            <div class="table-responsive">
+                <div>@ViewBag.Message</div>
+            </div>
+            <div class="table-responsive">
+                <div>@ViewBag.TmnCode</div>
+            </div>
+            <div class="table-responsive">
+                <div>@ViewBag.TxnRef</div>
+            </div>
+            <div class="table-responsive">
+                <div>@ViewBag.VnPayTranNo</div>
+            </div>
+            <div class="table-responsive">
+                <div>@ViewBag.Amount</div>
+            </div>
+            <div class="table-responsive">
+                <div>@ViewBag.BankCode</div>
+            </div>
         </div>
-        <div class="table-responsive">
-            <div>@ViewBag.Movie</div>
-        </div>
-        <div class="table-responsive">
-            <div>@ViewBag.Message</div>
-        </div>
-        <div class="table-responsive">
-            <div>@ViewBag.TmnCode</div>
-        </div>
-        <div class="table-responsive">
-            <div>@ViewBag.TxnRef</div>
-        </div>
-        <div class="table-responsive">
-            <div>@ViewBag.VnPayTranNo</div>
-        </div>
-        <div class="table-responsive">
-            <div>@ViewBag.Amount</div>
-        </div>
-        <div class="table-responsive">
-            <div>@ViewBag.BankCode</div>
+    </body>
+    </html>*@
+
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_responsive.css">
+<title>Trạng Thái - A Movie</title>
+<div class="container product_section_container">
+    <div class="row">
+        <div class="col product_section clearfix">
+
+            <!-- Breadcrumbs -->
+            <!-- Sidebar -->
+            <!-- Main Content -->
+
+            <div class="row">
+                <div class="col-md-12" id="load_data">
+                    <h4 style="text-align:center">@ViewBag.Message</h4>
+                </div>
+                <br />
+                <a href="/Home" class="btn btn-primary" style="text-align:center">Back to home</a>
+            </div>
         </div>
     </div>
-</body>
-</html>
+</div>
+
+@section scripts{
+    <script src="~/Content/assets/js/categories_custom.js"></script>
+}

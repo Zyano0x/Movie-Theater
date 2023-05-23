@@ -8,6 +8,17 @@
         public override void Up()
         {
             CreateTable(
+                "dbo.Sliders",
+                c => new
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    Img = c.String(nullable: false),
+                    Title = c.String(nullable: false),
+                    Description = c.String(nullable: false),
+                })
+                .PrimaryKey(t => t.Id);
+
+            CreateTable(
                 "dbo.Crews",
                 c => new
                     {
@@ -51,14 +62,11 @@
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Title = c.String(nullable: false, maxLength: 255),
-                        OriginalLanguage = c.String(nullable: false),
                         ReleaseDate = c.DateTime(nullable: false),
                         Synopsis = c.String(),
                         Rating = c.String(nullable: false),
                         Runtime = c.Int(nullable: false),
-                        BoxOffice = c.Single(nullable: false),
                         Score = c.Int(nullable: false),
-                        Distributor = c.String(),
                         TrailerUrl = c.String(nullable: false),
                         PosterPath = c.String(),
                     })
@@ -105,12 +113,12 @@
                 "dbo.MovieSchedules",
                 c => new
                     {
-                        MovieScheduleId = c.Int(nullable: false, identity: true),
+                        Id = c.Int(nullable: false, identity: true),
                         MovieId = c.Int(nullable: false),
                         BeginTime = c.DateTime(nullable: false),
                         EndTime = c.DateTime(nullable: false),
                     })
-                .PrimaryKey(t => t.MovieScheduleId);
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.MovieTickets",
@@ -233,6 +241,7 @@
             DropTable("dbo.CRoles");
             DropTable("dbo.MovieCrews");
             DropTable("dbo.Crews");
+            DropTable("dbo.Slider");
         }
     }
 }
