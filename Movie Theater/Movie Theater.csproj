@@ -190,6 +190,7 @@
       <DependentUpon>202305220508309_UpdateApplicationUser.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\AccessDeniedAuthorizeAttribute.cs" />
+    <Compile Include="Models\Email.cs" />
     <Compile Include="VNPay\OrderInfo.cs" />
     <Compile Include="VNPay\VnPayLibary.cs" />
     <Content Include="Areas\Admin\Content\assets\css\dark\style.css" />
@@ -1446,6 +1447,7 @@
     <Content Include="Content\grid.css" />
     <Content Include="Content\Images\Icons\popcorn_icon.png" />
     <Content Include="Content\Images\Icons\user-icon.png" />
+    <Content Include="Content\Images\Logo.png" />
     <Content Include="Content\Images\PosterMovie\Spider-Man - Far From Home.jpg" />
     <Content Include="Content\Images\PosterMovie\Suzume.jpg" />
     <Content Include="Content\PagedList.css" />
@@ -1716,6 +1718,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Views\Email\EmailVerification.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

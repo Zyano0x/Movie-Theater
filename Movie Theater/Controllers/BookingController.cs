@@ -12,13 +12,10 @@ using VNPAY_CS_ASPX;
 
 namespace Movie_Theater.Controllers
 {
+    [Authorize]
     public class BookingController : Controller
     {
         ApplicationDbContext _dbContext = new ApplicationDbContext();
-        public ActionResult Index()
-        {
-            return View();
-        }
 
         public ActionResult Create(int id)
         {

@@ -10,7 +10,7 @@
 
     <!-- Default box -->
     <div class="main-content">
-        <h1 class="page-title">Tickets List</h1>
+        <h4 class="page-title">Tickets List</h4>
         <nav class="page-breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Tickets</a></li>
@@ -89,7 +89,7 @@
         $('.delete-btn').click(function (e) {
             e.preventDefault();
 
-            if (confirm("Are you sure you want to delete this crew?")) {
+            if (confirm("Are you sure you want to delete this?")) {
                 var id = $(this).data('id');
                 $.ajax({
                     url: '/Admin/MovieTickets/Delete',
@@ -103,7 +103,7 @@
                         }
                     },
                     error: function () {
-                        alert('An error occurred while deleting the record.');
+                        alert('An error occurred while deleting.');
                     }
                 });
             }

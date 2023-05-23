@@ -49,11 +49,13 @@ namespace Movie_Theater.Controllers
             {
                 if (FilterMoviesByType == "MoviesInTheater")
                 {
+                    ViewBag.name = "Phim Đang Chiếu";
                     movies = movies.Where(m => m.ReleaseDate <= DateTime.Now && _dbContext.MovieSchedules.Any(ms => ms.MovieId == m.Id && ms.EndTime > DateTime.Now));
                     ViewBag.heading = "DANH SÁCH PHIM : ĐANG CHIẾU";
                 }
                 else if (FilterMoviesByType == "UpcomingMovies")
                 {
+                    ViewBag.name = "Phim Sắp Chiếu";
                     movies = movies.Where(m => m.ReleaseDate > DateTime.Now);
                     ViewBag.heading = "DANH SÁCH PHIM : SẮP CHIẾU";
                 }

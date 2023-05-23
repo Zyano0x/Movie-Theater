@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@{ 
+    string username = Session["Username"] as string;
+    string email = Session["Email"] as string;
+}
+
+<!DOCTYPE html>
 <!--
 Template Name: NobleUI - Admin & Dashboard Template
 Author: NobleUI
@@ -255,8 +260,8 @@ License: You must have a valid license purchased only from above link or https:/
                                         <img src="https://i.pinimg.com/564x/be/f7/64/bef76458c1dad6675c552e5567908ce5.jpg" alt="">
                                     </div>
                                     <div class="info text-center">
-                                        <p class="name font-weight-bold mb-0">@ViewBag.Username</p>
-                                        <p class="email text-muted mb-3">@ViewBag.Email</p>
+                                        <p class="name font-weight-bold mb-0">@username</p>
+                                        <p class="email text-muted mb-3">@email</p>
                                     </div>
                                 </div>
                                 <div class="dropdown-body">
