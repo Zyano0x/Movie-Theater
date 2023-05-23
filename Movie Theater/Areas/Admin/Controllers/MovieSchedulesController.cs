@@ -14,7 +14,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
         // GET: MovieSchedules
         public ActionResult Index()
         {
-            var lstSchedules = (from s in _dbContext.MovieSchedules select s);
+            var lstSchedules = _dbContext.MovieSchedules.Include("Movie").ToList();
             return View(lstSchedules);
         }
 

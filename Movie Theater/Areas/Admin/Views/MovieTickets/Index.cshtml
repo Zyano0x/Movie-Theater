@@ -6,7 +6,7 @@
 }
 
 <!-- Main content -->
-<section class="page-content">
+<section>
 
     <!-- Default box -->
     <div class="col-xl-10 main-content pl-xl-4 pr-xl-5">
@@ -26,9 +26,10 @@
                     <thead>
                         <tr>
                             <th>Ticket ID</th>
-                            <th>User ID</th>
+                            <th>Email</th>
                             <th>Quantity</th>
                             <th>Movie</th>
+                            <th>Time</th>
                             <th>Status</th>
                             <th></th>
                         </tr>
@@ -39,19 +40,21 @@
                             var i = 1;
                             foreach (var item in Model)
                             {
-                                
                                 <tr>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.TicketId)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.UserId)
+                                        @item.User.Email
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Quantity)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.MovieId)
+                                        @item.Movie.Title
+                                    </td>
+                                    <td>
+                                        @item.MovieSchedule.BeginTime - @item.MovieSchedule.EndTime
                                     </td>
                                     <td>
                                         @if (item.Status == 0)

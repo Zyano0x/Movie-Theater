@@ -117,7 +117,7 @@
                 c => new
                     {
                         TicketId = c.Int(nullable: false, identity: true),
-                        SchedulesId = c.Int(nullable: false),
+                        MovieScheduleId = c.Int(nullable: false),
                         UserId = c.String(),
                         Quantity = c.Int(nullable: false),
                         MovieId = c.Int(nullable: false),

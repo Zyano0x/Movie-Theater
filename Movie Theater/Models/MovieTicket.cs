@@ -15,16 +15,19 @@ namespace Movie_Theater.Models
         public int TicketId { get; set; }
 
         [Column(Order = 2)]
-        public int SchedulesId { get; set; }
+        public int MovieScheduleId { get; set; }
+        public MovieSchedule MovieSchedule { get; set; }
 
         [Column(Order = 3)]
         public string UserId { get; set; }
+        public ApplicationUser User { get; set; }
 
         [Column(Order = 4)]
         public int Quantity { get; set; }
 
         [Column(Order = 5)]
         public int MovieId { get; set; }
+        public Movie Movie { get; set; }
 
         [Column(Order = 6)]
         public DateTime TimeBooking { get; set; }
