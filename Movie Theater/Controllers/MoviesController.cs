@@ -104,7 +104,7 @@ namespace Movie_Theater.Controllers
                 Title = movie.Title,
                 ReleaseDate = movie.ReleaseDate,
                 Synopsis = movie.Synopsis,
-                Rating = Convert.ToInt32(movie.Rating),
+                Rating = movie.Rating,
                 Runtime = movie.Runtime,
                 Score = movie.Score,
                 GenreIds = movie.MovieGenres.Select(mg => mg.Genre.Id).ToList(),

@@ -1,7 +1,7 @@
 ﻿@model Movie_Theater.ViewModels.MovieViewModel
 @using Microsoft.AspNet.Identity;
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = Model.Title;
 }
 
 <div class="wrapper-container padding-top-10">
@@ -58,7 +58,7 @@
                 <ul>
                     <li>
                         <strong>Nhãn: </strong>
-                        <span>@Html.DisplayFor(model => model.Rating)+</span>
+                        <span>@Html.DisplayFor(model => model.Rating)</span>
                     </li>
                     <li>
                         <strong>Thể loại: </strong>
@@ -146,11 +146,13 @@
     @{
         if (Model.ReleaseDate <= DateTime.Now)
         {
-            <div class="box-review">
-                <div class="heading-title">
-                    <h6>ĐÁNH GIÁ</h6>
-                </div>
-                <div class="box-review-body">
+        <div class="box-review">
+            <div class="heading-title">
+                <h6>ĐÁNH GIÁ</h6>
+            </div>
+            <div class="box-review-body">
+                @if (!User.Identity.IsAuthenticated)
+                {
                     <div>
                         <span>
                             <strong><i class="fa-solid fa-circle-exclamation" style="color: #fa320a"></i> Lưu ý: <br /></strong>
@@ -158,40 +160,44 @@
                             và <strong>@Html.ActionLink("Đặt Vé Phim", "", "")</strong>
                             để có thể bình luận!
                         </span>
-                    </div>
-                    @{
-                        var userLogin = System.Web.HttpContext.Current.User.Identity.GetUserId();
-                        var action = 1;
-                        var scores = "";
-                        var comment = "";
-                        var nameAction = "Gửi";
-                        foreach (var review in Model.Reviews)
-                        {
-                            if (review.MovieId == Model.Id && review.UserId == userLogin)
-                            {
-                                scores = review.Scores.ToString();
-                                comment = review.Comment;
-                                action = 0;
-                                nameAction = "Chỉnh sửa";
-                                break;
-                            }
                         }
 
-                        using (Html.BeginForm("Review", "Movies", new { id = Model.Id, userLogin = userLogin }, FormMethod.Post))
+                    </div>
+                }
+
+                @{
+                    var userLogin = System.Web.HttpContext.Current.User.Identity.GetUserId();
+                    var action = 1;
+                    var scores = "";
+                    var comment = "";
+                    var nameAction = "Gửi";
+                    foreach (var review in Model.Reviews)
+                    {
+                        if (review.MovieId == Model.Id && review.UserId == userLogin)
                         {
-                            @Html.AntiForgeryToken()
-                            <input type="hidden" name="action" value="@action" />
-                            <input type="number" step="1" name="scores" class="scores" placeholder="Điểm số (/100) ?" value="@scores" min="1" max="100">
-                            <textarea name="comment" class="comment" placeholder="Bạn nghĩ gì về bộ phim?">@comment</textarea>
-                            <div class="box-review-body__btn-submit">
-                                <button type="submit" class="btn btn-success" style="font-size: 16px; padding: 5px 20px;">
-                                    @nameAction
-                                </button>
-                            </div>
+                            scores = review.Scores.ToString();
+                            comment = review.Comment;
+                            action = 0;
+                            nameAction = "Chỉnh sửa";
+                            break;
                         }
                     }
-                </div>
+
+                    using (Html.BeginForm("Review", "Movies", new { id = Model.Id, userLogin = userLogin }, FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="action" value="@action" />
+                        <input type="number" step="1" name="scores" class="scores" placeholder="Điểm số (/100) ?" value="@scores" min="1" max="100">
+                        <textarea name="comment" class="comment" placeholder="Bạn nghĩ gì về bộ phim?">@comment</textarea>
+                        <div class="box-review-body__btn-submit">
+                            <button type="submit" class="btn btn-success" style="font-size: 16px; padding: 5px 20px;">
+                                @nameAction
+                            </button>
+                        </div>
+                    }
+                }
             </div>
+        </div>
 
             <div class="box-community-review">
                 <div class="heading-title">

@@ -30,7 +30,7 @@ namespace Movie_Theater.ViewModels
 
         [Required(ErrorMessage = "Vui Lòng Nhập Nhãn")]
         [Display(Name = "Nhãn")]
-        public int Rating { get; set; }
+        public string Rating { get; set; }
 
         [Required(ErrorMessage = "Vui Lòng Nhập Thời Lượng Phim")]
         [Display(Name = "Thời Lượng")]

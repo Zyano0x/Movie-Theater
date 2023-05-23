@@ -50,7 +50,7 @@ namespace Movie_Theater.Controllers
 
         public ActionResult Edit(int id)
         {
-            var schedule = _dbContext.MovieSchedules.FirstOrDefault(s => s.MovieScheduleId == id);
+            var schedule = _dbContext.MovieSchedules.FirstOrDefault(s => s.Id == id);
 
             if (schedule == null)
             {
@@ -66,7 +66,7 @@ namespace Movie_Theater.Controllers
         {
             foreach (var s in _dbContext.MovieSchedules)
             {
-                if (s.MovieId == viewModel.MovieId && s.MovieScheduleId != viewModel.MovieScheduleId)
+                if (s.MovieId == viewModel.MovieId && s.Id != viewModel.Id)
                 {
                     if (viewModel.BeginTime <= s.EndTime && viewModel.EndTime >= s.BeginTime)
                     {
@@ -74,7 +74,7 @@ namespace Movie_Theater.Controllers
                     }
                 }
             }
-            var schedule = _dbContext.MovieSchedules.FirstOrDefault(s => s.MovieScheduleId == viewModel.MovieScheduleId);
+            var schedule = _dbContext.MovieSchedules.FirstOrDefault(s => s.Id == viewModel.Id);
             schedule.BeginTime = viewModel.BeginTime;
             schedule.EndTime = viewModel.EndTime;
             _dbContext.SaveChanges();
@@ -83,7 +83,7 @@ namespace Movie_Theater.Controllers
 
         public ActionResult Delete(int id)
         {
-            var schedule = _dbContext.MovieSchedules.FirstOrDefault(s => s.MovieScheduleId == id);
+            var schedule = _dbContext.MovieSchedules.FirstOrDefault(s => s.Id == id);
             if (schedule == null)
             {
                 return HttpNotFound();
@@ -95,7 +95,7 @@ namespace Movie_Theater.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var schedule = _dbContext.MovieSchedules.FirstOrDefault(s => s.MovieScheduleId == id);
+            var schedule = _dbContext.MovieSchedules.FirstOrDefault(s => s.Id == id);
 
             if (schedule == null)
             {

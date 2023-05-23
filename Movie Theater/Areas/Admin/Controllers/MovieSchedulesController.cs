@@ -52,7 +52,6 @@ namespace Movie_Theater.Areas.Admin.Controllers
             var schedule = new MovieSchedule
             {
                 MovieId = viewModel.MovieId,
-                MovieTitle = movie.Title,
                 BeginTime = viewModel.BeginTime,
                 EndTime = viewModel.BeginTime.AddMinutes(movie.Runtime),
             };
@@ -65,7 +64,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
         public ActionResult Edit(int id, string str = "")
         {
             ViewBag.Error = str;
-            var schedule = _dbContext.MovieSchedules.FirstOrDefault(s => s.MovieScheduleId == id);
+            var schedule = _dbContext.MovieSchedules.FirstOrDefault(s => s.Id == id);
             schedule.MovieIds = _dbContext.Movies.Select(m => m.Id).ToList();
             schedule.Movies = _dbContext.Movies;
 
@@ -82,14 +81,14 @@ namespace Movie_Theater.Areas.Admin.Controllers
         public ActionResult Edit(MovieSchedule viewModel)
         {
             var movie = (from m in _dbContext.Movies where m.Id == viewModel.MovieId select m).First();
-            var schedule = _dbContext.MovieSchedules.FirstOrDefault(s => s.MovieScheduleId == viewModel.MovieScheduleId);
+            var schedule = _dbContext.MovieSchedules.FirstOrDefault(s => s.Id == viewModel.Id);
             if (viewModel.BeginTime < schedule.BeginTime)
             {
                 return RedirectToAction("Edit", new { str = "Không để trống & lịch chiếu mới > lịch chiếu cũ", choose = viewModel.MovieId });
             }
             foreach (var s in _dbContext.MovieSchedules)
             {
-                if (s.MovieId == viewModel.MovieId && s.MovieScheduleId != viewModel.MovieScheduleId)
+                if (s.MovieId == viewModel.MovieId && s.Id != viewModel.Id)
                 {
                     if (viewModel.BeginTime <= s.EndTime && viewModel.BeginTime.AddMinutes(movie.Runtime) >= s.BeginTime)
                     {
@@ -99,7 +98,6 @@ namespace Movie_Theater.Areas.Admin.Controllers
             }
 
             schedule.MovieId = viewModel.MovieId;
-            schedule.MovieTitle = movie.Title;
             schedule.BeginTime = viewModel.BeginTime;
             schedule.EndTime = viewModel.BeginTime.AddMinutes(movie.Runtime);
             _dbContext.SaveChanges();

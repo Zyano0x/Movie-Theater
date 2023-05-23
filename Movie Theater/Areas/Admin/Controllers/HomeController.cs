@@ -16,7 +16,7 @@ using System.Web.Configuration;
 
 namespace Movie_Theater.Areas.Admin.Controllers
 {
-    //[Authorize(Roles = "Staff, Adminstrator")]
+    [Authorize(Roles = "Staff, Adminstrator")]
     public class HomeController : Controller
     {
         ApplicationDbContext _dbContext = new ApplicationDbContext();

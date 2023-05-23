@@ -27,7 +27,7 @@ namespace Movie_Theater.Models
 
         [Display(Name = "Nhãn")]
         [DisplayFormat(DataFormatString = "{0}+")]
-        public int Rating { get; set; }
+        public string Rating { get; set; }
 
         [Display(Name = "T.Lượng")]
         [DisplayFormat(DataFormatString = "{0} Phút")]

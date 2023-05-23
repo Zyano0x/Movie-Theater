@@ -1435,6 +1435,14 @@
     <Content Include="Areas\Admin\Content\assets\vendors\tinymce\tinymce.js" />
     <Content Include="Areas\Admin\Content\assets\vendors\tinymce\tinymce.min.js" />
     <Content Include="Areas\Admin\Content\assets\vendors\typeahead.js\typeahead.bundle.min.js" />
+    <Content Include="Content\assets\styles\categories_responsive.css" />
+    <Content Include="Content\assets\styles\categories_styles.css" />
+    <Content Include="Content\assets\styles\contact_responsive.css" />
+    <Content Include="Content\assets\styles\contact_styles.css" />
+    <Content Include="Content\assets\styles\main_styles.css" />
+    <Content Include="Content\assets\styles\responsive.css" />
+    <Content Include="Content\assets\styles\single_responsive.css" />
+    <Content Include="Content\assets\styles\single_styles.css" />
     <Content Include="Content\grid.css" />
     <Content Include="Content\Images\Icons\popcorn_icon.png" />
     <Content Include="Content\Images\Icons\user-icon.png" />
@@ -1466,10 +1474,6 @@
     <Compile Include="Migrations\202305111533499_PopulateCRoles.cs" />
     <Compile Include="Migrations\202305111533499_PopulateCRoles.designer.cs">
       <DependentUpon>202305111533499_PopulateCRoles.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202305211302180_big-update-database.cs" />
-    <Compile Include="Migrations\202305211302180_big-update-database.designer.cs">
-      <DependentUpon>202305211302180_big-update-database.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Crew.cs" />
@@ -1699,11 +1703,13 @@
     <Content Include="Areas\Admin\Views\MovieSchedules\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\MovieTickets\Index.cshtml" />
     <Content Include="Areas\Admin\Views\MovieTickets\Edit.cshtml" />
-    <None Include="Scripts\jquery-3.6.4.intellisense.js" />
-    <Content Include="Scripts\jquery-3.6.4.js" />
-    <Content Include="Scripts\jquery-3.6.4.min.js" />
-    <Content Include="Scripts\jquery-3.6.4.slim.js" />
-    <Content Include="Scripts\jquery-3.6.4.slim.min.js" />
+    <None Include="Scripts\jquery-3.7.0.intellisense.js" />
+    <Content Include="Scripts\jquery-3.7.0.js" />
+    <Content Include="Scripts\jquery-3.7.0.min.js" />
+    <Content Include="Scripts\jquery-3.7.0.slim.js" />
+    <Content Include="Scripts\jquery-3.7.0.slim.min.js" />
+    <Content Include="Scripts\jquery-3.7.0.slim.min.map" />
+    <Content Include="Scripts\jquery-3.7.0.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -1761,7 +1767,6 @@
     <Folder Include="Areas\Admin\Content\assets\images\PosterMovie\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Content\Images\Slider\" />
-    <Folder Include="Content\Images\Icons\" />
     <Folder Include="Data\" />
   </ItemGroup>
   <ItemGroup>
@@ -1788,8 +1793,6 @@
     <Content Include="Scripts\bootstrap.esm.js.map" />
     <Content Include="Scripts\bootstrap.bundle.min.js.map" />
     <Content Include="Scripts\bootstrap.bundle.js.map" />
-    <Content Include="Scripts\jquery-3.6.4.slim.min.map" />
-    <Content Include="Scripts\jquery-3.6.4.min.map" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202305050345365_Init.resx">

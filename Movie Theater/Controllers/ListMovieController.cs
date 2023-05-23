@@ -36,6 +36,7 @@ namespace Movie_Theater.Controllers
             }
 
             ViewBag.heading = "DANH SÁCH PHIM";
+            ViewBag.name = "";
 
             //Tìm kiếm
             if (!String.IsNullOrEmpty(SearchString))
@@ -63,6 +64,7 @@ namespace Movie_Theater.Controllers
                 var movieGenre = (from mg in _dbContext.MovieGenres select mg).Where(mg => mg.GenreId == FilterMovieByGenre);
                 movies = movies.Where(m => movieGenre.Any(mg => mg.MovieId == m.Id));//chọn tất cả các phim có Id tương ứng với bất kỳ MovieId nào trong movieGenre.
                 ViewBag.heading = "DANH SÁCH PHIM : " + (from g in _dbContext.Genres where g.Id == FilterMovieByGenre select g.Name).First();
+                ViewBag.name = (from g in _dbContext.Genres where g.Id == FilterMovieByGenre select g.Name).First();
             }
             movies = movies.OrderBy(m => m.Title);
             return View(movies.ToPagedList(pageNum, pageSize));

@@ -15,7 +15,7 @@ namespace Movie_Theater.Controllers
         // GET: Banner
         public ActionResult Index()
         {
-            var lstSlide = from s in _dbContext.Slider select s;
+            var lstSlide = from s in _dbContext.Sliders select s;
             return View(lstSlide);
         }
 
@@ -37,7 +37,7 @@ namespace Movie_Theater.Controllers
                     Description = viewModel.Description,
                 };
 
-                _dbContext.Slider.Add(slide);
+                _dbContext.Sliders.Add(slide);
                 _dbContext.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -46,7 +46,7 @@ namespace Movie_Theater.Controllers
 
         public ActionResult Edit(int Id)
         {
-            var slide = _dbContext.Slider.Find(Id);
+            var slide = _dbContext.Sliders.Find(Id);
 
             if (slide == null)
             {
@@ -69,7 +69,7 @@ namespace Movie_Theater.Controllers
         {
             if (ModelState.IsValid)
             {
-                var slide = _dbContext.Slider.Find(viewModel.Id);
+                var slide = _dbContext.Sliders.Find(viewModel.Id);
 
                 if (slide == null)
                 {
@@ -89,7 +89,7 @@ namespace Movie_Theater.Controllers
         }
         public ActionResult Delete(int id)
         {
-            var slide = _dbContext.Slider.Find(id);
+            var slide = _dbContext.Sliders.Find(id);
 
             if (slide == null)
             {
@@ -103,14 +103,14 @@ namespace Movie_Theater.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var slide = _dbContext.Slider.Find(id);
+            var slide = _dbContext.Sliders.Find(id);
 
             if (slide == null)
             {
                 return HttpNotFound();
             }
 
-            _dbContext.Slider.Remove(slide);
+            _dbContext.Sliders.Remove(slide);
             _dbContext.SaveChanges();
 
             return RedirectToAction("Index");

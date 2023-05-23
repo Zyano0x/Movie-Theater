@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace Movie_Theater.Areas.Admin.Controllers
 {
-    //[Authorize(Roles = "Staff, Adminstrator")]
+    [Authorize(Roles = "Staff, Adminstrator")]
     public class MoviesController : Controller
     {
         ApplicationDbContext _dbContext = new ApplicationDbContext();
@@ -122,7 +122,6 @@ namespace Movie_Theater.Areas.Admin.Controllers
         {
             var viewModel = new MovieViewModel
             {
-                Rating = 1,
                 Genres = _dbContext.Genres.ToList(),
                 Casts = _dbContext.Crews.ToList(),
                 Directors = _dbContext.Crews.ToList(),
@@ -142,7 +141,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
                     Title = viewModel.Title,
                     ReleaseDate = viewModel.ReleaseDate,
                     Synopsis = viewModel.Synopsis,
-                    Rating = Convert.ToInt32(viewModel.Rating),
+                    Rating = viewModel.Rating,
                     Runtime = viewModel.Runtime,
                     Score = 0,
                     TrailerUrl = viewModel.TrailerUrl,

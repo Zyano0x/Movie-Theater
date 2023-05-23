@@ -1,6 +1,6 @@
 ﻿@model Movie_Theater.ViewModels.MovieScheduleViewModel
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Đặt Vé - A Movie";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -29,7 +29,7 @@
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.MovieScheduleIds, "Lịch Chiếu : ", htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-10">
-                                        @Html.DropDownListFor(model => model.ChooseId, new SelectList(Model.MovieSchedules, "MovieScheduleId", "BeginTime"), new { @class = "form-control" })
+                                        @Html.DropDownListFor(model => model.ChooseId, new SelectList(Model.MovieSchedules, "Id", "BeginTime"), new { @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.MovieScheduleIds, "", new { @class = "text-danger" })
                                     </div>
                                 </div>

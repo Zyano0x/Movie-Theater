@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace Movie_Theater.Areas.Admin.Controllers
 {
-    //[Authorize(Roles = "Staff, Adminstrator")]
+    [Authorize(Roles = "Staff, Adminstrator")]
     public class GenresController : Controller
     {
         ApplicationDbContext _dbContext;

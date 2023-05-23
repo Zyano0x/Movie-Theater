@@ -13,10 +13,10 @@ namespace Movie_Theater.Controllers
         public readonly ApplicationDbContext _dbContext = new ApplicationDbContext();
         public ActionResult Index()
         {
-            var slider = _dbContext.Slider.ToList();
+            var slider = _dbContext.Sliders.ToList();
             ViewBag.slider = slider;
 
-            var movie = new ScheduleViewModel
+            var movie = new MovieScheduleViewModel
             {
                 Movies = _dbContext.Movies,
                 MovieSchedules = _dbContext.MovieSchedules

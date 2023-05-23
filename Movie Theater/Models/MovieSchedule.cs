@@ -15,7 +15,7 @@ namespace Movie_Theater.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column(Order = 1)]
-        public int MovieScheduleId { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [Display(Name = "Mã Phim")]
@@ -24,18 +24,13 @@ namespace Movie_Theater.Models
         public Movie Movie { get; set; }
 
         [Required]
-        [Display(Name = "Tên Phim")]
-        [Column(Order = 3)]
-        public string MovieTitle { get; set; }
-
-        [Required]
         [Display(Name = "T.Gian Bắt Đầu")]
-        [Column(Order = 4)]
+        [Column(Order = 3)]
         public DateTime BeginTime { get; set; }
 
         [Required]
         [Display(Name = "T.Gian Kết Thúc")]
-        [Column(Order = 5)]
+        [Column(Order = 4)]
         public DateTime EndTime { get; set; }
 
         public IEnumerable<Movie> Movies { get; set; }
