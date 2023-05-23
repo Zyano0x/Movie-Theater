@@ -7,13 +7,14 @@ using System.Web.Mvc;
 
 namespace Movie_Theater.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Staff, Adminstrator")]
     public class MovieSchedulesController : Controller
     {
         public ApplicationDbContext _dbContext = new ApplicationDbContext();
         // GET: MovieSchedules
         public ActionResult Index()
         {
-            var lstSchedules = (from s in _dbContext.MovieSchedules select s);
+            var lstSchedules = _dbContext.MovieSchedules.Include("Movie").ToList();
             return View(lstSchedules);
         }
 

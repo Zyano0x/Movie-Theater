@@ -16,6 +16,7 @@ namespace Movie_Theater.Models
             // Add custom user claims here
             return userIdentity;
         }
+        public bool? IsEnabled { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>

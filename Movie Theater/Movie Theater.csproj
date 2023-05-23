@@ -179,6 +179,19 @@
     <Compile Include="Areas\Admin\Controllers\CrewsController.cs" />
     <Compile Include="Areas\Admin\Controllers\GenresController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MovieTicketsController.cs" />
+    <Compile Include="Controllers\BookingController.cs" />
+    <Compile Include="Migrations\202305211117059_AddStatusMovieTicket.cs" />
+    <Compile Include="Migrations\202305211117059_AddStatusMovieTicket.designer.cs">
+      <DependentUpon>202305211117059_AddStatusMovieTicket.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305220508309_UpdateApplicationUser.cs" />
+    <Compile Include="Migrations\202305220508309_UpdateApplicationUser.designer.cs">
+      <DependentUpon>202305220508309_UpdateApplicationUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccessDeniedAuthorizeAttribute.cs" />
+    <Compile Include="VNPay\OrderInfo.cs" />
+    <Compile Include="VNPay\VnPayLibary.cs" />
     <Content Include="Areas\Admin\Content\assets\css\dark\style.css" />
     <Content Include="Areas\Admin\Content\assets\css\dark\style.min.css" />
     <Content Include="Areas\Admin\Content\assets\css\Style-admin.css" />
@@ -1684,6 +1697,8 @@
     <Content Include="Areas\Admin\Views\MovieSchedules\Index.cshtml" />
     <Content Include="Areas\Admin\Views\MovieSchedules\Create.cshtml" />
     <Content Include="Areas\Admin\Views\MovieSchedules\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\MovieTickets\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\MovieTickets\Edit.cshtml" />
     <None Include="Scripts\jquery-3.6.4.intellisense.js" />
     <Content Include="Scripts\jquery-3.6.4.js" />
     <Content Include="Scripts\jquery-3.6.4.min.js" />
@@ -1733,6 +1748,11 @@
     <Content Include="Views\Slider\Create.cshtml" />
     <Content Include="Views\Slider\Edit.cshtml" />
     <Content Include="Views\ListMovie\Index.cshtml" />
+    <Content Include="Views\Crews\Edit.cshtml" />
+    <Content Include="Views\Crews\Index.cshtml" />
+    <Content Include="Views\Booking\Create.cshtml" />
+    <Content Include="Views\Booking\Status.cshtml" />
+    <Content Include="Areas\Admin\Views\Account\AccessDenied.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
@@ -1741,6 +1761,7 @@
     <Folder Include="Areas\Admin\Content\assets\images\PosterMovie\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Content\Images\Slider\" />
+    <Folder Include="Content\Images\Icons\" />
     <Folder Include="Data\" />
   </ItemGroup>
   <ItemGroup>
@@ -1777,8 +1798,11 @@
     <EmbeddedResource Include="Migrations\202305111533499_PopulateCRoles.resx">
       <DependentUpon>202305111533499_PopulateCRoles.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202305211302180_big-update-database.resx">
-      <DependentUpon>202305211302180_big-update-database.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202305211117059_AddStatusMovieTicket.resx">
+      <DependentUpon>202305211117059_AddStatusMovieTicket.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305220508309_UpdateApplicationUser.resx">
+      <DependentUpon>202305220508309_UpdateApplicationUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -25,6 +25,37 @@
 
     <script>
         $(document).ready(function () {
+            //Slide banner
+            var widthBoxBanner = $('.box-banner').width();
+            $('.box-banner__item > div').css('width', widthBoxBanner);
+
+            //Lấy số lượng slide
+            var maxCounter = $('.box-banner').find('.box-banner__item').length;
+            //Lần đầu load sẽ vào ngay slide 1
+            $('#radio1').prop('checked', true);
+            var counter = 2;
+            //Khi ta click vào slide bất kì slide thì slide chuyển tiếp theo sẽ là slide kế sau slide ta vào click.
+            $('.manual-btn').click(function () {
+                var checked = $(this).attr('for').slice(-1);
+                counter = parseInt(checked);
+            })
+            //Chuyển slide cách nhau 0.6s
+            setInterval(function () {
+                if (counter != -maxCounter) {
+                    document.getElementById('radio' + Math.abs(counter)).checked = true;
+                }
+                else {
+                    counter++;
+                    document.getElementById('radio' + Math.abs(counter)).checked = true;
+                }
+                counter++;
+                if (counter > maxCounter) {
+                    counter = -maxCounter;
+                }
+                if (counter == 0) {
+                    counter = 2;
+                }
+            }, 6000);
 
             //Slide movie
             var slideWidth = $('.wrapper-box-movie__item .box-movie').width();// Lấy chiều dài của .box-movie để sử dụng cho việc chuyển slide
@@ -40,6 +71,7 @@
                 }, 500, function () {//Chạy slide với thời gian 0.5s
                     var marginLeft = parseInt($(this).closest('.box-movie').find('.box-movie__item:first').css('margin-left'));// Lấy giá trị margin-left để ẩn .btn-next
                     if (marginLeft = -(slideWidth * 2)) {
+
                         $(this).closest('.box-movie').find('.btn-next').hide();
                     }
                     else {
@@ -61,6 +93,7 @@
                 }, 500, function () {
                     var marginLeft = parseInt($(this).closest('.box-movie').find('.box-movie__item:first').css('margin-left'));
                     if (marginLeft == 0) {
+
                         $(this).closest('.box-movie').find('.btn-prev').hide();
                     }
                     else {
@@ -141,8 +174,6 @@
             if ($('.box-discovery__body > strong > span').text() != 'Rất tiếc! Không có phim nào cả!') {
                 $('.box-discovery__filters-nav').css('display', 'flex');
             }
-
-
             //Ẩn hiện navbar
             var prevScrollPos = window.pageYOffset;
             window.onscroll = function () {
@@ -223,7 +254,6 @@
                     <li>@Html.ActionLink("Trang Chủ", "Index", "Home")</li>
                     <li>
                         @Html.ActionLink("Phim", "Index", "ListMovie")
-
                         <ul class="sub-navbar">
                             <li>@Html.ActionLink("Phim đang chiếu", "Index", "ListMovie", new { FilterMoviesByType = "MoviesInTheater" }, null)</li>
                             <li>@Html.ActionLink("Phim sắp chiếu", "Index", "ListMovie", new { FilterMoviesByType = "UpcomingMovies" }, null)</li>
@@ -279,6 +309,19 @@
                     </div>
                 </div>
             </div>
+
+            @using (Html.BeginForm("Index", "ListMovie", FormMethod.Post))
+            {
+                <div class="navbar__search">
+                    <div>
+                        <input id="search-field" type="text" name="SearchString" placeholder="Nhập tên phim cần tìm kiếm..." />
+                        <button type="submit" class="navbar__search__icon" id="search-button" disabled>
+                            @* disabled: vô hiệu hóa btn *@
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+            </div>
+        }
         </div>
 
         @using (Html.BeginForm("Index", "ListMovie", FormMethod.Post))

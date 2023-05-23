@@ -55,15 +55,8 @@ namespace Movie_Theater.Areas.Admin.Controllers
                 var user = User.Identity;
                 ViewBag.Email = GetEmail();
                 ViewBag.Username = user.Name;
-                ViewBag.DisplayMenu = false;
-
-                if (IsAdminUser())
-                {
-                    ViewBag.DisplayMenu = true;
-                }
-                return View();
             }
-            return RedirectToAction("Login", "Account", new { area = "Admin" });
+            return View();
         }
     }
 }

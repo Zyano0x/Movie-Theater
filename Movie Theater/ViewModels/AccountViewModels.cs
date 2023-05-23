@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
 namespace Movie_Theater.Models
 {
@@ -86,11 +87,14 @@ namespace Movie_Theater.Models
         [Display(Name = "Xác nhận mật khẩu")]
         [Compare("Password", ErrorMessage = "Mật khẩu và mật khẩu xác nhận không khớp.")]
         public string ConfirmPassword { get; set; }
+
+        public bool? IsEnabled { get; set; }
     }
 
     public class NewMemberViewModel
     {
         [Required]
+        [Display(Name = "Username")]
         public string UserName { get; set; }
 
         public string Role { get; set; }
@@ -110,6 +114,8 @@ namespace Movie_Theater.Models
         [Display(Name = "Xác nhận mật khẩu")]
         [Compare("Password", ErrorMessage = "Mật khẩu và mật khẩu xác nhận không khớp.")]
         public string ConfirmPassword { get; set; }
+
+        public bool? IsEnabled { get; set; }
     }
 
     public class ResetPasswordViewModel

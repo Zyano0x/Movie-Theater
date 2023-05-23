@@ -6,7 +6,7 @@
 }
 
 <!-- Main content -->
-<section class="page-content">
+<section>
     
     <!-- Default box -->
     <div class="main-content">
@@ -42,6 +42,10 @@
                             var i = 1;
                             foreach (var item in Model)
                             {
+                                if (item.Biography != null)
+                                {
+
+                                }
                                 <tr>
                                     <td class="col-md-2">
                                         @Html.DisplayFor(modelItem => item.Name)
@@ -56,9 +60,15 @@
                                         @Html.DisplayFor(modelItem => item.Birthplace)
                                     </td>
                                     <td>
-                                        <div class="biography biography-crews">
+                                        @if (item.Biography != null)
+                                        {
+                                            string desc = item.Biography.Substring(0, 100);
+                                            @Html.DisplayFor(x => desc)
+                                        }
+                                        else
+                                        {
                                             @Html.DisplayFor(modelItem => item.Biography)
-                                        </div>
+                                        }
                                     </td>
                                     <td class="col-md-2">
                                         <div>
@@ -79,6 +89,7 @@
 </section>
 <!-- /.content -->
 
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script>
     $(function () {
         $('.delete-btn').click(function (e) {

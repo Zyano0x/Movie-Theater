@@ -37,6 +37,7 @@ namespace Movie_Theater
                 var user = new ApplicationUser();
                 user.UserName = "Zyano";
                 user.Email = "nthdm00@gmail.com";
+                user.IsEnabled = true;
                 string userPWD = "0x1337";
 
                 var checkUser = UserManager.Create(user, userPWD);
@@ -53,6 +54,13 @@ namespace Movie_Theater
             {
                 var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
                 role.Name = "Staff";
+                RoleManager.Create(role);
+            }
+
+            if (!RoleManager.RoleExists("User"))
+            {
+                var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
+                role.Name = "User";
                 RoleManager.Create(role);
             }
         }

@@ -21,6 +21,7 @@ namespace Movie_Theater.Models
         [Display(Name = "Mã Phim")]
         [Column(Order = 2)]
         public int MovieId { get; set; }
+        public Movie Movie { get; set; }
 
         [Required]
         [Display(Name = "Tên Phim")]
