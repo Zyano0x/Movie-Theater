@@ -93,13 +93,13 @@ namespace Movie_Theater.Models
 
     public class NewMemberViewModel
     {
-        [Required]
-        [Display(Name = "Username")]
+        [Required(ErrorMessage = "Vui lòng nhập tên người dùng!")]
+        [Display(Name = "Tên người dùng")]
         public string UserName { get; set; }
 
         public string Role { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Vui lòng nhập địa chỉ email!")]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }

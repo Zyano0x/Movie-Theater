@@ -17,19 +17,20 @@
     font-size: 15px;
 }
 
-select {
+select.form-control {
     padding: .75rem;
 }
 
-.form-control {
-    padding: 1px .75rem;
-}
-
-.table thead th {
+.table thead th,
+.table tbody td {
     text-align: center;
 }
 
 /*Ghi đè - end*/
+.width-100-percent {
+    width: 100% !important;
+}
+
 .table > tbody > tr > td:last-child > div {
     display: flex;
     justify-content: space-evenly;

@@ -7,7 +7,7 @@
         <li>
             @Html.ActionLink("Thông tin tài khoản", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class = "nav-link" })
         </li>
-        <li><a class="nav-link" href="#">Lịch sử đặt vé</a></li>
+        <li>@Html.ActionLink("Lịch sử đặt vé", "BookingHistory", "Booking",new { @class = "nav-link" }, null)</li>
         <li><a class="nav-link" href="javascript:document.getElementById('logoutForm').submit()">Đăng xuất</a></li>
 
     }

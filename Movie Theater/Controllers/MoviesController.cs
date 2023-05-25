@@ -1,4 +1,5 @@
-﻿using Movie_Theater.Models;
+﻿using Microsoft.AspNet.Identity;
+using Movie_Theater.Models;
 using Movie_Theater.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,8 @@ namespace Movie_Theater.Controllers
                 // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập và lưu trữ địa chỉ URL của trang chi tiết phim
                 return RedirectToAction("Login", "Account", new { returnUrl = Url.Action("Details", "Movies", new { id = id }) });
             }
-            var checkTicket = (from c in _dbContext.MovieTickets where c.MovieId == id && c.UserId == userLogin select c).FirstOrDefault();
+            var checkTicket = (from c in _dbContext.MovieTickets where c.MovieId == id && c.UserId == userLogin && c.Status != 0 select c).FirstOrDefault();
+            Console.WriteLine(userLogin);
             if (checkTicket == null)
             {
                 return RedirectToAction("Create", "Booking", new { id = id });
@@ -86,6 +88,8 @@ namespace Movie_Theater.Controllers
 
         public ActionResult Details(int id)
         {
+            var userLogin = System.Web.HttpContext.Current.User.Identity.GetUserId();
+            ViewBag.CheckTicket = (from c in _dbContext.MovieTickets where c.MovieId == id && c.UserId == userLogin && c.Status != 0 select c).FirstOrDefault();
             ViewBag.CheckMovieReleaseDate = (from m in _dbContext.Movies where m.ReleaseDate > DateTime.Now select m.Id).ToList();
             var movie = _dbContext.Movies
                 .Include("MovieGenres.Genre")
