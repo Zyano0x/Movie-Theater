@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using System.Xml.Linq;
 
 namespace Movie_Theater.Models
@@ -11,13 +13,13 @@ namespace Movie_Theater.Models
     {
         public int Id { get; set; }
 
-        [Required]
         [StringLength(255)]
         [Display(Name = "Tên")]
         public string Name { get; set; }
 
         [Display(Name = "Ngày Sinh")]
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime DateOfBirth { get; set; }
 
         [StringLength(255)]

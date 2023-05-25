@@ -40,5 +40,20 @@ namespace Movie_Theater.Areas.Admin.Controllers
             }
             return View(ticket);
         }
+
+        [HttpPost]
+        public JsonResult Delete(int id)
+        {
+            var ticket = _dbContext.MovieTickets.Find(id);
+            if (ticket == null)
+            {
+                return Json(new { success = false, message = "Record not found." });
+            }
+
+            _dbContext.MovieTickets.Remove(ticket);
+            _dbContext.SaveChanges();
+
+            return Json(new { success = true });
+        }
     }
 }

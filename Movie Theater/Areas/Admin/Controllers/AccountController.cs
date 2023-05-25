@@ -220,7 +220,8 @@ namespace Movie_Theater.Areas.Admin.Controllers
                 {
                     UserName = model.UserName,
                     Email = model.Email,
-                    IsEnabled = true
+                    IsEnabled = true,
+                    EmailConfirmed = true
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)

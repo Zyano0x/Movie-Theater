@@ -26,6 +26,12 @@ namespace Movie_Theater.Controllers
                 // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập và lưu trữ địa chỉ URL của trang chi tiết phim
                 return RedirectToAction("Login", "Account", new { returnUrl = Url.Action("Details", "Movies", new { id = id }) });
             }
+            var checkTicket = (from c in _dbContext.MovieTickets where c.MovieId == id && c.UserId == userLogin select c).FirstOrDefault();
+            if (checkTicket == null)
+            {
+                return RedirectToAction("Create", "Booking", new { id = id });
+            }
+
             if (action == 1)
             {
                 var review = new Review
@@ -80,6 +86,7 @@ namespace Movie_Theater.Controllers
 
         public ActionResult Details(int id)
         {
+            ViewBag.CheckMovieReleaseDate = (from m in _dbContext.Movies where m.ReleaseDate > DateTime.Now select m.Id).ToList();
             var movie = _dbContext.Movies
                 .Include("MovieGenres.Genre")
                 .Include("MovieCrews.Crew")
@@ -99,23 +106,16 @@ namespace Movie_Theater.Controllers
                 Synopsis = movie.Synopsis,
                 Rating = movie.Rating,
                 Runtime = movie.Runtime,
-                BoxOffice = movie.BoxOffice,
                 Score = movie.Score,
-                Distributor = movie.Distributor,
-                OriginalLanguage = movie.OriginalLanguage,
                 GenreIds = movie.MovieGenres.Select(mg => mg.Genre.Id).ToList(),
                 Genres = _dbContext.Genres.ToList(),
                 CastIds = (from mc in movie.MovieCrews where mc.MovieId == movie.Id && mc.CRoleId == 1 select mc.CrewId).ToList(),
                 DirectorIds = (from mc in movie.MovieCrews where mc.MovieId == movie.Id && mc.CRoleId == 2 select mc.CrewId).ToList(),
-                ProducerIds = (from mc in movie.MovieCrews where mc.MovieId == movie.Id && mc.CRoleId == 3 select mc.CrewId).ToList(),
-                WriterIds = (from mc in movie.MovieCrews where mc.MovieId == movie.Id && mc.CRoleId == 4 select mc.CrewId).ToList(),
                 Reviews = _dbContext.Reviews.ToList(),
                 Users = _dbContext.Users.ToList(),
                 Crews = _dbContext.Crews.ToList(),
                 MovieSchedules = _dbContext.MovieSchedules.ToList(),
                 PosterPath = movie.PosterPath,
-                //Score = movie.Score,
-                //Distributor = movie.Distributor,
                 TrailerUrl = movie.TrailerUrl
             };
 
@@ -129,8 +129,6 @@ namespace Movie_Theater.Controllers
                 Genres = _dbContext.Genres.ToList(),
                 Casts = _dbContext.Crews.ToList(),
                 Directors = _dbContext.Crews.ToList(),
-                Producers = _dbContext.Crews.ToList(),
-                Writers = _dbContext.Crews.ToList()
             };
 
             return View(viewModel);
@@ -160,16 +158,11 @@ namespace Movie_Theater.Controllers
                     Synopsis = viewModel.Synopsis,
                     Rating = viewModel.Rating,
                     Runtime = viewModel.Runtime,
-                    BoxOffice = viewModel.BoxOffice,
-                    OriginalLanguage = viewModel.OriginalLanguage,
-                    Distributor = viewModel.Distributor,
                     TrailerUrl = viewModel.TrailerUrl,
                     PosterPath = viewModel.PosterPath,
                     MovieGenres = viewModel.GenreIds.Select(g => new MovieGenre { GenreId = g }).ToList(),
                     MovieCrews = viewModel.CastIds.Select(g => new MovieCrew { MovieId = viewModel.Id, CrewId = g, CRoleId = 1 })
                             .Concat(viewModel.DirectorIds.Select(g => new MovieCrew { MovieId = viewModel.Id, CrewId = g, CRoleId = 2 }))
-                            .Concat(viewModel.ProducerIds.Select(g => new MovieCrew { MovieId = viewModel.Id, CrewId = g, CRoleId = 3 }))
-                            .Concat(viewModel.WriterIds.Select(g => new MovieCrew { MovieId = viewModel.Id, CrewId = g, CRoleId = 4 }))
                             .ToList()
                 };
 
@@ -203,20 +196,13 @@ namespace Movie_Theater.Controllers
                 Synopsis = movie.Synopsis,
                 Rating = movie.Rating,
                 Runtime = movie.Runtime,
-                BoxOffice = movie.BoxOffice,
                 Score = movie.Score,
-                Distributor = movie.Distributor,
-                OriginalLanguage = movie.OriginalLanguage,
                 GenreIds = movie.MovieGenres.Select(mg => mg.Genre.Id).ToList(),
                 Genres = _dbContext.Genres.ToList(),
                 CastIds = (from mc in movie.MovieCrews where mc.MovieId == movie.Id && mc.CRoleId == 1 select mc.CrewId).ToList(),
                 Casts = _dbContext.Crews.ToList(),
                 DirectorIds = (from mc in movie.MovieCrews where mc.MovieId == movie.Id && mc.CRoleId == 2 select mc.CrewId).ToList(),
                 Directors = _dbContext.Crews.ToList(),
-                ProducerIds = (from mc in movie.MovieCrews where mc.MovieId == movie.Id && mc.CRoleId == 3 select mc.CrewId).ToList(),
-                Producers = _dbContext.Crews.ToList(),
-                WriterIds = (from mc in movie.MovieCrews where mc.MovieId == movie.Id && mc.CRoleId == 4 select mc.CrewId).ToList(),
-                Writers = _dbContext.Crews.ToList(),
                 PosterPath = movie.PosterPath,
                 //Score = movie.Score,
                 //Distributor = movie.Distributor,
@@ -234,8 +220,6 @@ namespace Movie_Theater.Controllers
                 movieViewModel.Genres = _dbContext.Genres.ToList();
                 movieViewModel.Casts = _dbContext.Crews.ToList();
                 movieViewModel.Directors = _dbContext.Crews.ToList();
-                movieViewModel.Producers = _dbContext.Crews.ToList();
-                movieViewModel.Writers = _dbContext.Crews.ToList();
                 return View("Edit", movieViewModel);
             }
 
@@ -249,10 +233,7 @@ namespace Movie_Theater.Controllers
             movie.Synopsis = movieViewModel.Synopsis;
             movie.Rating = movieViewModel.Rating;
             movie.Runtime = movieViewModel.Runtime;
-            movie.BoxOffice = movieViewModel.BoxOffice;
             movie.TrailerUrl = movieViewModel.TrailerUrl;
-            movie.OriginalLanguage = movieViewModel.OriginalLanguage;
-            movie.Distributor = movieViewModel.Distributor;
 
             if (Poster != null && Poster.ContentLength > 0)
             {
@@ -324,49 +305,6 @@ namespace Movie_Theater.Controllers
                     MovieId = movie.Id,
                     CrewId = item,
                     CRoleId = 2
-                };
-                movie.MovieCrews.Add(movieCast);
-            }
-
-            // Remove existing producers that are not in the viewModel
-            var producersToRemove = movie.MovieCrews.Where(mc => !movieViewModel.ProducerIds.Contains(mc.CrewId) && mc.CRoleId == 3).ToList();
-            foreach (var item in producersToRemove)
-            {
-                if (item.CRoleId == 3)
-                {
-                    movie.MovieCrews.Remove(item);
-                }
-            }
-
-            // Add new producers from the viewModel
-            var producersToAdd = movieViewModel.ProducerIds.Where(cid => !movie.MovieCrews.Any(mc => mc.CrewId == cid && mc.CRoleId == 3)).ToList();
-            foreach (var item in producersToAdd)
-            {
-                var movieCast = new MovieCrew
-                {
-                    MovieId = movie.Id,
-                    CrewId = item,
-                    CRoleId = 3
-                };
-                movie.MovieCrews.Add(movieCast);
-            }
-
-            // Remove existing writers that are not in the viewModel
-            var writersToRemove = movie.MovieCrews.Where(mc => !movieViewModel.WriterIds.Contains(mc.CrewId) && mc.CRoleId == 4).ToList();
-            foreach (var item in writersToRemove)
-            {
-                movie.MovieCrews.Remove(item);
-            }
-
-            // Add new producers from the viewModel
-            var writersToAdd = movieViewModel.WriterIds.Where(cid => !movie.MovieCrews.Any(mc => mc.CrewId == cid && mc.CRoleId == 4)).ToList();
-            foreach (var item in writersToAdd)
-            {
-                var movieCast = new MovieCrew
-                {
-                    MovieId = movie.Id,
-                    CrewId = item,
-                    CRoleId = 4
                 };
                 movie.MovieCrews.Add(movieCast);
             }

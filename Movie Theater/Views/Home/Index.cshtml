@@ -1,71 +1,61 @@
-﻿﻿@model Movie_Theater.ViewModels.MovieScheduleViewModel
+﻿@model Movie_Theater.ViewModels.MovieScheduleViewModel
+@using System.Linq;
+
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "A Movie: Movies | Movie Trailers | Reviews";
 }
 <div class="wrapper-container no-top">
-    <div class="wrapper-box-banner">
-        <div class="row no-gutter box-banner" style="flex-wrap: nowrap;">
-            <input type="radio" name="radio-btn" id="radio1" />
-            <input type="radio" name="radio-btn" id="radio2" />
-            <input type="radio" name="radio-btn" id="radio3" />
-            <input type="radio" name="radio-btn" id="radio4" />
+    <div class="wrapper-box-slideshow">
+        <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
+            @if (ViewBag.slider.Count != 0)
+            {
+                <ol class="carousel-indicators">
+                    @{
+                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                        for (int i = 1; i < ViewBag.slider.Count; i++)
+                        {
+                            <li data-target="#myCarousel" data-slide-to="@i"></li>
+                        }
+                    }
+                </ol>
 
-            <a href="~/Views/MovieDetail/CastAndCrew.cshtml" class="first box-banner__item col m-b-12 l-12">
-                <img src="~/Content/Images/Banner/1.jpg" alt="Alternate Text" />
-                <div>
-                    <div class="caption">
-                        <h6>Ted Lasso</h6>
-                        <span>The stars on Season 3, Nate & Ted’s Explosive Feud, and Roy’s Swearing</span>
-                    </div>
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner">
+                    @{
+                        <a href="#" class="item active">
+                            <img src="@ViewBag.slider[0].Img" alt="Ảnh Slide 1" style="width:100%;">
+                            <div class="carousel-caption">
+                                <h6>@ViewBag.slider[0].Title</h6>
+                                <p>@ViewBag.slider[0].Description</p>
+                            </div>
+                        </a>
+                        if (ViewBag.slider.Count > 1)
+                        {
+                            for (int i = 1; i < ViewBag.slider.Count; i++)
+                            {
+                                <a href="#" class="item">
+                                    <img src="@ViewBag.slider[i].Img" alt="Ảnh Slide <@i>" style="width:100%; max-height: 500px">
+                                    <div class="carousel-caption">
+                                        <h6>@ViewBag.slider[i].Title</h6>
+                                        <p>@ViewBag.slider[i].Description</p>
+                                    </div>
+                                </a>
+                            }
+                        }
+                    }
                 </div>
-            </a><a href="" class="box-banner__item col m-b-12 l-12">
-                <img src="~/Content/Images/Banner/2.jpg" alt="Alternate Text" />
-                <div>
-                    <div class="caption">
-                        <h6>Ted Lasso</h6>
-                        <span>The stars on Season 3, Nate & Ted’s Explosive Feud, and Roy’s Swearing</span>
-                    </div>
-                </div>
-            </a><a href="" class="box-banner__item col m-b-12 l-12">
-                <img src="~/Content/Images/Banner/1.jpg" alt="Alternate Text" />
-                <div>
-                    <div class="caption">
-                        <h6>Ted Lasso</h6>
-                        <span>The stars on Season 3, Nate & Ted’s Explosive Feud, and Roy’s Swearing</span>
-                    </div>
-                </div>
-            </a><a href="" class="box-banner__item col m-b-12 l-12">
-                <img src="~/Content/Images/Banner/2.jpg" alt="Alternate Text" />
-                <div>
-                    <div class="caption">
-                        <h6>Ted Lasso</h6>
-                        <span>The stars on Season 3, Nate & Ted’s Explosive Feud, and Roy’s Swearing</span>
-                    </div>
-                </div>
-            </a>
 
-            <div class="navigation-auto">
-                <div class="auto-btn1"></div>
-                <div class="auto-btn2"></div>
-                <div class="auto-btn3"></div>
-                <div class="auto-btn4"></div>
-            </div>
+                <!-- Left and right controls -->
+                <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            }
         </div>
-
-        <div class="navigation-manual">
-            <label for="radio1" class="manual-btn"></label>
-            <label for="radio2" class="manual-btn"></label>
-            <label for="radio3" class="manual-btn"></label>
-            <label for="radio4" class="manual-btn"></label>
-        </div>
-
-        @*<div class="box-banner__btn btn-prev">
-                <i class="fa-solid fa-circle-chevron-left"></i>
-            </div>
-
-            <div class="box-banner__btn btn-next">
-                <i class="fa-solid fa-circle-chevron-right"></i>
-            </div>*@
     </div>
 
     <div class="container-body">
@@ -81,11 +71,16 @@
                         List<int> lstMovieId = (from ms in Model.MovieSchedules where ms.EndTime > DateTime.Now select ms.MovieId).ToList();
                         foreach (var movie in Model.Movies)
                         {
-                            if (lstMovieId.Contains(movie.Id))
+                            if (movie.ReleaseDate <= DateTime.Now && lstMovieId.Contains(movie.Id))
                             {
-                                <a href="@Url.Action("Details", "Movies", new { id = movie.Id })" class="box-movie__item col m-b-2 l-2">
+                                <div class="box-movie__item col m-b-2_4 l-2_4">
                                     <div class="img">
                                         <img src="@movie.PosterPath" alt="Alternate Text" />
+
+                                        <div>
+                                            <a href="@Url.Action("Details", "Movies", new { id = movie.Id })">Xem chi tiết</a>
+                                            <a href="@Url.Action("Create","Booking", new { id = movie.Id})">Đặt vé</a>
+                                        </div>
                                     </div>
                                     <div class="caption">
                                         <div class="scores">
@@ -104,13 +99,19 @@
                                         </div>
                                         <span>@movie.Title</span>
                                     </div>
-                                </a>
+                                </div>
                             }
                         }
                     }
-                    <a class="box-movie__item col m-b-2 l-2">
+
+                    <div class="box-movie__item col m-b-2_4 l-2_4">
                         <div class="img">
                             <img src="https://resizing.flixster.com/tpLtbDZQSwBpb3jfwoI7zMiRMjE=/206x305/v2/https://resizing.flixster.com/ayiSi8HrUS3_i-Jkru1P2oMM58Q=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzhiODAwYWIyLTM1MmItNGI1ZS1iOWQzLTdjZjAzMzI1MDc2Yy5qcGc=" alt="Alternate Text" />
+
+                            <div>
+                                <a href="#">Xem chi tiết</a>
+                                <a href="#">Đặt vé</a>
+                            </div>
                         </div>
                         <div class="caption">
                             <div class="scores">
@@ -119,9 +120,14 @@
                             </div>
                             <span>John Wick: Chapter 4</span>
                         </div>
-                    </a><a class="box-movie__item col m-b-2 l-2">
+                    </div><div class="box-movie__item col m-b-2_4 l-2_4">
                         <div class="img">
                             <img src="https://resizing.flixster.com/tpLtbDZQSwBpb3jfwoI7zMiRMjE=/206x305/v2/https://resizing.flixster.com/ayiSi8HrUS3_i-Jkru1P2oMM58Q=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzhiODAwYWIyLTM1MmItNGI1ZS1iOWQzLTdjZjAzMzI1MDc2Yy5qcGc=" alt="Alternate Text" />
+
+                            <div>
+                                <a href="#">Xem chi tiết</a>
+                                <a href="#">Đặt vé</a>
+                            </div>
                         </div>
                         <div class="caption">
                             <div class="scores">
@@ -130,9 +136,14 @@
                             </div>
                             <span>John Wick: Chapter 4</span>
                         </div>
-                    </a><a class="box-movie__item col m-b-2 l-2">
+                    </div><div class="box-movie__item col m-b-2_4 l-2_4">
                         <div class="img">
                             <img src="https://resizing.flixster.com/tpLtbDZQSwBpb3jfwoI7zMiRMjE=/206x305/v2/https://resizing.flixster.com/ayiSi8HrUS3_i-Jkru1P2oMM58Q=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzhiODAwYWIyLTM1MmItNGI1ZS1iOWQzLTdjZjAzMzI1MDc2Yy5qcGc=" alt="Alternate Text" />
+
+                            <div>
+                                <a href="#">Xem chi tiết</a>
+                                <a href="#">Đặt vé</a>
+                            </div>
                         </div>
                         <div class="caption">
                             <div class="scores">
@@ -141,9 +152,14 @@
                             </div>
                             <span>John Wick: Chapter 4</span>
                         </div>
-                    </a><a class="box-movie__item col m-b-2 l-2">
+                    </div><div class="box-movie__item col m-b-2_4 l-2_4">
                         <div class="img">
                             <img src="https://resizing.flixster.com/tpLtbDZQSwBpb3jfwoI7zMiRMjE=/206x305/v2/https://resizing.flixster.com/ayiSi8HrUS3_i-Jkru1P2oMM58Q=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzhiODAwYWIyLTM1MmItNGI1ZS1iOWQzLTdjZjAzMzI1MDc2Yy5qcGc=" alt="Alternate Text" />
+
+                            <div>
+                                <a href="#">Xem chi tiết</a>
+                                <a href="#">Đặt vé</a>
+                            </div>
                         </div>
                         <div class="caption">
                             <div class="scores">
@@ -152,9 +168,14 @@
                             </div>
                             <span>John Wick: Chapter 4</span>
                         </div>
-                    </a><a class="box-movie__item col m-b-2 l-2">
+                    </div><div class="box-movie__item col m-b-2_4 l-2_4">
                         <div class="img">
                             <img src="https://resizing.flixster.com/tpLtbDZQSwBpb3jfwoI7zMiRMjE=/206x305/v2/https://resizing.flixster.com/ayiSi8HrUS3_i-Jkru1P2oMM58Q=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzhiODAwYWIyLTM1MmItNGI1ZS1iOWQzLTdjZjAzMzI1MDc2Yy5qcGc=" alt="Alternate Text" />
+
+                            <div>
+                                <a href="#">Xem chi tiết</a>
+                                <a href="#">Đặt vé</a>
+                            </div>
                         </div>
                         <div class="caption">
                             <div class="scores">
@@ -163,9 +184,14 @@
                             </div>
                             <span>John Wick: Chapter 4</span>
                         </div>
-                    </a><a class="box-movie__item col m-b-2 l-2">
+                    </div><div class="box-movie__item col m-b-2_4 l-2_4">
                         <div class="img">
                             <img src="https://resizing.flixster.com/tpLtbDZQSwBpb3jfwoI7zMiRMjE=/206x305/v2/https://resizing.flixster.com/ayiSi8HrUS3_i-Jkru1P2oMM58Q=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzhiODAwYWIyLTM1MmItNGI1ZS1iOWQzLTdjZjAzMzI1MDc2Yy5qcGc=" alt="Alternate Text" />
+
+                            <div>
+                                <a href="#">Xem chi tiết</a>
+                                <a href="#">Đặt vé</a>
+                            </div>
                         </div>
                         <div class="caption">
                             <div class="scores">
@@ -174,9 +200,14 @@
                             </div>
                             <span>John Wick: Chapter 4</span>
                         </div>
-                    </a><a class="box-movie__item col m-b-2 l-2">
+                    </div><div class="box-movie__item col m-b-2_4 l-2_4">
                         <div class="img">
                             <img src="https://resizing.flixster.com/tpLtbDZQSwBpb3jfwoI7zMiRMjE=/206x305/v2/https://resizing.flixster.com/ayiSi8HrUS3_i-Jkru1P2oMM58Q=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzhiODAwYWIyLTM1MmItNGI1ZS1iOWQzLTdjZjAzMzI1MDc2Yy5qcGc=" alt="Alternate Text" />
+
+                            <div>
+                                <a href="#">Xem chi tiết</a>
+                                <a href="#">Đặt vé</a>
+                            </div>
                         </div>
                         <div class="caption">
                             <div class="scores">
@@ -185,9 +216,14 @@
                             </div>
                             <span>John Wick: Chapter 4</span>
                         </div>
-                    </a><a class="box-movie__item col m-b-2 l-2">
+                    </div><div class="box-movie__item col m-b-2_4 l-2_4">
                         <div class="img">
                             <img src="https://resizing.flixster.com/tpLtbDZQSwBpb3jfwoI7zMiRMjE=/206x305/v2/https://resizing.flixster.com/ayiSi8HrUS3_i-Jkru1P2oMM58Q=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzhiODAwYWIyLTM1MmItNGI1ZS1iOWQzLTdjZjAzMzI1MDc2Yy5qcGc=" alt="Alternate Text" />
+
+                            <div>
+                                <a href="#">Xem chi tiết</a>
+                                <a href="#">Đặt vé</a>
+                            </div>
                         </div>
                         <div class="caption">
                             <div class="scores">
@@ -196,9 +232,14 @@
                             </div>
                             <span>John Wick: Chapter 4</span>
                         </div>
-                    </a><a class="box-movie__item col m-b-2 l-2">
+                    </div><div class="box-movie__item col m-b-2_4 l-2_4">
                         <div class="img">
                             <img src="https://resizing.flixster.com/tpLtbDZQSwBpb3jfwoI7zMiRMjE=/206x305/v2/https://resizing.flixster.com/ayiSi8HrUS3_i-Jkru1P2oMM58Q=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzhiODAwYWIyLTM1MmItNGI1ZS1iOWQzLTdjZjAzMzI1MDc2Yy5qcGc=" alt="Alternate Text" />
+
+                            <div>
+                                <a href="#">Xem chi tiết</a>
+                                <a href="#">Đặt vé</a>
+                            </div>
                         </div>
                         <div class="caption">
                             <div class="scores">
@@ -207,9 +248,14 @@
                             </div>
                             <span>John Wick: Chapter 4</span>
                         </div>
-                    </a><a class="box-movie__item col m-b-2 l-2">
+                    </div><div class="box-movie__item col m-b-2_4 l-2_4">
                         <div class="img">
                             <img src="https://resizing.flixster.com/tpLtbDZQSwBpb3jfwoI7zMiRMjE=/206x305/v2/https://resizing.flixster.com/ayiSi8HrUS3_i-Jkru1P2oMM58Q=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzhiODAwYWIyLTM1MmItNGI1ZS1iOWQzLTdjZjAzMzI1MDc2Yy5qcGc=" alt="Alternate Text" />
+
+                            <div>
+                                <a href="#">Xem chi tiết</a>
+                                <a href="#">Đặt vé</a>
+                            </div>
                         </div>
                         <div class="caption">
                             <div class="scores">
@@ -218,73 +264,7 @@
                             </div>
                             <span>John Wick: Chapter 4</span>
                         </div>
-                    </a><a class="box-movie__item col m-b-2 l-2">
-                        <div class="img">
-                            <img src="https://resizing.flixster.com/tpLtbDZQSwBpb3jfwoI7zMiRMjE=/206x305/v2/https://resizing.flixster.com/ayiSi8HrUS3_i-Jkru1P2oMM58Q=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzhiODAwYWIyLTM1MmItNGI1ZS1iOWQzLTdjZjAzMzI1MDc2Yy5qcGc=" alt="Alternate Text" />
-                        </div>
-                        <div class="caption">
-                            <div class="scores">
-                                <img src="~/Content/Images/Icons/popcorn_icon.png" alt="Alternate Text" />
-                                <span>93%</span>
-                            </div>
-                            <span>John Wick: Chapter 4</span>
-                        </div>
-                    </a><a class="box-movie__item col m-b-2 l-2">
-                        <div class="img">
-                            <img src="https://resizing.flixster.com/tpLtbDZQSwBpb3jfwoI7zMiRMjE=/206x305/v2/https://resizing.flixster.com/ayiSi8HrUS3_i-Jkru1P2oMM58Q=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzhiODAwYWIyLTM1MmItNGI1ZS1iOWQzLTdjZjAzMzI1MDc2Yy5qcGc=" alt="Alternate Text" />
-                        </div>
-                        <div class="caption">
-                            <div class="scores">
-                                <img src="~/Content/Images/Icons/popcorn_icon.png" alt="Alternate Text" />
-                                <span>93%</span>
-                            </div>
-                            <span>John Wick: Chapter 4</span>
-                        </div>
-                    </a><a class="box-movie__item col m-b-2 l-2">
-                        <div class="img">
-                            <img src="https://resizing.flixster.com/tpLtbDZQSwBpb3jfwoI7zMiRMjE=/206x305/v2/https://resizing.flixster.com/ayiSi8HrUS3_i-Jkru1P2oMM58Q=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzhiODAwYWIyLTM1MmItNGI1ZS1iOWQzLTdjZjAzMzI1MDc2Yy5qcGc=" alt="Alternate Text" />
-                        </div>
-                        <div class="caption">
-                            <div class="scores">
-                                <img src="~/Content/Images/Icons/popcorn_icon.png" alt="Alternate Text" />
-                                <span>93%</span>
-                            </div>
-                            <span>John Wick: Chapter 4</span>
-                        </div>
-                    </a><a class="box-movie__item col m-b-2 l-2">
-                        <div class="img">
-                            <img src="https://resizing.flixster.com/tpLtbDZQSwBpb3jfwoI7zMiRMjE=/206x305/v2/https://resizing.flixster.com/ayiSi8HrUS3_i-Jkru1P2oMM58Q=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzhiODAwYWIyLTM1MmItNGI1ZS1iOWQzLTdjZjAzMzI1MDc2Yy5qcGc=" alt="Alternate Text" />
-                        </div>
-                        <div class="caption">
-                            <div class="scores">
-                                <img src="~/Content/Images/Icons/popcorn_icon.png" alt="Alternate Text" />
-                                <span>93%</span>
-                            </div>
-                            <span>John Wick: Chapter 4</span>
-                        </div>
-                    </a><a class="box-movie__item col m-b-2 l-2">
-                        <div class="img">
-                            <img src="https://resizing.flixster.com/tpLtbDZQSwBpb3jfwoI7zMiRMjE=/206x305/v2/https://resizing.flixster.com/ayiSi8HrUS3_i-Jkru1P2oMM58Q=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzhiODAwYWIyLTM1MmItNGI1ZS1iOWQzLTdjZjAzMzI1MDc2Yy5qcGc=" alt="Alternate Text" />
-                        </div>
-                        <div class="caption">
-                            <div class="scores">
-                                <img src="~/Content/Images/Icons/popcorn_icon.png" alt="Alternate Text" />
-                                <span>93%</span>
-                            </div>
-                            <span>John Wick: Chapter 4</span>
-                        </div>
-                    </a><a class="box-movie__item col m-b-2 l-2">
-                        <div class="img">
-                            <img src="https://resizing.flixster.com/tpLtbDZQSwBpb3jfwoI7zMiRMjE=/206x305/v2/https://resizing.flixster.com/ayiSi8HrUS3_i-Jkru1P2oMM58Q=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzhiODAwYWIyLTM1MmItNGI1ZS1iOWQzLTdjZjAzMzI1MDc2Yy5qcGc=" alt="Alternate Text" />
-                        </div>
-                        <div class="caption">
-                            <div class="scores">
-                                <img src="~/Content/Images/Icons/popcorn_icon.png" alt="Alternate Text" />
-                                <span>93%</span>
-                            </div>
-                            <span>John Wick: Chapter 4</span>
-                        </div>
-                    </a>
+                    </div>
 
                     <div class="box-movie__btn btn-prev">
                         <i class="fa-solid fa-circle-chevron-left"></i>
@@ -308,9 +288,12 @@
                         {
                             if (movie.ReleaseDate > DateTime.Now)
                             {
-                                <a href="@Url.Action("Details","Movies", new { id = movie.Id})" class="box-movie__item col m-b-2 l-2">
+                                <div class="box-movie__item col m-b-2_4 l-2_4">
                                     <div class="img">
                                         <img src="@movie.PosterPath" alt="Alternate Text" />
+                                        <div>
+                                            <a href="@Url.Action("Details","Movies", new { id = movie.Id})">Xem chi tiết</a>
+                                        </div>
                                     </div>
                                     <div class="caption">
                                         <div class="scores">
@@ -319,13 +302,16 @@
                                         </div>
                                         <span>@movie.Title</span>
                                     </div>
-                                </a>
+                                </div>
                             }
                         }
                     }
-                    <a class="box-movie__item col m-b-2 l-2">
+                    <div class="box-movie__item col m-b-2_4 l-2_4">
                         <div class="img">
                             <img src="https://resizing.flixster.com/tpLtbDZQSwBpb3jfwoI7zMiRMjE=/206x305/v2/https://resizing.flixster.com/ayiSi8HrUS3_i-Jkru1P2oMM58Q=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzhiODAwYWIyLTM1MmItNGI1ZS1iOWQzLTdjZjAzMzI1MDc2Yy5qcGc=" alt="Alternate Text" />
+                            <div>
+                                <a href="#">Xem chi tiết</a>
+                            </div>
                         </div>
                         <div class="caption">
                             <div class="scores">
@@ -334,9 +320,12 @@
                             </div>
                             <span>John Wick: Chapter 4</span>
                         </div>
-                    </a><a class="box-movie__item col m-b-2 l-2">
+                    </div><div class="box-movie__item col m-b-2_4 l-2_4">
                         <div class="img">
                             <img src="https://resizing.flixster.com/tpLtbDZQSwBpb3jfwoI7zMiRMjE=/206x305/v2/https://resizing.flixster.com/ayiSi8HrUS3_i-Jkru1P2oMM58Q=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzhiODAwYWIyLTM1MmItNGI1ZS1iOWQzLTdjZjAzMzI1MDc2Yy5qcGc=" alt="Alternate Text" />
+                            <div>
+                                <a href="#">Xem chi tiết</a>
+                            </div>
                         </div>
                         <div class="caption">
                             <div class="scores">
@@ -345,9 +334,12 @@
                             </div>
                             <span>John Wick: Chapter 4</span>
                         </div>
-                    </a><a class="box-movie__item col m-b-2 l-2">
+                    </div><div class="box-movie__item col m-b-2_4 l-2_4">
                         <div class="img">
                             <img src="https://resizing.flixster.com/tpLtbDZQSwBpb3jfwoI7zMiRMjE=/206x305/v2/https://resizing.flixster.com/ayiSi8HrUS3_i-Jkru1P2oMM58Q=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzhiODAwYWIyLTM1MmItNGI1ZS1iOWQzLTdjZjAzMzI1MDc2Yy5qcGc=" alt="Alternate Text" />
+                            <div>
+                                <a href="#">Xem chi tiết</a>
+                            </div>
                         </div>
                         <div class="caption">
                             <div class="scores">
@@ -356,9 +348,12 @@
                             </div>
                             <span>John Wick: Chapter 4</span>
                         </div>
-                    </a><a class="box-movie__item col m-b-2 l-2">
+                    </div><div class="box-movie__item col m-b-2_4 l-2_4">
                         <div class="img">
                             <img src="https://resizing.flixster.com/tpLtbDZQSwBpb3jfwoI7zMiRMjE=/206x305/v2/https://resizing.flixster.com/ayiSi8HrUS3_i-Jkru1P2oMM58Q=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzhiODAwYWIyLTM1MmItNGI1ZS1iOWQzLTdjZjAzMzI1MDc2Yy5qcGc=" alt="Alternate Text" />
+                            <div>
+                                <a href="#">Xem chi tiết</a>
+                            </div>
                         </div>
                         <div class="caption">
                             <div class="scores">
@@ -367,9 +362,12 @@
                             </div>
                             <span>John Wick: Chapter 4</span>
                         </div>
-                    </a><a class="box-movie__item col m-b-2 l-2">
+                    </div><div class="box-movie__item col m-b-2_4 l-2_4">
                         <div class="img">
                             <img src="https://resizing.flixster.com/tpLtbDZQSwBpb3jfwoI7zMiRMjE=/206x305/v2/https://resizing.flixster.com/ayiSi8HrUS3_i-Jkru1P2oMM58Q=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzhiODAwYWIyLTM1MmItNGI1ZS1iOWQzLTdjZjAzMzI1MDc2Yy5qcGc=" alt="Alternate Text" />
+                            <div>
+                                <a href="#">Xem chi tiết</a>
+                            </div>
                         </div>
                         <div class="caption">
                             <div class="scores">
@@ -378,9 +376,12 @@
                             </div>
                             <span>John Wick: Chapter 4</span>
                         </div>
-                    </a><a class="box-movie__item col m-b-2 l-2">
+                    </div><div class="box-movie__item col m-b-2_4 l-2_4">
                         <div class="img">
                             <img src="https://resizing.flixster.com/tpLtbDZQSwBpb3jfwoI7zMiRMjE=/206x305/v2/https://resizing.flixster.com/ayiSi8HrUS3_i-Jkru1P2oMM58Q=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzhiODAwYWIyLTM1MmItNGI1ZS1iOWQzLTdjZjAzMzI1MDc2Yy5qcGc=" alt="Alternate Text" />
+                            <div>
+                                <a href="#">Xem chi tiết</a>
+                            </div>
                         </div>
                         <div class="caption">
                             <div class="scores">
@@ -389,9 +390,12 @@
                             </div>
                             <span>John Wick: Chapter 4</span>
                         </div>
-                    </a><a class="box-movie__item col m-b-2 l-2">
+                    </div><div class="box-movie__item col m-b-2_4 l-2_4">
                         <div class="img">
                             <img src="https://resizing.flixster.com/tpLtbDZQSwBpb3jfwoI7zMiRMjE=/206x305/v2/https://resizing.flixster.com/ayiSi8HrUS3_i-Jkru1P2oMM58Q=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzhiODAwYWIyLTM1MmItNGI1ZS1iOWQzLTdjZjAzMzI1MDc2Yy5qcGc=" alt="Alternate Text" />
+                            <div>
+                                <a href="#">Xem chi tiết</a>
+                            </div>
                         </div>
                         <div class="caption">
                             <div class="scores">
@@ -400,9 +404,12 @@
                             </div>
                             <span>John Wick: Chapter 4</span>
                         </div>
-                    </a><a class="box-movie__item col m-b-2 l-2">
+                    </div><div class="box-movie__item col m-b-2_4 l-2_4">
                         <div class="img">
                             <img src="https://resizing.flixster.com/tpLtbDZQSwBpb3jfwoI7zMiRMjE=/206x305/v2/https://resizing.flixster.com/ayiSi8HrUS3_i-Jkru1P2oMM58Q=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzhiODAwYWIyLTM1MmItNGI1ZS1iOWQzLTdjZjAzMzI1MDc2Yy5qcGc=" alt="Alternate Text" />
+                            <div>
+                                <a href="#">Xem chi tiết</a>
+                            </div>
                         </div>
                         <div class="caption">
                             <div class="scores">
@@ -411,9 +418,12 @@
                             </div>
                             <span>John Wick: Chapter 4</span>
                         </div>
-                    </a><a class="box-movie__item col m-b-2 l-2">
+                    </div><div class="box-movie__item col m-b-2_4 l-2_4">
                         <div class="img">
                             <img src="https://resizing.flixster.com/tpLtbDZQSwBpb3jfwoI7zMiRMjE=/206x305/v2/https://resizing.flixster.com/ayiSi8HrUS3_i-Jkru1P2oMM58Q=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzhiODAwYWIyLTM1MmItNGI1ZS1iOWQzLTdjZjAzMzI1MDc2Yy5qcGc=" alt="Alternate Text" />
+                            <div>
+                                <a href="#">Xem chi tiết</a>
+                            </div>
                         </div>
                         <div class="caption">
                             <div class="scores">
@@ -422,9 +432,12 @@
                             </div>
                             <span>John Wick: Chapter 4</span>
                         </div>
-                    </a><a class="box-movie__item col m-b-2 l-2">
+                    </div><div class="box-movie__item col m-b-2_4 l-2_4">
                         <div class="img">
                             <img src="https://resizing.flixster.com/tpLtbDZQSwBpb3jfwoI7zMiRMjE=/206x305/v2/https://resizing.flixster.com/ayiSi8HrUS3_i-Jkru1P2oMM58Q=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzhiODAwYWIyLTM1MmItNGI1ZS1iOWQzLTdjZjAzMzI1MDc2Yy5qcGc=" alt="Alternate Text" />
+                            <div>
+                                <a href="#">Xem chi tiết</a>
+                            </div>
                         </div>
                         <div class="caption">
                             <div class="scores">
@@ -433,9 +446,12 @@
                             </div>
                             <span>John Wick: Chapter 4</span>
                         </div>
-                    </a><a class="box-movie__item col m-b-2 l-2">
+                    </div><div class="box-movie__item col m-b-2_4 l-2_4">
                         <div class="img">
                             <img src="https://resizing.flixster.com/tpLtbDZQSwBpb3jfwoI7zMiRMjE=/206x305/v2/https://resizing.flixster.com/ayiSi8HrUS3_i-Jkru1P2oMM58Q=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzhiODAwYWIyLTM1MmItNGI1ZS1iOWQzLTdjZjAzMzI1MDc2Yy5qcGc=" alt="Alternate Text" />
+                            <div>
+                                <a href="#">Xem chi tiết</a>
+                            </div>
                         </div>
                         <div class="caption">
                             <div class="scores">
@@ -444,9 +460,12 @@
                             </div>
                             <span>John Wick: Chapter 4</span>
                         </div>
-                    </a><a class="box-movie__item col m-b-2 l-2">
+                    </div><div class="box-movie__item col m-b-2_4 l-2_4">
                         <div class="img">
                             <img src="https://resizing.flixster.com/tpLtbDZQSwBpb3jfwoI7zMiRMjE=/206x305/v2/https://resizing.flixster.com/ayiSi8HrUS3_i-Jkru1P2oMM58Q=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzhiODAwYWIyLTM1MmItNGI1ZS1iOWQzLTdjZjAzMzI1MDc2Yy5qcGc=" alt="Alternate Text" />
+                            <div>
+                                <a href="#">Xem chi tiết</a>
+                            </div>
                         </div>
                         <div class="caption">
                             <div class="scores">
@@ -455,9 +474,12 @@
                             </div>
                             <span>John Wick: Chapter 4</span>
                         </div>
-                    </a><a class="box-movie__item col m-b-2 l-2">
+                    </div><div class="box-movie__item col m-b-2_4 l-2_4">
                         <div class="img">
                             <img src="https://resizing.flixster.com/tpLtbDZQSwBpb3jfwoI7zMiRMjE=/206x305/v2/https://resizing.flixster.com/ayiSi8HrUS3_i-Jkru1P2oMM58Q=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzhiODAwYWIyLTM1MmItNGI1ZS1iOWQzLTdjZjAzMzI1MDc2Yy5qcGc=" alt="Alternate Text" />
+                            <div>
+                                <a href="#">Xem chi tiết</a>
+                            </div>
                         </div>
                         <div class="caption">
                             <div class="scores">
@@ -466,9 +488,12 @@
                             </div>
                             <span>John Wick: Chapter 4</span>
                         </div>
-                    </a><a class="box-movie__item col m-b-2 l-2">
+                    </div><div class="box-movie__item col m-b-2_4 l-2_4">
                         <div class="img">
                             <img src="https://resizing.flixster.com/tpLtbDZQSwBpb3jfwoI7zMiRMjE=/206x305/v2/https://resizing.flixster.com/ayiSi8HrUS3_i-Jkru1P2oMM58Q=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzhiODAwYWIyLTM1MmItNGI1ZS1iOWQzLTdjZjAzMzI1MDc2Yy5qcGc=" alt="Alternate Text" />
+                            <div>
+                                <a href="#">Xem chi tiết</a>
+                            </div>
                         </div>
                         <div class="caption">
                             <div class="scores">
@@ -477,40 +502,7 @@
                             </div>
                             <span>John Wick: Chapter 4</span>
                         </div>
-                    </a><a class="box-movie__item col m-b-2 l-2">
-                        <div class="img">
-                            <img src="https://resizing.flixster.com/tpLtbDZQSwBpb3jfwoI7zMiRMjE=/206x305/v2/https://resizing.flixster.com/ayiSi8HrUS3_i-Jkru1P2oMM58Q=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzhiODAwYWIyLTM1MmItNGI1ZS1iOWQzLTdjZjAzMzI1MDc2Yy5qcGc=" alt="Alternate Text" />
-                        </div>
-                        <div class="caption">
-                            <div class="scores">
-                                <img src="~/Content/Images/Icons/popcorn_icon.png" alt="Alternate Text" />
-                                <span>93%</span>
-                            </div>
-                            <span>John Wick: Chapter 4</span>
-                        </div>
-                    </a><a class="box-movie__item col m-b-2 l-2">
-                        <div class="img">
-                            <img src="https://resizing.flixster.com/tpLtbDZQSwBpb3jfwoI7zMiRMjE=/206x305/v2/https://resizing.flixster.com/ayiSi8HrUS3_i-Jkru1P2oMM58Q=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzhiODAwYWIyLTM1MmItNGI1ZS1iOWQzLTdjZjAzMzI1MDc2Yy5qcGc=" alt="Alternate Text" />
-                        </div>
-                        <div class="caption">
-                            <div class="scores">
-                                <img src="~/Content/Images/Icons/popcorn_icon.png" alt="Alternate Text" />
-                                <span>93%</span>
-                            </div>
-                            <span>John Wick: Chapter 4</span>
-                        </div>
-                    </a><a class="box-movie__item col m-b-2 l-2">
-                        <div class="img">
-                            <img src="https://resizing.flixster.com/tpLtbDZQSwBpb3jfwoI7zMiRMjE=/206x305/v2/https://resizing.flixster.com/ayiSi8HrUS3_i-Jkru1P2oMM58Q=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzLzhiODAwYWIyLTM1MmItNGI1ZS1iOWQzLTdjZjAzMzI1MDc2Yy5qcGc=" alt="Alternate Text" />
-                        </div>
-                        <div class="caption">
-                            <div class="scores">
-                                <img src="~/Content/Images/Icons/popcorn_icon.png" alt="Alternate Text" />
-                                <span>93%</span>
-                            </div>
-                            <span>John Wick: Chapter 4</span>
-                        </div>
-                    </a>
+                    </div>
 
                     <div class="box-movie__btn btn-prev">
                         <i class="fa-solid fa-circle-chevron-left"></i>
@@ -549,9 +541,9 @@
             </div>-->
         </div>
 
-        <div class="wrapper-box-news">
-            @* Tin tức *@
-            <div class="heading-title">
+        <!--<div class="wrapper-box-news">-->
+        @* Tin tức *@
+        <!--<div class="heading-title">
                 <h6>TIN TỨC</h6>
                 <a href="@Url.Action("Index", "ListMovie", new {FilterMoviesByType = "UpcomingMovies"})">Xem thêm</a>
             </div>
@@ -606,6 +598,6 @@
                     </div>
                 </a>
             </div>
-        </div>
+        </div>-->
     </div>
 </div>

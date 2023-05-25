@@ -53,8 +53,8 @@ namespace Movie_Theater.Areas.Admin.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 var user = User.Identity;
-                ViewBag.Email = GetEmail();
-                ViewBag.Username = user.Name;
+                Session["Username"] = user.Name;
+                Session["Email"] = GetEmail();
             }
             return View();
         }
