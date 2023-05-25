@@ -1,25 +1,23 @@
-﻿@model IEnumerable<Movie_Theater.Models.Crew>
-
+﻿@model IEnumerable<Movie_Theater.Models.Slider>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml"; ;
 }
 
-<!-- Main content -->
 <section>
-    
+
     <!-- Default box -->
     <div class="main-content">
-        <h4 class="page-title">Đoàn làm phim</h4>
+        <h4 class="page-title">Danh sách slide</h4>
         <nav class="page-breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Đoàn làm phim</a></li>
+                <li class="breadcrumb-item"><a href="#">Slider</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Danh sách</li>
             </ol>
         </nav>
     </div>
     <div class="aside-compose text-align-end">
-        <a href="/Admin/Crews/Create" class="btn btn-success">Thêm Nhân Sự</a>
+        <a href="/Admin/Slider/Create" class="btn btn-success">Thêm Slide</a>
     </div>
     <hr />
     <div class="row margin-left-right-unset">
@@ -28,11 +26,9 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th class="col-md-2">Họ Tên</th>
-                            <th class="col-md-1">Ảnh Đại Diện</th>
-                            <th class="col-md-1">Ngày Sinh</th>
-                            <th class="col-md-2">Nơi Sinh</th>
-                            <th class="col-md-4">Tiểu Sử</th>
+                            <th class="col-md-3">Tiêu đề</th>
+                            <th class="col-md-3">Mô tả</th>
+                            <th class="col-md-4">Hình ảnh</th>
                             <th class="col-md-2"></th>
                         </tr>
                     </thead>
@@ -42,34 +38,15 @@
                             var i = 1;
                             foreach (var item in Model)
                             {
-                                if (item.Biography != null)
-                                {
-
-                                }
                                 <tr>
                                     <td class="col-md-2">
-                                        @Html.DisplayFor(modelItem => item.Name)
-                                    </td>
-                                    <td class="col-md-1 avatar_path">
-                                        <img src="@item.AvatarPath" alt="@item.AvatarPath"/>
+                                        @Html.DisplayFor(modelItem => item.Title)
                                     </td>
                                     <td class="col-md-1">
-                                        @Html.DisplayFor(modelItem => item.DateOfBirth)
+                                        @Html.DisplayFor(modelItem => item.Description)
                                     </td>
-                                    <td class="col-md-2">
-                                        @Html.DisplayFor(modelItem => item.Birthplace)
-                                    </td>
-                                    <td>
-                                        @if (item.Biography != null)
-                                        {
-                                            <div class="biography biography-crews">
-                                                @Html.DisplayFor(modelItem => item.Biography)
-                                            </div>
-                                        }
-                                        else
-                                        {
-                                            @Html.DisplayFor(modelItem => item.Biography)
-                                        }
+                                    <td class="col-md-1 avatar_path">
+                                        <img class="width-100-percent" src="@item.Img" alt="@item.Img" />
                                     </td>
                                     <td class="col-md-2">
                                         <div>
@@ -96,10 +73,10 @@
         $('.delete-btn').click(function (e) {
             e.preventDefault();
 
-            if (confirm("Bạn có chắc chắn muốn xóa nhân sự phim này?")) {
+            if (confirm("Bạn có chắc chắn muốn xóa slide này?")) {
                 var id = $(this).data('id');
                 $.ajax({
-                    url: '/Admin/Crews/Delete',
+                    url: '/Admin/Slider/Delete',
                     type: 'POST',
                     data: { id: id },
                     success: function (result) {
@@ -110,10 +87,11 @@
                         }
                     },
                     error: function () {
-                        alert('An error occurred while deleting the record.');
+                        alert('Đã xảy ra lỗi khi xóa slide.');
                     }
                 });
             }
         });
     });
 </script>
+
