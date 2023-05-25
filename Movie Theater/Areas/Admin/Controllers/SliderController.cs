@@ -7,7 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Movie_Theater.Controllers
+namespace Movie_Theater.Areas.Admin.Controllers
 {
     public class SliderController : Controller
     {
@@ -87,34 +87,22 @@ namespace Movie_Theater.Controllers
             }
             return View(viewModel);
         }
-        public ActionResult Delete(int id)
+
+        [HttpPost]
+        public JsonResult Delete(int id)
         {
             var slide = _dbContext.Sliders.Find(id);
-
             if (slide == null)
             {
-                return HttpNotFound();
-            }
-
-            return View(slide);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            var slide = _dbContext.Sliders.Find(id);
-
-            if (slide == null)
-            {
-                return HttpNotFound();
+                return Json(new { success = false, message = "Record not found." });
             }
 
             _dbContext.Sliders.Remove(slide);
             _dbContext.SaveChanges();
 
-            return RedirectToAction("Index");
+            return Json(new { success = true });
         }
+
 
         public string ProcessUpload(HttpPostedFileBase file)
         {
@@ -122,8 +110,8 @@ namespace Movie_Theater.Controllers
             {
                 return "";
             }
-            file.SaveAs(Server.MapPath("~/Content/Images/Slider/" + file.FileName));
-            return "/Content/Images/Slider/" + file.FileName;
+            file.SaveAs(Server.MapPath("~/Areas/Admin/Content/assets/images/Slider/" + file.FileName));
+            return "/Areas/Admin/Content/assets/images/Slider/" + file.FileName;
         }
     }
 }

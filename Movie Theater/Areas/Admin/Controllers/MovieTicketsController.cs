@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace Movie_Theater.Areas.Admin.Controllers
 {
-    [AccessDeniedAuthorize(Roles = "Adminstrator")]
+    [AccessDeniedAuthorize(Roles = "Staff, Adminstrator")]
     public class MovieTicketsController : Controller
     {
         ApplicationDbContext _dbContext = new ApplicationDbContext();

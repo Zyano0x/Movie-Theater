@@ -189,6 +189,10 @@
     <Compile Include="Migrations\202305220508309_UpdateApplicationUser.designer.cs">
       <DependentUpon>202305220508309_UpdateApplicationUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202305231156265_add-required-for-review.cs" />
+    <Compile Include="Migrations\202305231156265_add-required-for-review.designer.cs">
+      <DependentUpon>202305231156265_add-required-for-review.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\AccessDeniedAuthorizeAttribute.cs" />
     <Compile Include="VNPay\OrderInfo.cs" />
     <Compile Include="VNPay\VnPayLibary.cs" />
@@ -213,6 +217,7 @@
     <Content Include="Areas\Admin\Content\assets\images\play.png" />
     <Content Include="Areas\Admin\Content\assets\images\screenshots\dark.jpg" />
     <Content Include="Areas\Admin\Content\assets\images\screenshots\light.jpg" />
+    <Content Include="Areas\Admin\Content\assets\images\slide_show_default.png" />
     <Content Include="Areas\Admin\Content\assets\js\ace.js" />
     <Content Include="Areas\Admin\Content\assets\js\apexcharts.js" />
     <Content Include="Areas\Admin\Content\assets\js\bootstrap-colorpicker.js" />
@@ -1453,7 +1458,6 @@
     <Content Include="Content\style.css" />
     <Compile Include="Areas\Admin\Controllers\MovieSchedulesController.cs" />
     <Compile Include="Areas\Admin\Controllers\MoviesController.cs" />
-    <Compile Include="Areas\Admin\Controllers\RolesController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CrewsController.cs" />
     <Compile Include="Controllers\GenresController.cs" />
@@ -1463,7 +1467,7 @@
     <Compile Include="Controllers\MovieSchedulesController.cs" />
     <Compile Include="Controllers\MoviesController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
-    <Compile Include="Controllers\SliderController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SliderController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1693,9 +1697,6 @@
     <Content Include="Areas\Admin\Views\Movies\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Movies\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Movies\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Roles\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Roles\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Roles\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Account\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Account\New.cshtml" />
     <Content Include="Areas\Admin\Views\MovieSchedules\Index.cshtml" />
@@ -1703,6 +1704,9 @@
     <Content Include="Areas\Admin\Views\MovieSchedules\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\MovieTickets\Index.cshtml" />
     <Content Include="Areas\Admin\Views\MovieTickets\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Slider\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Slider\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Slider\Edit.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -1750,12 +1754,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Movies\Details.cshtml" />
     <Content Include="Views\Crews\Details.cshtml" />
-    <Content Include="Views\Slider\Index.cshtml" />
-    <Content Include="Views\Slider\Create.cshtml" />
-    <Content Include="Views\Slider\Edit.cshtml" />
     <Content Include="Views\ListMovie\Index.cshtml" />
-    <Content Include="Views\Crews\Edit.cshtml" />
-    <Content Include="Views\Crews\Index.cshtml" />
     <Content Include="Views\Booking\Create.cshtml" />
     <Content Include="Views\Booking\Status.cshtml" />
     <Content Include="Areas\Admin\Views\Account\AccessDenied.cshtml" />
@@ -1765,6 +1764,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Content\assets\images\CrewAvatar\" />
     <Folder Include="Areas\Admin\Content\assets\images\PosterMovie\" />
+    <Folder Include="Areas\Admin\Content\assets\images\Slider\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Content\Images\Slider\" />
     <Folder Include="Data\" />
@@ -1806,6 +1806,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202305220508309_UpdateApplicationUser.resx">
       <DependentUpon>202305220508309_UpdateApplicationUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305231156265_add-required-for-review.resx">
+      <DependentUpon>202305231156265_add-required-for-review.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

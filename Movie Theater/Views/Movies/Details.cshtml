@@ -146,58 +146,93 @@
     @{
         if (Model.ReleaseDate <= DateTime.Now)
         {
-        <div class="box-review">
-            <div class="heading-title">
-                <h6>ĐÁNH GIÁ</h6>
-            </div>
-            <div class="box-review-body">
-                @if (!User.Identity.IsAuthenticated)
-                {
-                    <div>
-                        <span>
-                            <strong><i class="fa-solid fa-circle-exclamation" style="color: #fa320a"></i> Lưu ý: <br /></strong>
-                            Bạn cần <strong>@Html.ActionLink("Đăng Nhập", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</strong>
-                            và <strong>@Html.ActionLink("Đặt Vé Phim", "", "")</strong>
-                            để có thể bình luận!
-                        </span>
-                        }
-
-                    </div>
-                }
-
-                @{
-                    var userLogin = System.Web.HttpContext.Current.User.Identity.GetUserId();
-                    var action = 1;
-                    var scores = "";
-                    var comment = "";
-                    var nameAction = "Gửi";
-                    foreach (var review in Model.Reviews)
+            <div class="box-review">
+                <div class="heading-title">
+                    <h6>ĐÁNH GIÁ</h6>
+                </div>
+                <div class="box-review-body">
+                    @if (!User.Identity.IsAuthenticated || ViewBag.CheckTicket == null)
                     {
-                        if (review.MovieId == Model.Id && review.UserId == userLogin)
-                        {
-                            scores = review.Scores.ToString();
-                            comment = review.Comment;
-                            action = 0;
-                            nameAction = "Chỉnh sửa";
-                            break;
-                        }
-                    }
-
-                    using (Html.BeginForm("Review", "Movies", new { id = Model.Id, userLogin = userLogin }, FormMethod.Post))
-                    {
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" name="action" value="@action" />
-                        <input type="number" step="1" name="scores" class="scores" placeholder="Điểm số (/100) ?" value="@scores" min="1" max="100">
-                        <textarea name="comment" class="comment" placeholder="Bạn nghĩ gì về bộ phim?">@comment</textarea>
-                        <div class="box-review-body__btn-submit">
-                            <button type="submit" class="btn btn-success" style="font-size: 16px; padding: 5px 20px;">
-                                @nameAction
-                            </button>
+                        <div>
+                            <span>
+                                <strong><i class="fa-solid fa-circle-exclamation" style="color: #fa320a"></i> Lưu ý: <br /></strong>
+                                Bạn cần
+                                @if (!User.Identity.IsAuthenticated)
+                                {<strong>
+                                        @Html.ActionLink("Đăng Nhập", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
+                                    </strong><span>và</span>
+                                }
+                                @if (ViewBag.CheckTicket == null)
+                                {
+                                    <strong>
+                                        @Html.ActionLink("Đặt Vé Phim", "Create", "Booking", new { id = Model.Id }, null)
+                                    </strong>
+                                }
+                                để có thể bình luận!
+                            </span>
                         </div>
                     }
-                }
+
+
+
+                    @{
+                        var userLogin = System.Web.HttpContext.Current.User.Identity.GetUserId();
+                        var action = 1;
+                        var scores = "";
+                        var comment = "";
+                        var nameAction = "Gửi";
+                        foreach (var review in Model.Reviews)
+                        {
+                            if (review.MovieId == Model.Id && review.UserId == userLogin)
+                            {
+                                scores = review.Scores.ToString();
+                                comment = review.Comment;
+                                action = 0;
+                                nameAction = "Chỉnh sửa";
+                                break;
+                            }
+                        }
+
+                        using (Html.BeginForm("Review", "Movies", new { id = Model.Id, userLogin = userLogin }, FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="action" value="@action" />
+                            <input id="score-review" type="number" step="1" name="scores" class="scores" placeholder="Điểm số (/100) ?" value="@scores" min="1" max="100">
+                            <textarea id="comment-review" name="comment" class="comment" placeholder="Bạn nghĩ gì về bộ phim?">@comment</textarea>
+                            <div class="box-review-body__btn-submit">
+                                <button id="submit-btn" type="submit" class="btn btn-success" style="font-size: 16px; padding: 5px 20px;" disabled>
+                                    @nameAction
+                                </button>
+                            </div>
+                        }
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function () {
+                                var scoreInput = document.getElementById('score-review');
+                                var commentInput = document.getElementById('comment-review');
+                                var submitBtn = document.getElementById('submit-btn');
+
+                                scoreInput.addEventListener('input', toggleButtonState);
+                                commentInput.addEventListener('input', toggleButtonState);
+                                scoreInput.addEventListener('change', toggleButtonState);
+                                commentInput.addEventListener('change', toggleButtonState);
+
+                                toggleButtonState(); // Gọi hàm toggleButtonState khi trang đã tải xong
+
+                                function toggleButtonState() {
+                                    if (scoreInput.value.trim() !== '' && commentInput.value.trim() !== '') {
+                                        submitBtn.disabled = false;
+                                    } else {
+                                        submitBtn.disabled = true;
+                                    }
+                                }
+                            });
+                        </script>
+
+
+                    }
+                </div>
             </div>
-        </div>
 
             <div class="box-community-review">
                 <div class="heading-title">

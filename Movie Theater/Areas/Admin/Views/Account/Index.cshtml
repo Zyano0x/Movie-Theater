@@ -10,28 +10,28 @@
 
     <!-- Default box -->
     <div class="main-content">
-        <h4 class="page-title">Accounts List</h4>
+        <h4 class="page-title">Danh sách tài khoản</h4>
         <nav class="page-breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Accounts</a></li>
-                <li class="breadcrumb-item active" aria-current="page">List</li>
+                <li class="breadcrumb-item"><a href="#">Tài khoản</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Danh sách</li>
             </ol>
         </nav>
     </div>
-    <div class="aside-compose">
-        <a href="/Admin/Account/New" class="btn btn-success">Add New</a>
+    <div class="aside-compose text-align-end">
+        <a href="/Admin/Account/New" class="btn btn-success">Thêm Tài Khoản</a>
     </div>
     <hr />
-    <div class="row">
+    <div class="row margin-left-right-unset">
         <div class="col-12 col-xl-12 stretch-card">
             <div class="row flex-grow">
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>Username</th>
+                            <th>Tên người dùng</th>
                             <th>Email</th>
-                            <th>ID</th>
-                            <th>Is Enabled</th>
+                            <th>Mã tài khoản</th>
+                            <th>Trạng thái</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -64,11 +64,11 @@
                                     <td>
                                         @if (item.IsEnabled == true)
                                         {
-                                            <button type="submit" class="btn btn-danger disable-btn" data-id="@item.Id" style="margin: 5px 0;">Disable</button>
+                                            <button type="submit" class="btn btn-danger disable-btn" data-id="@item.Id" style="margin: 5px 0;">Vô hiệu hóa</button>
                                         }
                                         else
                                         {
-                                            <button type="submit" class="btn btn-primary enable-btn" data-id="@item.Id" style="margin: 5px 0;">Enable</button>
+                                            <button type="submit" class="btn btn-primary enable-btn" data-id="@item.Id" style="margin: 5px 0;">Kích hoạt</button>
                                         }
                                     </td>
                                 </tr>
@@ -90,7 +90,7 @@
         $('.disable-btn').click(function (e) {
             e.preventDefault();
 
-            if (confirm("Are you sure you want to disable this account?")) {
+            if (confirm("Bạn có chắc chắn muốn vô hiệu hóa tài khoản này?")) {
                 var id = $(this).data('id');
                 $.ajax({
                     url: '/Admin/Account/Disable',
@@ -104,7 +104,7 @@
                         }
                     },
                     error: function () {
-                        alert('An error occurred while disabling the account.');
+                        alert('Đã xảy ra lỗi khi vô hiệu hóa tài khoản.');
                     }
                 });
             }
@@ -114,7 +114,7 @@
         $('.enable-btn').click(function (e) {
             e.preventDefault();
 
-            if (confirm("Are you sure you want to enable this account?")) {
+            if (confirm("Bạn có chắc chắn muốn kích hoạt tài khoản này?")) {
                 var id = $(this).data('id');
                 $.ajax({
                     url: '/Admin/Account/Enable',
@@ -128,7 +128,7 @@
                         }
                     },
                     error: function () {
-                        alert('An error occurred while enabling the account.');
+                        alert('Đã xảy ra lỗi khi kích hoạt tài khoản.');
                     }
                 });
             }

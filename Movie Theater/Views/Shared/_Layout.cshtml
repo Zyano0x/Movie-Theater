@@ -309,19 +309,6 @@
                     </div>
                 </div>
             </div>
-
-            @using (Html.BeginForm("Index", "ListMovie", FormMethod.Post))
-            {
-                <div class="navbar__search">
-                    <div>
-                        <input id="search-field" type="text" name="SearchString" placeholder="Nhập tên phim cần tìm kiếm..." />
-                        <button type="submit" class="navbar__search__icon" id="search-button" disabled>
-                            @* disabled: vô hiệu hóa btn *@
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
-                </div>
-            </div>
-        }
         </div>
 
         @using (Html.BeginForm("Index", "ListMovie", FormMethod.Post))
