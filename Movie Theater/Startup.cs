@@ -38,12 +38,14 @@ namespace Movie_Theater
                 user.UserName = "Zyano";
                 user.Email = "nthdm00@gmail.com";
                 user.IsEnabled = true;
+                user.EmailConfirmed = true;
                 string userPWD = "0x1337";
 
                 var user1 = new ApplicationUser();
                 user1.UserName = "DriftMan";
                 user1.Email = "duypham22102@gmail.com";
                 user1.IsEnabled = true;
+                user1.EmailConfirmed = true;
                 string user1PWD = "Aa@123";
 
                 var checkUser = UserManager.Create(user, userPWD);

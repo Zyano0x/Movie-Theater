@@ -1,0 +1,102 @@
+﻿@model IEnumerable<Movie_Theater.Models.Seat>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Main content -->
+<section>
+
+    <!-- Default box -->
+    <div class="main-content">
+        <h4 class="page-title">Danh Sách Ghế Ngồi</h4>
+        <nav class="page-breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Ghế Ngồi</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Danh sách</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="aside-compose text-align-end">
+        <a href="/Admin/Seats/Create" class="btn btn-success">Thêm Ghế</a>
+    </div>
+    <hr />
+    <div class="row margin-left-right-unset">
+        <div class="col-12 col-xl-12 stretch-card">
+            <div class="row flex-grow">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="col-md-1">Mã Ghế</th>
+                            <th class="col-md-1">Trạng Thái</th>
+                            <th class="col-md-3">Giá Tiền</th>
+                            <th class="col-md-4">Phim</th>
+                            <th class="col-md-4"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="col-md-1">@item.Id</td>
+                                    <td class="col-md-1">
+                                        @if (item.State == true)
+                                        {
+                                            <span>Có Sẵn</span>
+                                        }
+                                        else
+                                        {
+                                            <span>Không Có Sẵn</span>
+                                        }
+
+                                    </td>
+                                    <td class="col-md-3">@item.Cost</td>
+                                    <td class="col-md-4">@item.Movie.Title</td>
+                                    <td class="col-md-5">
+                                        <div>
+                                            @Html.ActionLink("Sửa", "Edit", new { id = item.Id }, new { @class = "btn btn-warning", style = "margin: 5px 0 5px 0" })
+                                            <button type="submit" class="btn btn-danger delete-btn" data-id="@item.Id" style="margin: 5px 0;">Xóa</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- /.card-body -->
+</section>
+<!-- /.content -->
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script>
+    $(function () {
+        $('.delete-btn').click(function (e) {
+            e.preventDefault();
+
+            if (confirm("Bạn chắc chắn muốn xóa ghế này?")) {
+                var id = $(this).data('id');
+                $.ajax({
+                    url: '/Admin/Seats/Delete',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (result) {
+                        if (result.success) {
+                            window.location.reload();
+                        } else {
+                            alert(result.message);
+                        }
+                    },
+                    error: function () {
+                        alert('An error occurred while deleting the record.');
+                    }
+                });
+            }
+        });
+    });
+</script>

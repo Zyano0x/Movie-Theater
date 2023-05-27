@@ -25,17 +25,18 @@
                         @using (Html.BeginForm("Create", "Booking", new { id = movie.Id }, FormMethod.Post))
                         {
                             @Html.AntiForgeryToken()
-                            <div class="booking">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.MovieScheduleIds, "Lịch Chiếu : ", htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        @Html.DropDownListFor(model => model.ChooseId, new SelectList(Model.MovieSchedules, "Id", "BeginTime"), new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.MovieScheduleIds, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <input type="number" name="Quantity" value="1" min="1" />
-                                <button type="submit" class="btn btn-booking">Đặt vé</button>
+                    <div class="booking">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.MovieScheduleIds, "Lịch Chiếu : ", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => model.ChooseId, new SelectList(Model.MovieSchedules, "Id", "BeginTime"), new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.MovieScheduleIds, "", new { @class = "text-danger" })
                             </div>
+                        </div>
+                        <input type="number" name="Quantity" value="1" min="1" />
+                        <button type="submit" class="btn btn-booking">Đặt vé</button>
+                        @Html.ActionLink("Show Seats", "ShowSeats", new { showtime = ViewData["ShowTime"], moviename = ViewData["Movie"] }, null)
+                    </div>
                         }
                     </div>
                 </div>
