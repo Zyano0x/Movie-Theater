@@ -41,23 +41,19 @@ namespace Movie_Theater
                 string userPWD = "0x1337";
 
                 var user1 = new ApplicationUser();
-                user.UserName = "DriftMan";
-                user.Email = "duypham22102@gmail.com";
-                user.IsEnabled = true;
+                user1.UserName = "DriftMan";
+                user1.Email = "duypham22102@gmail.com";
+                user1.IsEnabled = true;
                 string user1PWD = "Aa@123";
 
                 var checkUser = UserManager.Create(user, userPWD);
                 var checkUser1 = UserManager.Create(user1, user1PWD);
 
                 //Add default User to Role Admin    
-                if (checkUser.Succeeded)
+                if (checkUser.Succeeded && checkUser1.Succeeded)
                 {
                     var result = UserManager.AddToRole(user.Id, "Adminstrator");
-                }
-
-                if (checkUser1.Succeeded)
-                {
-                    var result = UserManager.AddToRole(user1.Id, "Adminstrator");
+                    var result1 = UserManager.AddToRole(user1.Id, "Adminstrator");
                 }
             }
 
