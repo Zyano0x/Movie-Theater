@@ -23,7 +23,7 @@
                 <div class="carousel-inner">
                     @{
                         <a href="#" class="item active">
-                            <img src="@ViewBag.slider[0].Img" alt="Ảnh Slide 1" style="width:100%;">
+                            <img src="@ViewBag.slider[0].Img" alt="Ảnh Slide 1">
                             <div class="carousel-caption">
                                 <h6>@ViewBag.slider[0].Title</h6>
                                 <p>@ViewBag.slider[0].Description</p>
@@ -34,7 +34,7 @@
                             for (int i = 1; i < ViewBag.slider.Count; i++)
                             {
                                 <a href="#" class="item">
-                                    <img src="@ViewBag.slider[i].Img" alt="Ảnh Slide <@i>" style="width:100%; max-height: 500px">
+                                    <img src="@ViewBag.slider[i].Img" alt="Ảnh Slide <@i>">
                                     <div class="carousel-caption">
                                         <h6>@ViewBag.slider[i].Title</h6>
                                         <p>@ViewBag.slider[i].Description</p>

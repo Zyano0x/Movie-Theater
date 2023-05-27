@@ -29,8 +29,9 @@
                     <thead>
                         <tr>
                             <th class="col-md-2">Mã Phim</th>
-                            <th class="col-md-4">Thời gian bắt đầu</th>
-                            <th class="col-md-4">Thời gian kết thúc</th>
+                            <th class="col-md-2">Tên Phim</th>
+                            <th class="col-md-3">Thời gian bắt đầu</th>
+                            <th class="col-md-3">Thời gian kết thúc</th>
                             <th class="col-md-2"></th>
                         </tr>
                     </thead>
@@ -41,12 +42,15 @@
                             foreach (var item in Model)
                             {
                                 <tr>
-                                    <td>@item.Movie.Title</td>
-                                    <td>@item.BeginTime</td>
-                                    <td>@item.EndTime</td>
-                                    <td>
-                                        @Html.ActionLink("Sửa", "Edit", new { id = item.Id }, new { @class = "btn btn-warning", style = "margin: 5px 0 5px 0" })
-                                        <button type="submit" class="btn btn-danger delete-btn" data-id="@item.Id" style="margin: 5px 0;">Xóa</button>
+                                    <td class="col-md-2">@item.Movie.Id</td>
+                                    <td class="col-md-2">@item.Movie.Title</td>
+                                    <td class="col-md-3">@item.BeginTime</td>
+                                    <td class="col-md-3">@item.EndTime</td>
+                                    <td class="col-md-2">
+                                        <div>
+                                            @Html.ActionLink("Sửa", "Edit", new { id = item.Id }, new { @class = "btn btn-warning", style = "margin: 5px 0 5px 0" })
+                                            <button type="submit" class="btn btn-danger delete-btn" data-id="@item.Id" style="margin: 5px 0;">Xóa</button>
+                                        </div>
                                     </td>
                                 </tr>
                                 i++;
