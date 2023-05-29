@@ -28,11 +28,10 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th class="col-md-1">Mã Ghế</th>
-                            <th class="col-md-1">Trạng Thái</th>
+                            <th class="col-md-3">Mã Ghế</th>
+                            <th class="col-md-3">Trạng Thái</th>
                             <th class="col-md-3">Giá Tiền</th>
-                            <th class="col-md-4">Phim</th>
-                            <th class="col-md-4"></th>
+                            <th class="col-md-3"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,24 +40,32 @@
                             foreach (var item in Model)
                             {
                                 <tr>
-                                    <td class="col-md-1">@item.Id</td>
-                                    <td class="col-md-1">
+                                    <td class="col-md-3">@item.Id</td>
+                                    <td class="col-md-3">
                                         @if (item.State == true)
                                         {
-                                            <span>Có Sẵn</span>
+                                            <span style="color: green">Kích hoạt</span>
                                         }
                                         else
                                         {
-                                            <span>Không Có Sẵn</span>
+                                            <span style="color: red">Vô hiệu hóa</span>
                                         }
 
                                     </td>
-                                    <td class="col-md-3">@item.Cost</td>
-                                    <td class="col-md-4">@item.Movie.Title</td>
-                                    <td class="col-md-5">
+                                    <td class="col-md-3">@item.Cost - VND</td>
+                                    <td class="col-md-3">
                                         <div>
                                             @Html.ActionLink("Sửa", "Edit", new { id = item.Id }, new { @class = "btn btn-warning", style = "margin: 5px 0 5px 0" })
-                                            <button type="submit" class="btn btn-danger delete-btn" data-id="@item.Id" style="margin: 5px 0;">Xóa</button>
+                                            <div>
+                                                @if (item.State == true)
+                                                {
+                                                    <button type="submit" class="btn btn-danger disable-btn" data-id="@item.Id" style="margin: 5px 0;">Vô hiệu hóa</button>
+                                                }
+                                                else
+                                                {
+                                                    <button type="submit" class="btn btn-primary enable-btn" data-id="@item.Id" style="margin: 5px 0;">Kích hoạt</button>
+                                                }
+                                            </div>
                                         </div>
                                     </td>
                                 </tr>
@@ -72,17 +79,15 @@
     <!-- /.card-body -->
 </section>
 <!-- /.content -->
-
-<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script>
     $(function () {
-        $('.delete-btn').click(function (e) {
+        $('.disable-btn').click(function (e) {
             e.preventDefault();
 
-            if (confirm("Bạn chắc chắn muốn xóa ghế này?")) {
+            if (confirm("Bạn có chắc chắn muốn vô hiệu hóa ghế này?")) {
                 var id = $(this).data('id');
                 $.ajax({
-                    url: '/Admin/Seats/Delete',
+                    url: '/Admin/Seats/Disable',
                     type: 'POST',
                     data: { id: id },
                     success: function (result) {
@@ -93,10 +98,61 @@
                         }
                     },
                     error: function () {
-                        alert('An error occurred while deleting the record.');
+                        alert('Đã xảy ra lỗi khi vô hiệu hóa ghế.');
+                    }
+                });
+            }
+        });
+    });
+    $(function () {
+        $('.enable-btn').click(function (e) {
+            e.preventDefault();
+
+            if (confirm("Bạn có chắc chắn muốn kích hoạt ghế này?")) {
+                var id = $(this).data('id');
+                $.ajax({
+                    url: '/Admin/Seats/Enable',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (result) {
+                        if (result.success) {
+                            window.location.reload();
+                        } else {
+                            alert(result.message);
+                        }
+                    },
+                    error: function () {
+                        alert('Đã xảy ra lỗi khi kích hoạt ghế.');
                     }
                 });
             }
         });
     });
 </script>
+
+@*<script>
+        $(function () {
+            $('.delete-btn').click(function (e) {
+                e.preventDefault();
+
+                if (confirm("Bạn chắc chắn muốn xóa ghế này?")) {
+                    var id = $(this).data('id');
+                    $.ajax({
+                        url: '/Admin/Seats/Delete',
+                        type: 'POST',
+                        data: { id: id },
+                        success: function (result) {
+                            if (result.success) {
+                                window.location.reload();
+                            } else {
+                                alert(result.message);
+                            }
+                        },
+                        error: function () {
+                            alert('An error occurred while deleting the record.');
+                        }
+                    });
+                }
+            });
+        });
+    </script>*@

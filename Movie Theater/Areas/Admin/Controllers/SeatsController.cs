@@ -20,27 +20,36 @@ namespace Movie_Theater.Areas.Admin.Controllers
         // GET: Admin/Seats
         public ActionResult Index()
         {
-            var seat = _dbContext.Seats.Include("Movie").ToList();
+            var seat = _dbContext.Seats.ToList();
             return View(seat);
         }
 
         public ActionResult Create()
         {
-            ViewBag.Movie = _dbContext.Movies.ToList();
+            //ViewBag.Movie = _dbContext.Movies.ToList();
             return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id, State, Cost, MovieId")] Seat seat)
+        public ActionResult Create(Seat seat, int count_chairs = 1)//[Bind(Include = "Id, State, Cost, MovieId")]
         {
+            var this_seat = new Seat()
+            {
+                Cost = seat.Cost,
+                State = seat.State,
+            };
+
             if (ModelState.IsValid)
             {
-                _dbContext.Seats.Add(seat);
-                _dbContext.SaveChanges();
+                for (int i = 0; i < count_chairs; i++)
+                {
+                    _dbContext.Seats.Add(this_seat);
+                    _dbContext.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Movie = _dbContext.Movies.ToList();
+            //ViewBag.Movie = _dbContext.Movies.ToList();
             return View(seat);
         }
 
@@ -55,12 +64,13 @@ namespace Movie_Theater.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Movie = _dbContext.Movies.ToList();
+
+            //ViewBag.Movie = _dbContext.Movies.ToList();
             return View(seat);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id, State, Cost, MovieId")] Seat seat)
+        public ActionResult Edit(Seat seat)// [Bind(Include = "Id, State, Cost, MovieId")] 
         {
             if (ModelState.IsValid)
             {
@@ -73,7 +83,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public JsonResult Delete(int id)
+        public JsonResult Disable(int id)
         {
             var seat = _dbContext.Seats.Find(id);
             if (seat == null)
@@ -81,11 +91,45 @@ namespace Movie_Theater.Areas.Admin.Controllers
                 return Json(new { success = false, message = "Record not found." });
             }
 
-            _dbContext.Seats.Remove(seat);
+            seat.State = false;
+            _dbContext.Seats.Attach(seat);
+            _dbContext.Entry(seat).State = System.Data.Entity.EntityState.Modified;
             _dbContext.SaveChanges();
 
             return Json(new { success = true });
         }
+
+        [HttpPost]
+        public JsonResult Enable(int id)
+        {
+            var seat = _dbContext.Seats.Find(id);
+            if (seat == null)
+            {
+                return Json(new { success = false, message = "Record not found." });
+            }
+
+            seat.State = true;
+            _dbContext.Seats.Attach(seat);
+            _dbContext.Entry(seat).State = System.Data.Entity.EntityState.Modified;
+            _dbContext.SaveChanges();
+
+            return Json(new { success = true });
+        }
+
+        //[HttpPost]
+        //public JsonResult Delete(int id)
+        //{
+        //    var seat = _dbContext.Seats.Find(id);
+        //    if (seat == null)
+        //    {
+        //        return Json(new { success = false, message = "Record not found." });
+        //    }
+
+        //    _dbContext.Seats.Remove(seat);
+        //    _dbContext.SaveChanges();
+
+        //    return Json(new { success = true });
+        //}
 
     }
 }

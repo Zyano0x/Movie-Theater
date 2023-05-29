@@ -7,7 +7,7 @@ using System.Web;
 
 namespace Movie_Theater.Models
 {
-    public class Seat
+    public class Room
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -16,8 +16,6 @@ namespace Movie_Theater.Models
         [Display(Name = "Trạng thái")]
         public bool State { get; set; }
 
-        [Required(ErrorMessage = "Vui lòng nhập giá tiền!")]
-        [Display(Name = "Giá")]
-        public long Cost { get; set; }
+        public ICollection<Seat> Seats { get; set; }
     }
 }

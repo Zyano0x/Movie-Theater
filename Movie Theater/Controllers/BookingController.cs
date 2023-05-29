@@ -18,16 +18,16 @@ namespace Movie_Theater.Controllers
     {
         ApplicationDbContext _dbContext = new ApplicationDbContext();
 
-        public ActionResult ShowSeats(string showtime, string moviename)
-        {
-            ViewData["Movie"] = moviename;
-            ViewData["Time"] = showtime;
-            Session["Title"] = moviename;
-            Session["BeginTime"] = showtime;
-            var seat = _dbContext.Seats.Where(a => a.State == true && a.Movie.Title == moviename).Select(a => a.Id);
+        //public ActionResult ShowSeats(string showtime, string moviename)
+        //{
+        //    ViewData["Movie"] = moviename;
+        //    ViewData["Time"] = showtime;
+        //    Session["Title"] = moviename;
+        //    Session["BeginTime"] = showtime;
+        //    var seat = _dbContext.Seats.Where(a => a.State == true && a.Movie.Title == moviename).Select(a => a.Id);
 
-            return View(seat);
-        }
+        //    return View(seat);
+        //}
 
         public ActionResult Create(int id)
         {
@@ -68,67 +68,67 @@ namespace Movie_Theater.Controllers
             return url;
         } */
 
-        public ActionResult CreateTicket(string mystr)
-        {
-            Random randm = new Random();
-            string upr = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            string downr = "abcdefghijklmnopqrstuvwxyz";
-            string digir = "1234567890";
+        //public ActionResult CreateTicket(string mystr)
+        //{
+        //    Random randm = new Random();
+        //    string upr = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        //    string downr = "abcdefghijklmnopqrstuvwxyz";
+        //    string digir = "1234567890";
 
-            string title = Session["Title"].ToString();
-            var aa = (from a in _dbContext.Seats where (a.Movie.Title == title) select a.Id).FirstOrDefault();
-            int diff = aa;
-            var abc = from a in _dbContext.Seats where (a.State == true && a.Movie.Title == title) select a.Id;
+        //    string title = Session["Title"].ToString();
+        //    var aa = (from a in _dbContext.Seats where (a.Movie.Title == title) select a.Id).FirstOrDefault();
+        //    int diff = aa;
+        //    var abc = from a in _dbContext.Seats where (a.State == true && a.Movie.Title == title) select a.Id;
 
-            List<int> mylist2 = new List<int>();
-            foreach (int ii in abc)
-            {
-                if (ii % 100 == 0)
-                    mylist2.Add(100);
-                else
-                    mylist2.Add(ii % 100);
-            }
+        //    List<int> mylist2 = new List<int>();
+        //    foreach (int ii in abc)
+        //    {
+        //        if (ii % 100 == 0)
+        //            mylist2.Add(100);
+        //        else
+        //            mylist2.Add(ii % 100);
+        //    }
 
-            char[] tno = new char[8];
-            int r1 = randm.Next(0, 25);
-            int r2 = randm.Next(0, 25);
-            int r3 = randm.Next(0, 9);
-            tno[0] = upr[r1];
-            tno[1] = downr[r2];
-            tno[2] = digir[r3];
-            r1 = randm.Next(0, 25);
-            r2 = randm.Next(0, 25);
-            r3 = randm.Next(0, 9);
-            tno[3] = upr[r2];
-            tno[4] = downr[r1];
-            tno[5] = digir[r3];
-            string t_no = new string(tno);
-            string user_id2 = System.Web.HttpContext.Current.User.Identity.GetUserId();
-            for (int i = 0; i < 100; i++)
-            {
+        //    char[] tno = new char[8];
+        //    int r1 = randm.Next(0, 25);
+        //    int r2 = randm.Next(0, 25);
+        //    int r3 = randm.Next(0, 9);
+        //    tno[0] = upr[r1];
+        //    tno[1] = downr[r2];
+        //    tno[2] = digir[r3];
+        //    r1 = randm.Next(0, 25);
+        //    r2 = randm.Next(0, 25);
+        //    r3 = randm.Next(0, 9);
+        //    tno[3] = upr[r2];
+        //    tno[4] = downr[r1];
+        //    tno[5] = digir[r3];
+        //    string t_no = new string(tno);
+        //    string user_id2 = System.Web.HttpContext.Current.User.Identity.GetUserId();
+        //    for (int i = 0; i < 100; i++)
+        //    {
 
-                if (mystr[i] == '1' && !mylist2.Contains(i + 1))
-                {
+        //        if (mystr[i] == '1' && !mylist2.Contains(i + 1))
+        //        {
 
-                    Seat result = (from p in _dbContext.Seats where p.Id == (diff + i) select p).SingleOrDefault();
+        //            Seat result = (from p in _dbContext.Seats where p.Id == (diff + i) select p).SingleOrDefault();
 
-                    result.State = false;
-                    Ticket ticket = new Ticket()
-                    {
-                        Time = Session["BeginTime"].ToString(),
-                        UserId = user_id2,
-                        SeatId = diff + i,
-                        MovieTitle = Session["Title"].ToString(),
-                        TimeBooking = DateTime.Now,
-                        Status = 0
-                    };
-                    _dbContext.Tickets.Add(ticket);
-                    _dbContext.SaveChanges();
-                    return Checkout(ticket);
-                }
-            }
-            return Redirect("Index");
-        }
+        //            result.State = false;
+        //            Ticket ticket = new Ticket()
+        //            {
+        //                Time = Session["BeginTime"].ToString(),
+        //                UserId = user_id2,
+        //                SeatId = diff + i,
+        //                MovieTitle = Session["Title"].ToString(),
+        //                TimeBooking = DateTime.Now,
+        //                Status = 0
+        //            };
+        //            _dbContext.Tickets.Add(ticket);
+        //            _dbContext.SaveChanges();
+        //            return Checkout(ticket);
+        //        }
+        //    }
+        //    return Redirect("Index");
+        //}
 
         public ActionResult Checkout(Ticket ticket)
         {

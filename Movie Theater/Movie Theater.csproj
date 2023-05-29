@@ -202,10 +202,21 @@
     <Compile Include="Migrations\202305271022106_Update.designer.cs">
       <DependentUpon>202305271022106_Update.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202305280320168_01.cs" />
+    <Compile Include="Migrations\202305280320168_01.designer.cs">
+      <DependentUpon>202305280320168_01.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305280412539_02.cs" />
+    <Compile Include="Migrations\202305280412539_02.designer.cs">
+      <DependentUpon>202305280412539_02.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\AccessDeniedAuthorizeAttribute.cs" />
     <Compile Include="Models\Email.cs" />
+    <Compile Include="Models\Room.cs" />
+    <Compile Include="Models\RoomSeat.cs" />
     <Compile Include="Models\Seat.cs" />
     <Compile Include="Models\Ticket.cs" />
+    <Compile Include="ViewModels\RoomViewModel.cs" />
     <Compile Include="VNPay\OrderInfo.cs" />
     <Compile Include="VNPay\VnPayLibary.cs" />
     <Content Include="Areas\Admin\Content\assets\css\dark\style.css" />
@@ -1833,6 +1844,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202305271022106_Update.resx">
       <DependentUpon>202305271022106_Update.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305280320168_01.resx">
+      <DependentUpon>202305280320168_01.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305280412539_02.resx">
+      <DependentUpon>202305280412539_02.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
