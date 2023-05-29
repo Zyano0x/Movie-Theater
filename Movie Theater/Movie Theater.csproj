@@ -193,6 +193,10 @@
     <Compile Include="Migrations\202305231156265_add-required-for-review.designer.cs">
       <DependentUpon>202305231156265_add-required-for-review.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202305271505359_AddRegistrationDate.cs" />
+    <Compile Include="Migrations\202305271505359_AddRegistrationDate.designer.cs">
+      <DependentUpon>202305271505359_AddRegistrationDate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\AccessDeniedAuthorizeAttribute.cs" />
     <Compile Include="Models\Email.cs" />
     <Compile Include="VNPay\OrderInfo.cs" />
@@ -1812,6 +1816,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202305231156265_add-required-for-review.resx">
       <DependentUpon>202305231156265_add-required-for-review.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305271505359_AddRegistrationDate.resx">
+      <DependentUpon>202305271505359_AddRegistrationDate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
