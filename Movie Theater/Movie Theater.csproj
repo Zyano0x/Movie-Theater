@@ -214,6 +214,7 @@
     <Compile Include="Migrations\202305290515448_meo-biet-thay-doi-gi.cs" />
     <Compile Include="Migrations\202305290515448_meo-biet-thay-doi-gi.designer.cs">
       <DependentUpon>202305290515448_meo-biet-thay-doi-gi.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\202305271505359_AddRegistrationDate.cs" />
     <Compile Include="Migrations\202305271505359_AddRegistrationDate.designer.cs">
       <DependentUpon>202305271505359_AddRegistrationDate.cs</DependentUpon>
