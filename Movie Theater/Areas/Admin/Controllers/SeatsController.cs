@@ -74,6 +74,12 @@ namespace Movie_Theater.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                var lstSeat = _dbContext.RoomSeats.Where(s => s.SeatId == seat.Id).ToList();
+                foreach (var item in lstSeat)
+                {
+                    item.Seat_State = seat.State;
+                }
+
                 _dbContext.Entry(seat).State = EntityState.Modified;
                 _dbContext.SaveChanges();
                 return RedirectToAction("Index");
@@ -91,6 +97,12 @@ namespace Movie_Theater.Areas.Admin.Controllers
                 return Json(new { success = false, message = "Record not found." });
             }
 
+            var lstSeat = _dbContext.RoomSeats.Where(s => s.SeatId == seat.Id).ToList();
+            foreach (var item in lstSeat)
+            {
+                item.Seat_State = false;
+            }
+
             seat.State = false;
             _dbContext.Seats.Attach(seat);
             _dbContext.Entry(seat).State = System.Data.Entity.EntityState.Modified;
@@ -106,6 +118,12 @@ namespace Movie_Theater.Areas.Admin.Controllers
             if (seat == null)
             {
                 return Json(new { success = false, message = "Record not found." });
+            }
+
+            var lstSeat = _dbContext.RoomSeats.Where(s => s.SeatId == seat.Id).ToList();
+            foreach (var item in lstSeat)
+            {
+                item.Seat_State = true;
             }
 
             seat.State = true;

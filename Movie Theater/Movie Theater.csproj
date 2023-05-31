@@ -180,6 +180,7 @@
     <Compile Include="Areas\Admin\Controllers\GenresController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\MovieTicketsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\RoomsController.cs" />
     <Compile Include="Areas\Admin\Controllers\SeatsController.cs" />
     <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Migrations\202305211117059_AddStatusMovieTicket.cs" />
@@ -209,6 +210,10 @@
     <Compile Include="Migrations\202305280412539_02.cs" />
     <Compile Include="Migrations\202305280412539_02.designer.cs">
       <DependentUpon>202305280412539_02.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305290515448_meo-biet-thay-doi-gi.cs" />
+    <Compile Include="Migrations\202305290515448_meo-biet-thay-doi-gi.designer.cs">
+      <DependentUpon>202305290515448_meo-biet-thay-doi-gi.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\AccessDeniedAuthorizeAttribute.cs" />
     <Compile Include="Models\Email.cs" />
@@ -1734,6 +1739,9 @@
     <Content Include="Areas\Admin\Views\Seats\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Seats\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Seats\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Rooms\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Rooms\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Rooms\Edit.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -1850,6 +1858,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202305280412539_02.resx">
       <DependentUpon>202305280412539_02.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305290515448_meo-biet-thay-doi-gi.resx">
+      <DependentUpon>202305290515448_meo-biet-thay-doi-gi.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

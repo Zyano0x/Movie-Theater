@@ -1,25 +1,34 @@
-﻿@model IEnumerable<Movie_Theater.Models.Seat>
-
+﻿@model IEnumerable<Movie_Theater.Models.Room>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
-
-<!-- Main content -->
+<style>
+    .list-seat button {
+        border: none;
+        min-width: 46px;
+        height: 19px;
+        padding-top: unset;
+        padding-bottom: unset;
+        border-radius: 4px;
+        margin-bottom: 4px;
+        color: #fff;
+    }
+</style>
 <section>
 
     <!-- Default box -->
     <div class="main-content">
-        <h4 class="page-title">Danh Sách Ghế Ngồi</h4>
+        <h4 class="page-title">Danh sách phòng chiếu</h4>
         <nav class="page-breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Ghế Ngồi</a></li>
+                <li class="breadcrumb-item"><a href="#">Phòng chiếu</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Danh sách</li>
             </ol>
         </nav>
     </div>
     <div class="aside-compose text-align-end">
-        <a href="/Admin/Seats/Create" class="btn btn-success">Thêm Ghế</a>
+        <a href="/Admin/Rooms/Create" class="btn btn-success">Thêm Phòng chiếu</a>
     </div>
     <hr />
     <div class="row margin-left-right-unset">
@@ -28,20 +37,23 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th class="col-md-3">Mã Ghế</th>
-                            <th class="col-md-3">Trạng Thái</th>
-                            <th class="col-md-3">Giá Tiền</th>
+                            <th class="col-md-1">Mã phòng</th>
+                            <th class="col-md-2">Trạng thái</th>
+                            <th class="col-md-6">Danh sách ghế ngồi</th>
                             <th class="col-md-3"></th>
                         </tr>
                     </thead>
                     <tbody>
                         @if (Model != null && Model.Any())
                         {
+                            var i = 1;
                             foreach (var item in Model)
                             {
                                 <tr>
-                                    <td class="col-md-3">@item.Id</td>
-                                    <td class="col-md-3">
+                                    <td class="col-md-1">
+                                        @Html.DisplayFor(modelItem => item.Id)
+                                    </td>
+                                    <td class="col-md-2">
                                         @if (item.State == true)
                                         {
                                             <span style="color: green">Kích hoạt</span>
@@ -51,10 +63,38 @@
                                             <span style="color: red">Vô hiệu hóa</span>
                                         }
                                     </td>
-                                    <td class="col-md-3">@item.Cost - VND</td>
+                                    @{
+                                        List<Movie_Theater.Models.RoomSeat> listSeat = (List<Movie_Theater.Models.RoomSeat>)ViewData["ListSeat"];
+                                    }
+                                    <td class="col-md-6 list-seat">
+                                        <div class="biography biography-crews" style="text-align: start; padding-left: 10px; height: 90px;">
+                                            @foreach (var seat in listSeat)
+                                            {
+                                                if (seat.RoomId == item.Id)
+                                                {
+                                                    if (seat.Seat_State_Book == true)
+                                                    {
+                                                        <button style="background-color: green"><span>@seat.SeatId</span></button>
+                                                    }
+                                                    else
+                                                    {
+                                                        if (seat.Seat_State == true)
+                                                        {
+                                                            <button style="background-color: red"><span>@seat.SeatId</span></button>
+                                                        }
+                                                        else
+                                                        {
+                                                            <button style="background-color: gray"><span>@seat.SeatId</span></button>
+                                                        }
+                                                    }
+                                                }
+
+                                            }
+                                        </div>
+                                    </td>
                                     <td class="col-md-3">
                                         <div>
-                                            @Html.ActionLink("Sửa", "Edit", new { id = item.Id }, new { @class = "btn btn-warning mr-2", style = "margin: 5px 0 5px 0" })
+                                            @Html.ActionLink("Sửa", "Edit", new { id = item.Id }, new { @class = "btn btn-warning mr-2" })
                                             <div>
                                                 @if (item.State == true)
                                                 {
@@ -68,6 +108,7 @@
                                         </div>
                                     </td>
                                 </tr>
+                                i++;
                             }
                         }
                     </tbody>
@@ -77,16 +118,16 @@
     </div>
     <!-- /.card-body -->
 </section>
-<!-- /.content -->
+
 <script>
     $(function () {
         $('.disable-btn').click(function (e) {
             e.preventDefault();
 
-            if (confirm("Bạn có chắc chắn muốn vô hiệu hóa ghế này?")) {
+            if (confirm("Bạn có chắc chắn muốn vô hiệu hóa phòng này?")) {
                 var id = $(this).data('id');
                 $.ajax({
-                    url: '/Admin/Seats/Disable',
+                    url: '/Admin/Rooms/Disable',
                     type: 'POST',
                     data: { id: id },
                     success: function (result) {
@@ -97,7 +138,7 @@
                         }
                     },
                     error: function () {
-                        alert('Đã xảy ra lỗi khi vô hiệu hóa ghế.');
+                        alert('Đã xảy ra lỗi khi vô hiệu hóa phòng.');
                     }
                 });
             }
@@ -107,10 +148,10 @@
         $('.enable-btn').click(function (e) {
             e.preventDefault();
 
-            if (confirm("Bạn có chắc chắn muốn kích hoạt ghế này?")) {
+            if (confirm("Bạn có chắc chắn muốn kích hoạt phòng này?")) {
                 var id = $(this).data('id');
                 $.ajax({
-                    url: '/Admin/Seats/Enable',
+                    url: '/Admin/Rooms/Enable',
                     type: 'POST',
                     data: { id: id },
                     success: function (result) {
@@ -121,7 +162,7 @@
                         }
                     },
                     error: function () {
-                        alert('Đã xảy ra lỗi khi kích hoạt ghế.');
+                        alert('Đã xảy ra lỗi khi kích hoạt phòng.');
                     }
                 });
             }
@@ -129,29 +170,4 @@
     });
 </script>
 
-@*<script>
-        $(function () {
-            $('.delete-btn').click(function (e) {
-                e.preventDefault();
 
-                if (confirm("Bạn chắc chắn muốn xóa ghế này?")) {
-                    var id = $(this).data('id');
-                    $.ajax({
-                        url: '/Admin/Seats/Delete',
-                        type: 'POST',
-                        data: { id: id },
-                        success: function (result) {
-                            if (result.success) {
-                                window.location.reload();
-                            } else {
-                                alert(result.message);
-                            }
-                        },
-                        error: function () {
-                            alert('An error occurred while deleting the record.');
-                        }
-                    });
-                }
-            });
-        });
-    </script>*@

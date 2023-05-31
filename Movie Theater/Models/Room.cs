@@ -16,6 +16,6 @@ namespace Movie_Theater.Models
         [Display(Name = "Trạng thái")]
         public bool State { get; set; }
 
-        public ICollection<Seat> Seats { get; set; }
+        public ICollection<RoomSeat> RoomSeat { get; set; }
     }
 }

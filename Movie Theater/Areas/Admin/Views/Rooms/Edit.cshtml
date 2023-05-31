@@ -1,0 +1,67 @@
+﻿@model Movie_Theater.ViewModels.RoomViewModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<section>
+
+    <!-- Default box -->
+    <div class="main-content">
+        <h4 class="page-title">Chỉnh sửa phòng chiếu</h4>
+        <nav class="page-breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/Admin/Genres">Phòng chiếu</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Chỉnh sửa</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="row">
+        <div class="col-12 col-xl-12 stretch-card">
+            <div class="row flex-grow">
+                <div class="col-md-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            @using (Html.BeginForm("Edit", "Rooms"))
+                            {
+                                @Html.AntiForgeryToken()
+                            <div class="form-horizontal">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.Id)
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        <div class="checkbox">
+                                            @Html.EditorFor(model => model.State)
+                                            @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.SeatIds, "Ghế ngồi chưa đặt vé", htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset" })
+                                    <div class="col-md-12 padding-left-right-unset">
+                                        @Html.ListBoxFor(model => model.SeatIds, new MultiSelectList(Model.Seats, "Id", "Id"), new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.SeatIds, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group text-align-end">
+                                    <div class="col-md-offset-2 col-md-12 padding-left-right-unset">
+                                        <input type="submit" value="Lưu Thay Đổi" class="btn btn-danger mb-1 mb-md-0 mr-2" />
+                                        <a href="/Admin/Rooms" class="btn btn-secondary mb-1 mb-md-0">Quay Lại</a>
+                                    </div>
+                                </div>
+                            </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.card-body -->
+</section>
+

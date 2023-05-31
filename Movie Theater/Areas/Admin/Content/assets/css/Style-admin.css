@@ -9,6 +9,10 @@
     text-transform: uppercase;
 }
 
+table {
+    border-collapse: unset;
+}
+
 .table td {
     white-space: unset;
 }
