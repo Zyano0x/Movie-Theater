@@ -55,11 +55,11 @@
                                             <div style="flex: 1;text-align: center;">
                                                 @if (Model != null && Model.Img != null)
                                                 {
-                                                    <img style="max-width: unset; width: 450px; " src="@Model.Img" alt="Alternate Text" id="pictureUpload" />
+                                                    <img style="max-width: unset; width: 450px; height: 225px; object-fit: cover;" src="@Model.Img" alt="Alternate Text" id="pictureUpload" />
                                                 }
                                                 else
                                                 {
-                                                    <img style="max-width: unset; width: 450px; " src="~/Areas/Admin/Content/assets/images/slide_show_default.png" alt="Alternate Text" id="pictureUpload" />
+                                                    <img style="max-width: unset; width: 450px; height: 225px; object-fit: cover;" src="~/Areas/Admin/Content/assets/images/slide_show_default.png" alt="Alternate Text" id="pictureUpload" />
                                                 }
                                             </div>
                                             <input type="button" id="btnUpload" value="Chọn Ảnh" class="btn btn-success" />

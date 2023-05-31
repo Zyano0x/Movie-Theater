@@ -32,7 +32,11 @@ namespace Movie_Theater.Models
         public DbSet<Review> Reviews { get; set; }
         public DbSet<MovieSchedule> MovieSchedules { get; set; }
         public DbSet<MovieTicket> MovieTickets { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Slider> Sliders { get; set; }
+        public DbSet<Seat> Seats { get; set; }
+        public DbSet<Room> Rooms { get; set; }
+        public DbSet<RoomSeat> RoomSeats { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

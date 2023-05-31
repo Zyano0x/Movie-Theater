@@ -180,6 +180,8 @@
     <Compile Include="Areas\Admin\Controllers\GenresController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\MovieTicketsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\RoomsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SeatsController.cs" />
     <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Migrations\202305211117059_AddStatusMovieTicket.cs" />
     <Compile Include="Migrations\202305211117059_AddStatusMovieTicket.designer.cs">
@@ -193,12 +195,36 @@
     <Compile Include="Migrations\202305231156265_add-required-for-review.designer.cs">
       <DependentUpon>202305231156265_add-required-for-review.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202305270335166_AddSeatsTable.cs" />
+    <Compile Include="Migrations\202305270335166_AddSeatsTable.designer.cs">
+      <DependentUpon>202305270335166_AddSeatsTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305271022106_Update.cs" />
+    <Compile Include="Migrations\202305271022106_Update.designer.cs">
+      <DependentUpon>202305271022106_Update.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305280320168_01.cs" />
+    <Compile Include="Migrations\202305280320168_01.designer.cs">
+      <DependentUpon>202305280320168_01.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305280412539_02.cs" />
+    <Compile Include="Migrations\202305280412539_02.designer.cs">
+      <DependentUpon>202305280412539_02.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202305290515448_meo-biet-thay-doi-gi.cs" />
+    <Compile Include="Migrations\202305290515448_meo-biet-thay-doi-gi.designer.cs">
+      <DependentUpon>202305290515448_meo-biet-thay-doi-gi.cs</DependentUpon>
     <Compile Include="Migrations\202305271505359_AddRegistrationDate.cs" />
     <Compile Include="Migrations\202305271505359_AddRegistrationDate.designer.cs">
       <DependentUpon>202305271505359_AddRegistrationDate.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\AccessDeniedAuthorizeAttribute.cs" />
     <Compile Include="Models\Email.cs" />
+    <Compile Include="Models\Room.cs" />
+    <Compile Include="Models\RoomSeat.cs" />
+    <Compile Include="Models\Seat.cs" />
+    <Compile Include="Models\Ticket.cs" />
+    <Compile Include="ViewModels\RoomViewModel.cs" />
     <Compile Include="VNPay\OrderInfo.cs" />
     <Compile Include="VNPay\VnPayLibary.cs" />
     <Content Include="Areas\Admin\Content\assets\css\dark\style.css" />
@@ -1713,6 +1739,12 @@
     <Content Include="Areas\Admin\Views\Slider\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Slider\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Slider\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Seats\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Seats\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Seats\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Rooms\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Rooms\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Rooms\Edit.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -1765,6 +1797,7 @@
     <Content Include="Views\Booking\Create.cshtml" />
     <Content Include="Views\Booking\Status.cshtml" />
     <Content Include="Areas\Admin\Views\Account\AccessDenied.cshtml" />
+    <Content Include="Views\Booking\ShowSeats.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
@@ -1817,6 +1850,20 @@
     <EmbeddedResource Include="Migrations\202305231156265_add-required-for-review.resx">
       <DependentUpon>202305231156265_add-required-for-review.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305270335166_AddSeatsTable.resx">
+      <DependentUpon>202305270335166_AddSeatsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305271022106_Update.resx">
+      <DependentUpon>202305271022106_Update.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305280320168_01.resx">
+      <DependentUpon>202305280320168_01.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305280412539_02.resx">
+      <DependentUpon>202305280412539_02.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305290515448_meo-biet-thay-doi-gi.resx">
+      <DependentUpon>202305290515448_meo-biet-thay-doi-gi.cs</DependentUpon>
     <EmbeddedResource Include="Migrations\202305271505359_AddRegistrationDate.resx">
       <DependentUpon>202305271505359_AddRegistrationDate.cs</DependentUpon>
     </EmbeddedResource>

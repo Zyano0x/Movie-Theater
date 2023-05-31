@@ -9,6 +9,10 @@
     text-transform: uppercase;
 }
 
+table {
+    border-collapse: unset;
+}
+
 .table td {
     white-space: unset;
 }
@@ -64,7 +68,8 @@ select.form-control {
 .table td.poster_path > img,
 .table td.avatar_path > img {
     width: 80px;
-    height: unset;
+    height: 102px;
+    object-fit: cover;
     border-radius: 4px;
 }
 

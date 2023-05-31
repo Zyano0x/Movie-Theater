@@ -39,13 +39,15 @@
                             foreach (var item in Model)
                             {
                                 <tr>
-                                    <td class="col-md-2">
+                                    <td class="col-md-3">
                                         @Html.DisplayFor(modelItem => item.Title)
                                     </td>
-                                    <td class="col-md-1">
-                                        @Html.DisplayFor(modelItem => item.Description)
+                                    <td class="col-md-3">
+                                        <div class="biography biography-crews">
+                                            @Html.DisplayFor(modelItem => item.Description)
+                                        </div>
                                     </td>
-                                    <td class="col-md-1 avatar_path">
+                                    <td class="col-md-4 avatar_path">
                                         <img class="width-100-percent" src="@item.Img" alt="@item.Img" />
                                     </td>
                                     <td class="col-md-2">
