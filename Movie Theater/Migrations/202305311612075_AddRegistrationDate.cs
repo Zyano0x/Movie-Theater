@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class AddRegistrationDate : DbMigration
+    public partial class Update00 : DbMigration
     {
         public override void Up()
         {

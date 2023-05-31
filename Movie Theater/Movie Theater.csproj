@@ -203,21 +203,21 @@
     <Compile Include="Migrations\202305271022106_Update.designer.cs">
       <DependentUpon>202305271022106_Update.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202305280320168_01.cs" />
-    <Compile Include="Migrations\202305280320168_01.designer.cs">
-      <DependentUpon>202305280320168_01.cs</DependentUpon>
+    <Compile Include="Migrations\202305280320168_UpdateSeatsTable.cs" />
+    <Compile Include="Migrations\202305280320168_UpdateSeatsTable.designer.cs">
+      <DependentUpon>202305280320168_UpdateSeatsTable.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202305280412539_02.cs" />
-    <Compile Include="Migrations\202305280412539_02.designer.cs">
-      <DependentUpon>202305280412539_02.cs</DependentUpon>
+    <Compile Include="Migrations\202305280412539_AddRooms.cs" />
+    <Compile Include="Migrations\202305280412539_AddRooms.designer.cs">
+      <DependentUpon>202305280412539_AddRooms.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\202305290515448_meo-biet-thay-doi-gi.cs" />
     <Compile Include="Migrations\202305290515448_meo-biet-thay-doi-gi.designer.cs">
       <DependentUpon>202305290515448_meo-biet-thay-doi-gi.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202305271505359_AddRegistrationDate.cs" />
-    <Compile Include="Migrations\202305271505359_AddRegistrationDate.designer.cs">
-      <DependentUpon>202305271505359_AddRegistrationDate.cs</DependentUpon>
+    <Compile Include="Migrations\202305311612075_AddRegistrationDate.cs" />
+    <Compile Include="Migrations\202305311612075_AddRegistrationDate.designer.cs">
+      <DependentUpon>202305311612075_AddRegistrationDate.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\AccessDeniedAuthorizeAttribute.cs" />
     <Compile Include="Models\Email.cs" />
@@ -1857,17 +1857,17 @@
     <EmbeddedResource Include="Migrations\202305271022106_Update.resx">
       <DependentUpon>202305271022106_Update.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202305280320168_01.resx">
-      <DependentUpon>202305280320168_01.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202305280320168_UpdateSeatsTable.resx">
+      <DependentUpon>202305280320168_UpdateSeatsTable.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202305280412539_02.resx">
-      <DependentUpon>202305280412539_02.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202305280412539_AddRooms.resx">
+      <DependentUpon>202305280412539_AddRooms.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202305290515448_meo-biet-thay-doi-gi.resx">
       <DependentUpon>202305290515448_meo-biet-thay-doi-gi.cs</DependentUpon>
-	</EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202305271505359_AddRegistrationDate.resx">
-      <DependentUpon>202305271505359_AddRegistrationDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202305311612075_AddRegistrationDate.resx">
+      <DependentUpon>202305311612075_AddRegistrationDate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
