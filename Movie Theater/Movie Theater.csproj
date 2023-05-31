@@ -1865,6 +1865,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202305290515448_meo-biet-thay-doi-gi.resx">
       <DependentUpon>202305290515448_meo-biet-thay-doi-gi.cs</DependentUpon>
+	</EmbeddedResource>
     <EmbeddedResource Include="Migrations\202305271505359_AddRegistrationDate.resx">
       <DependentUpon>202305271505359_AddRegistrationDate.cs</DependentUpon>
     </EmbeddedResource>
