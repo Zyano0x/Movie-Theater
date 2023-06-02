@@ -7,12 +7,12 @@
 <div class="wrapper-container no-top">
     <div class="wrapper-box-slideshow">
         <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
-            @if (ViewBag.slider.Count != 0)
+            @if (ViewBag.News.Count != 0)
             {
                 <ol class="carousel-indicators">
                     @{
                         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                        for (int i = 1; i < ViewBag.slider.Count; i++)
+                        for (int i = 1; i < ViewBag.News.Count; i++)
                         {
                             <li data-target="#myCarousel" data-slide-to="@i"></li>
                         }
@@ -22,22 +22,22 @@
                 <!-- Wrapper for slides -->
                 <div class="carousel-inner">
                     @{
-                        <a href="#" class="item active">
-                            <img src="@ViewBag.slider[0].Img" alt="Ảnh Slide 1">
+                        <a href="@Url.Action("Details", "News", new { name = ViewBag.News[0].Url})" class="item active">
+                            <img src="@ViewBag.News[0].Img" alt="Ảnh 1">
                             <div class="carousel-caption">
-                                <h6>@ViewBag.slider[0].Title</h6>
-                                <p>@ViewBag.slider[0].Description</p>
+                                <h6>@ViewBag.News[0].Title</h6>
+                                <p>@ViewBag.News[0].Description</p>
                             </div>
                         </a>
-                        if (ViewBag.slider.Count > 1)
+                        if (ViewBag.News.Count > 1)
                         {
-                            for (int i = 1; i < ViewBag.slider.Count; i++)
+                            for (int i = 1; i < ViewBag.News.Count; i++)
                             {
-                                <a href="#" class="item">
-                                    <img src="@ViewBag.slider[i].Img" alt="Ảnh Slide <@i>">
+                                <a href="@Url.Action("Details", "News", new { name = ViewBag.News[i].Url})" class="item">
+                                    <img src="@ViewBag.News[i].Img" alt="Ảnh <@i>">
                                     <div class="carousel-caption">
-                                        <h6>@ViewBag.slider[i].Title</h6>
-                                        <p>@ViewBag.slider[i].Description</p>
+                                        <h6>@ViewBag.News[i].Title</h6>
+                                        <p>@ViewBag.News[i].Description</p>
                                     </div>
                                 </a>
                             }
@@ -78,7 +78,7 @@
                                         <img src="@movie.PosterPath" alt="Alternate Text" />
 
                                         <div>
-                                            <a href="@Url.Action("Details", "Movies", new { id = movie.Id })">Xem chi tiết</a>
+                                            <a href="@Url.Action("Details", "Movies", new { name = movie.Url})">Xem chi tiết</a>
                                             <a href="@Url.Action("Create","Booking", new { id = movie.Id})">Đặt vé</a>
                                         </div>
                                     </div>
@@ -292,13 +292,20 @@
                                     <div class="img">
                                         <img src="@movie.PosterPath" alt="Alternate Text" />
                                         <div>
-                                            <a href="@Url.Action("Details","Movies", new { id = movie.Id})">Xem chi tiết</a>
+                                            <a href="@Url.Action("Details","Movies", new { name = movie.Url})">Xem chi tiết</a>
                                         </div>
                                     </div>
                                     <div class="caption">
                                         <div class="scores">
                                             <img src="~/Content/Images/Icons/popcorn_icon.png" alt="Alternate Text" />
-                                            <span>...%</span>
+                                            @if (movie.Score == 0)
+                                            {
+                                                <span>--</span>
+                                            }
+                                            else
+                                            {
+                                                <span>@movie.Score%</span>
+                                            }
                                         </div>
                                         <span>@movie.Title</span>
                                     </div>

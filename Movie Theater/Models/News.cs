@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Movie_Theater.Models
 {
-    public class Slider
+    public class News
     {
         public int Id { get; set; }
 
@@ -21,5 +21,19 @@ namespace Movie_Theater.Models
         [Required(ErrorMessage = "Vui Lòng Nhập Mô Tả")]
         [Display(Name = "Mô Tả")]
         public string Description { get; set; }
+
+        [Required(ErrorMessage = "Vui Lòng Nhập Nội Dung")]
+        [Display(Name = "Nội Dung")]
+        public string Content { get; set; }
+
+        [Display(Name = "Tác Giả")]
+        public string Author { get; set; }
+
+        [Display(Name = "Ngày Đăng")]
+        public DateTime PublicationDate { get; set; }
+
+        public string Url { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

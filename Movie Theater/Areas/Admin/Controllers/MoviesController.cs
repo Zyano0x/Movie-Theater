@@ -1,4 +1,5 @@
 ﻿using Movie_Theater.Models;
+using Movie_Theater.Models.Common;
 using Movie_Theater.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -129,7 +130,6 @@ namespace Movie_Theater.Areas.Admin.Controllers
 
             return View(viewModel);
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(MovieViewModel viewModel, HttpPostedFileBase Poster)
@@ -149,7 +149,8 @@ namespace Movie_Theater.Areas.Admin.Controllers
                     MovieGenres = viewModel.GenreIds.Select(g => new MovieGenre { GenreId = g }).ToList(),
                     MovieCrews = viewModel.CastIds.Select(g => new MovieCrew { MovieId = viewModel.Id, CrewId = g, CRoleId = 1 })
                                         .Concat(viewModel.DirectorIds.Select(g => new MovieCrew { MovieId = viewModel.Id, CrewId = g, CRoleId = 2 }))
-                                        .ToList()
+                                        .ToList(),
+                    Url = StringHelper.ConvertText(viewModel.Title)
                 };
 
                 _dbContext.Movies.Add(movie);
@@ -197,7 +198,6 @@ namespace Movie_Theater.Areas.Admin.Controllers
 
             return View(viewModel);
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(MovieViewModel movieViewModel, HttpPostedFileBase Poster)

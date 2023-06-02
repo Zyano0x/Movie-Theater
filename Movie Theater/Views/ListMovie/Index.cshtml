@@ -2,7 +2,7 @@
 @using PagedList.Mvc;
 
 @{
-    ViewBag.Title = ViewBag.Name + " - A Movie";
+    ViewBag.Title = "Danh Sách Phim - A Movie";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="wrapper-container">
@@ -90,7 +90,10 @@
                                 <img src="@movie.PosterPath" alt="Alternate Text" />
 
                                 <div>
-                                    <a href="@Url.Action("details", "movies", new { id = movie.Id })">Xem chi tiết</a>
+                                    @{ 
+                                        var encodedName = Movie_Theater.Models.Common.StringHelper.ConvertText(movie.Title);
+                                    }
+                                    <a href="@Url.Action("Details", "Movies", new { name = encodedName })">Xem chi tiết</a>
                                     @{
                                         if (ViewBag.scheduleId.Contains(movie.Id))
                                         {
@@ -107,11 +110,11 @@
                                         var movieScore = movie.Score;
                                         if (movie.ReleaseDate > DateTime.Now)
                                         {
-                                            <strong>...%</strong>
+                                            <strong>--</strong>
                                         }
                                         else if (movieScore < 1)
                                         {
-                                            <strong>100%</strong>
+                                            <strong>--</strong>
                                         }
                                         else
                                         {

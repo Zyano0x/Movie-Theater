@@ -20,8 +20,8 @@ namespace Movie_Theater.Controllers
                 var user = User.Identity;
                 Session["Username"] = user.Name;
             }
-            var slider = _dbContext.Sliders.ToList();
-            ViewBag.slider = slider;
+            var news = _dbContext.News.Where(n => n.IsActive == true).ToList();
+            ViewBag.News = news;
 
             var movie = new MovieScheduleViewModel
             {

@@ -66,16 +66,17 @@
     $(function () {
         $('.delete-btn').click(function (e) {
             e.preventDefault();
+            var btn = $(this);
+            var id = btn.data('id');
 
             if (confirm("Bạn chắc chắn muốn xóa thể loại phim này?")) {
-                var id = $(this).data('id');
                 $.ajax({
                     url: '/Admin/Genres/Delete',
                     type: 'POST',
                     data: { id: id },
                     success: function (result) {
                         if (result.success) {
-                            window.location.reload();
+                            btn.closest('tr').remove(); // Remove the deleted row from the table
                         } else {
                             alert(result.message);
                         }

@@ -1,0 +1,160 @@
+﻿@model IEnumerable<Movie_Theater.Models.News>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml"; ;
+}
+
+<section>
+
+    <!-- Default box -->
+    <div class="main-content">
+        <h4 class="page-title">Danh sách Tin Tức</h4>
+        <nav class="page-breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Tin Tức</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Danh sách</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="aside-compose text-align-end">
+        <a href="/Admin/News/Create" class="btn btn-success">Thêm Tin Tức</a>
+    </div>
+    <hr />
+    <div class="row margin-left-right-unset">
+        <div class="col-12 col-xl-12 stretch-card">
+            <div class="row flex-grow">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="col-md-2">Tiêu đề</th>
+                            <th class="col-md-4">Mô tả</th>
+                            <th class="col-md-1">Tác Giả</th>
+                            <th class="col-md-2"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            var i = 1;
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="col-md-2">
+                                        @Html.DisplayFor(modelItem => item.Title)
+                                    </td>
+                                    <td class="col-md-4">
+                                        <div class="biography biography-crews">
+                                            @Html.DisplayFor(modelItem => item.Description)
+                                        </div>
+                                    </td>
+                                    <td class="col-md-1">
+                                        @Html.DisplayFor(modelItem => item.Author)
+                                    </td>
+                                    <td class="col-md-2">
+                                        <div>
+                                            @Html.ActionLink("Sửa", "Edit", new { id = item.Id }, new { @class = "btn btn-warning" })
+                                            <button type="submit" class="btn btn-danger delete-btn" data-id="@item.Id" style="margin: 5px 0;">Xóa</button>
+                                            @if (item.IsActive == true)
+                                            {
+                                                <button type="submit" class="btn btn-secondary disable-btn" data-id="@item.Id" style="margin: 5px 0;">Ẩn Tin</button>
+                                            }
+                                            else
+                                            {
+                                                <button type="submit" class="btn btn-primary enable-btn" data-id="@item.Id" style="margin: 5px 0;">Hiển Thị</button>
+                                            }
+                                        </div>
+                                    </td>
+                                </tr>
+                                i++;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- /.card-body -->
+</section>
+<!-- /.content -->
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script>
+    $(function () {
+        $('.delete-btn').click(function (e) {
+            e.preventDefault();
+            var btn = $(this);
+            var id = btn.data('id');
+
+            if (confirm("Bạn có chắc chắn muốn xóa tin này?")) {
+                $.ajax({
+                    url: '/Admin/News/Delete',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (result) {
+                        if (result.success) {
+                            btn.closest('tr').remove(); // Remove the deleted row from the table
+                        } else {
+                            alert(result.message);
+                        }
+                    },
+                    error: function () {
+                        alert('An error occurred while deleting the record.');
+                    }
+                });
+            }
+        });
+    });
+
+    $('body').on('click', '.disable-btn', function () {
+        var btn = $(this);
+        var id = btn.data('id');
+        disableAccount(id, btn);
+    });
+
+    $('body').on('click', '.enable-btn', function () {
+        var btn = $(this);
+        var id = btn.data('id');
+        enableAccount(id, btn);
+    });
+
+    function disableAccount(id, btn) {
+        if (confirm("Bạn có chắc chắn muốn ẩn tin này?")) {
+            $.ajax({
+                url: '/Admin/News/IsActive',
+                type: 'POST',
+                data: { id: id },
+                success: function (result) {
+                    if (result.success) {
+                        btn.removeClass('btn btn-secondary disable-btn').addClass('btn btn-primary enable-btn').text('Hiển Thị');
+                    } else {
+                        alert(result.message);
+                    }
+                },
+                error: function () {
+                    alert('Đã xảy ra lỗi khi ẩn tin.');
+                }
+            });
+        }
+    }
+
+    function enableAccount(id, btn) {
+        if (confirm("Bạn có chắc chắn muốn hiển thị tin này?")) {
+            $.ajax({
+                url: '/Admin/News/IsActive',
+                type: 'POST',
+                data: { id: id },
+                success: function (result) {
+                    if (result.success) {
+                        btn.removeClass('btn btn-primary enable-btn').addClass('btn btn-secondary disable-btn').text('Ẩn Tin');
+                    } else {
+                        alert(result.message);
+                    }
+                },
+                error: function () {
+                    alert('Đã xảy ra lỗi khi hiển thị tin này.');
+                }
+            });
+        }
+    }
+</script>
+

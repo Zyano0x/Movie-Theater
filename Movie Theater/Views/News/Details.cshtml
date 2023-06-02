@@ -1,0 +1,24 @@
+﻿@model Movie_Theater.Models.News
+
+@{
+    ViewBag.Title = ViewBag.NewsArticle + " << A Movie - Movies and News";
+    var youtubeEmbedCodePattern = @"(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/embed\/|youtu\.be\/)([\w-]+)";
+    var youtubeEmbedHtml = "<iframe width=\"560\" height=\"315\" src=\"{0}\" frameborder=\"0\" allow=\"autoplay; encrypted-media\" allowfullscreen></iframe>";
+    var embeddedContent = System.Text.RegularExpressions.Regex.Replace(Model.Content, youtubeEmbedCodePattern, match => string.Format(youtubeEmbedHtml, match.Value));
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="news-details">
+        <h1>@Model.Title</h1>
+        <div class="publication-info">
+            <span class="date">@Model.PublicationDate.ToString("MMMM dd, yyyy")</span>
+        </div>
+        <div class="content">
+            @Html.Raw(embeddedContent)
+        </div>
+    </div>
+    <div class="back-link">
+        <a href="@Url.Action("Index", "News")">Back to News</a>
+    </div>
+</div>

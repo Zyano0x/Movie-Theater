@@ -38,7 +38,6 @@
                     <tbody>
                         @if (Model != null && Model.Any())
                         {
-                            var i = 1;
                             foreach (var item in Model)
                             {
                                 <tr>
@@ -72,7 +71,6 @@
                                         }
                                     </td>
                                 </tr>
-                                i++;
                             }
                         }
                     </tbody>
@@ -87,18 +85,28 @@
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script>
     $(function () {
-        $('.disable-btn').click(function (e) {
-            e.preventDefault();
+        $('body').on('click', '.disable-btn', function () {
+            var btn = $(this);
+            var id = btn.data('id');
+            disableAccount(id, btn);
+        });
 
+        $('body').on('click', '.enable-btn', function () {
+            var btn = $(this);
+            var id = btn.data('id');
+            enableAccount(id, btn);
+        });
+
+        function disableAccount(id, btn) {
             if (confirm("Bạn có chắc chắn muốn vô hiệu hóa tài khoản này?")) {
-                var id = $(this).data('id');
                 $.ajax({
                     url: '/Admin/Account/Disable',
                     type: 'POST',
                     data: { id: id },
                     success: function (result) {
                         if (result.success) {
-                            window.location.reload();
+                            btn.removeClass('btn btn-danger disable-btn').addClass('btn btn-primary enable-btn').text('Kích hoạt');
+                            btn.parent().prev().text('Disabled');
                         } else {
                             alert(result.message);
                         }
@@ -108,21 +116,18 @@
                     }
                 });
             }
-        });
-    });
-    $(function () {
-        $('.enable-btn').click(function (e) {
-            e.preventDefault();
+        }
 
+        function enableAccount(id, btn) {
             if (confirm("Bạn có chắc chắn muốn kích hoạt tài khoản này?")) {
-                var id = $(this).data('id');
                 $.ajax({
                     url: '/Admin/Account/Enable',
                     type: 'POST',
                     data: { id: id },
                     success: function (result) {
                         if (result.success) {
-                            window.location.reload();
+                            btn.removeClass('btn btn-primary enable-btn').addClass('btn btn-danger disable-btn').text('Vô hiệu hóa');
+                            btn.parent().prev().text('Enabled');
                         } else {
                             alert(result.message);
                         }
@@ -132,6 +137,7 @@
                     }
                 });
             }
-        });
+        }
     });
+
 </script>

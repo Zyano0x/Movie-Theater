@@ -183,6 +183,7 @@
     <Compile Include="Areas\Admin\Controllers\RoomsController.cs" />
     <Compile Include="Areas\Admin\Controllers\SeatsController.cs" />
     <Compile Include="Controllers\BookingController.cs" />
+    <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Migrations\202305211117059_AddStatusMovieTicket.cs" />
     <Compile Include="Migrations\202305211117059_AddStatusMovieTicket.designer.cs">
       <DependentUpon>202305211117059_AddStatusMovieTicket.cs</DependentUpon>
@@ -219,7 +220,28 @@
     <Compile Include="Migrations\202305311612075_AddRegistrationDate.designer.cs">
       <DependentUpon>202305311612075_AddRegistrationDate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202306011708372_UpdateMoviesTable.cs" />
+    <Compile Include="Migrations\202306011708372_UpdateMoviesTable.designer.cs">
+      <DependentUpon>202306011708372_UpdateMoviesTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306011715072_UpdateCrewsTable.cs" />
+    <Compile Include="Migrations\202306011715072_UpdateCrewsTable.designer.cs">
+      <DependentUpon>202306011715072_UpdateCrewsTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306020422566_Changes.cs" />
+    <Compile Include="Migrations\202306020422566_Changes.designer.cs">
+      <DependentUpon>202306020422566_Changes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306020534500_UpdateNewsTable.cs" />
+    <Compile Include="Migrations\202306020534500_UpdateNewsTable.designer.cs">
+      <DependentUpon>202306020534500_UpdateNewsTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306020642327_AddStatusNewsTable.cs" />
+    <Compile Include="Migrations\202306020642327_AddStatusNewsTable.designer.cs">
+      <DependentUpon>202306020642327_AddStatusNewsTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\AccessDeniedAuthorizeAttribute.cs" />
+    <Compile Include="Models\Common\StringHelper.cs" />
     <Compile Include="Models\Email.cs" />
     <Compile Include="Models\Room.cs" />
     <Compile Include="Models\RoomSeat.cs" />
@@ -1500,7 +1522,7 @@
     <Compile Include="Controllers\MovieSchedulesController.cs" />
     <Compile Include="Controllers\MoviesController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
-    <Compile Include="Areas\Admin\Controllers\SliderController.cs" />
+    <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1522,7 +1544,7 @@
     <Compile Include="Models\MovieSchedule.cs" />
     <Compile Include="Models\MovieTicket.cs" />
     <Compile Include="Models\Review.cs" />
-    <Compile Include="Models\Slider.cs" />
+    <Compile Include="Models\News.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="ViewModels\CrewViewModel.cs" />
@@ -1737,9 +1759,9 @@
     <Content Include="Areas\Admin\Views\MovieSchedules\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\MovieTickets\Index.cshtml" />
     <Content Include="Areas\Admin\Views\MovieTickets\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Slider\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Slider\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Slider\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\News\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\News\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\News\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Seats\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Seats\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Seats\Edit.cshtml" />
@@ -1799,6 +1821,7 @@
     <Content Include="Views\Booking\Status.cshtml" />
     <Content Include="Areas\Admin\Views\Account\AccessDenied.cshtml" />
     <Content Include="Views\Booking\ShowSeats.cshtml" />
+    <Content Include="Views\News\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
@@ -1868,6 +1891,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202305311612075_AddRegistrationDate.resx">
       <DependentUpon>202305311612075_AddRegistrationDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306011708372_UpdateMoviesTable.resx">
+      <DependentUpon>202306011708372_UpdateMoviesTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306011715072_UpdateCrewsTable.resx">
+      <DependentUpon>202306011715072_UpdateCrewsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306020422566_Changes.resx">
+      <DependentUpon>202306020422566_Changes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306020534500_UpdateNewsTable.resx">
+      <DependentUpon>202306020534500_UpdateNewsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306020642327_AddStatusNewsTable.resx">
+      <DependentUpon>202306020642327_AddStatusNewsTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

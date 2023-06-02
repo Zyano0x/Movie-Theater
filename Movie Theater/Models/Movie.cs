@@ -18,6 +18,9 @@ namespace Movie_Theater.Models
         [Display(Name = "Tên Phim")]
         public string Title { get; set; }
 
+        [Display(Name = "Đường Dẫn")]
+        public string Url { get; set; }
+
         [DataType(DataType.Date)]
         [Display(Name = "Ngày Công Chiếu")]
         public DateTime ReleaseDate { get; set; }

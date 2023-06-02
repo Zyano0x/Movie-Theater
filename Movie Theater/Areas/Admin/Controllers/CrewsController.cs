@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Movie_Theater.Models.Common;
 
 namespace Movie_Theater.Areas.Admin.Controllers
 {
@@ -36,7 +37,8 @@ namespace Movie_Theater.Areas.Admin.Controllers
                     DateOfBirth = viewModel.DateOfBirth,
                     Birthplace = viewModel.Birthplace,
                     Biography = viewModel.Biography,
-                    AvatarPath = viewModel.AvatarPath
+                    AvatarPath = viewModel.AvatarPath,
+                    Url = StringHelper.ConvertText(StringHelper.RemoveDiacritics(viewModel.Name))
                 };
 
                 _dbContext.Crews.Add(crew);

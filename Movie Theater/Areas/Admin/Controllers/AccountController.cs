@@ -216,6 +216,19 @@ namespace Movie_Theater.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                var isEmailAlreadyExists = _dbContext.Users.Any(x => x.Email == model.Email);
+                var isUsernameAlreadyExists = _dbContext.Users.Any(x => x.UserName == model.UserName);
+
+                if (isEmailAlreadyExists)
+                {
+                    ModelState.AddModelError("Email", "This email already exists");
+                }
+
+                if (isUsernameAlreadyExists)
+                {
+                    ModelState.AddModelError("Username", "Username already exists");
+                }
+
                 var user = new ApplicationUser
                 {
                     UserName = model.UserName,
