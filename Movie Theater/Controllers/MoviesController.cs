@@ -83,14 +83,15 @@ namespace Movie_Theater.Controllers
             }
 
             _dbContext.SaveChanges();
-            return RedirectToAction("Details", "Movies", new { id = id });
+            var url = _dbContext.Movies.First(x => x.Id == id).Url;
+            return RedirectToAction("Details", "Movies", new { name = url });
         }
 
         public ActionResult Details(string name)
         {
             var userLogin = System.Web.HttpContext.Current.User.Identity.GetUserId();
             var movieTickets = _dbContext.MovieTickets.ToList();
-            ViewBag.CheckTicket = movieTickets.FirstOrDefault(c => c.Movie.Url == name && c.UserId == userLogin && c.Status != 0);
+            //ViewBag.CheckTicket = movieTickets.FirstOrDefault(c => c.Movie.Url == name && c.UserId == userLogin && c.Status != 0);
             ViewBag.CheckMovieReleaseDate = (from m in _dbContext.Movies where m.ReleaseDate > DateTime.Now select m.Id).ToList();
             var movie = _dbContext.Movies
                 .Include("MovieGenres.Genre")

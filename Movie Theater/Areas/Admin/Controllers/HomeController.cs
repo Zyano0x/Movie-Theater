@@ -17,7 +17,7 @@ using System.Globalization;
 
 namespace Movie_Theater.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Staff, Adminstrator")]
+    [AdminAuthorize(Roles = "Staff, Adminstrator")]
     public class HomeController : Controller
     {
         ApplicationDbContext _dbContext = new ApplicationDbContext();

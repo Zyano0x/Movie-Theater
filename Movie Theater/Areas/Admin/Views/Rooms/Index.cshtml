@@ -39,7 +39,6 @@
                         <tr>
                             <th class="col-md-1">Mã phòng</th>
                             <th class="col-md-2">Trạng thái</th>
-                            <th class="col-md-6">Danh sách ghế ngồi</th>
                             <th class="col-md-3"></th>
                         </tr>
                     </thead>
@@ -62,35 +61,6 @@
                                         {
                                             <span style="color: red">Vô hiệu hóa</span>
                                         }
-                                    </td>
-                                    @{
-                                        List<Movie_Theater.Models.RoomSeat> listSeat = (List<Movie_Theater.Models.RoomSeat>)ViewData["ListSeat"];
-                                    }
-                                    <td class="col-md-6 list-seat">
-                                        <div class="biography biography-crews" style="text-align: start; padding-left: 10px; height: 90px;">
-                                            @foreach (var seat in listSeat)
-                                            {
-                                                if (seat.RoomId == item.Id)
-                                                {
-                                                    if (seat.Seat_State_Book == true)
-                                                    {
-                                                        <button style="background-color: green"><span>@seat.SeatId</span></button>
-                                                    }
-                                                    else
-                                                    {
-                                                        if (seat.Seat_State == true)
-                                                        {
-                                                            <button style="background-color: red"><span>@seat.SeatId</span></button>
-                                                        }
-                                                        else
-                                                        {
-                                                            <button style="background-color: gray"><span>@seat.SeatId</span></button>
-                                                        }
-                                                    }
-                                                }
-
-                                            }
-                                        </div>
                                     </td>
                                     <td class="col-md-3">
                                         <div>

@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace Movie_Theater.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Staff, Adminstrator")]
+    [AdminAuthorize(Roles = "Staff, Adminstrator")]
     public class MoviesController : Controller
     {
         ApplicationDbContext _dbContext = new ApplicationDbContext();
@@ -193,7 +193,8 @@ namespace Movie_Theater.Areas.Admin.Controllers
                 PosterPath = movie.PosterPath,
                 //Score = movie.Score,
                 //Distributor = movie.Distributor,
-                TrailerUrl = movie.TrailerUrl
+                TrailerUrl = movie.TrailerUrl,
+                Url = movie.Url
             };
 
             return View(viewModel);
@@ -221,21 +222,8 @@ namespace Movie_Theater.Areas.Admin.Controllers
             movie.Rating = movieViewModel.Rating;
             movie.Runtime = movieViewModel.Runtime;
             movie.TrailerUrl = movieViewModel.TrailerUrl;
-
-            if (Poster != null && Poster.ContentLength > 0)
-            {
-                // Delete the old poster if it exists
-                if (System.IO.File.Exists(movie.PosterPath))
-                {
-                    System.IO.File.Delete(movie.PosterPath);
-                }
-
-                // Save the new poster and update the movie's poster path
-                var posterFileName = Path.GetFileName(Poster.FileName);
-                var newPoster = Path.Combine(Server.MapPath("~/Content/Images/"), posterFileName);
-                Poster.SaveAs(newPoster);
-                movie.PosterPath = "/Content/Images/" + posterFileName;
-            }
+            movie.PosterPath = movieViewModel.PosterPath;
+            movie.Url = movieViewModel.Url;
 
             // Remove existing genres that are not in the viewModel
             var genresToRemove = movie.MovieGenres.Where(mg => !movieViewModel.GenreIds.Contains(mg.GenreId)).ToList();

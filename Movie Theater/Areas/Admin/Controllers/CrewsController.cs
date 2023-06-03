@@ -10,7 +10,7 @@ using Movie_Theater.Models.Common;
 
 namespace Movie_Theater.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Staff, Adminstrator")]
+    [AdminAuthorize(Roles = "Staff, Adminstrator")]
     public class CrewsController : Controller
     {
         ApplicationDbContext _dbContext = new ApplicationDbContext();

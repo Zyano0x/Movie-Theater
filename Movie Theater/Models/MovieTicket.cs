@@ -25,20 +25,13 @@ namespace Movie_Theater.Models
         public ApplicationUser User { get; set; }
 
         [Column(Order = 4)]
-        public int Quantity { get; set; }
-
-        [Column(Order = 5)]
         public int MovieId { get; set; }
         public Movie Movie { get; set; }
 
-        [Column(Order = 6)]
+        [Column(Order = 5)]
         public DateTime TimeBooking { get; set; }
 
-        [Column(Order = 7)]
-        public int? SeatId { get; set; }
-        public virtual Seat Seat { get; set; }
-
-        [Column(Order = 8)]
+        [Column(Order = 6)]
         public int Status { get; set; }
     }
 }

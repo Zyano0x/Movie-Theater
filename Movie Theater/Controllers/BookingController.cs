@@ -130,7 +130,7 @@ namespace Movie_Theater.Controllers
         //    return Redirect("Index");
         //}
 
-        public ActionResult Checkout(Ticket ticket)
+        public ActionResult Checkout()
         {
             string vnp_Returnurl = ConfigurationManager.AppSettings["vnp_Returnurl"]; //URL nhan ket qua tra ve 
             string vnp_Url = ConfigurationManager.AppSettings["vnp_Url"]; //URL thanh toan cua VNPAY 
@@ -142,11 +142,11 @@ namespace Movie_Theater.Controllers
             //Get payment input
             OrderInfo order = new OrderInfo();
             //Save order to db
-            order.OrderId = ticket.Id;
-            order.OrderDesc = ticket.MovieTitle;
-            order.Amount = ticket.Seat.Cost;
-            order.Status = "0";
-            order.CreatedDate = DateTime.Now;
+            //order.OrderId = ticket.Id;
+            //order.OrderDesc = ticket.MovieTitle;
+            //order.Amount = ticket.Seat.Cost;
+            //order.Status = "0";
+            //order.CreatedDate = DateTime.Now;
             //Build URL for VNPAY
             VnPayLibrary vnpay = new VnPayLibrary();
             vnpay.AddRequestData("vnp_Version", VnPayLibrary.VERSION);

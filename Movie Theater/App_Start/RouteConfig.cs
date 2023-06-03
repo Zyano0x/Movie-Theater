@@ -14,6 +14,13 @@ namespace Movie_Theater
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+               name: "Review",
+               url: "r/{id}",
+               defaults: new { controller = "Movies", action = "Review", id = UrlParameter.Optional },
+               namespaces: new[] { "Movie_Theater.Controllers" }
+           );
+
+            routes.MapRoute(
                 name: "NewsArticle",
                 url: "article/{name}",
                 defaults: new { controller = "News", action = "Details", name = UrlParameter.Optional },
@@ -36,7 +43,7 @@ namespace Movie_Theater
 
             routes.MapRoute(
                 name: "UserManage",
-                url: "dang-ky",
+                url: "quan-ly",
                 defaults: new { controller = "Manage", action = "Index", id = UrlParameter.Optional },
                 namespaces: new[] { "Movie_Theater.Controllers" }
             );

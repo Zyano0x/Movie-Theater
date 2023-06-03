@@ -71,5 +71,7 @@ namespace Movie_Theater.ViewModels
         [Required(ErrorMessage = "Vui Lòng Chọn Ảnh Bìa Phim")]
         [Display(Name = "Poster")]
         public string PosterPath { get; set; }
+
+        public string Url { get; set; }
     }
 }
