@@ -19,15 +19,15 @@ namespace Movie_Theater.Controllers
             return View(crew);
         }
 
-        public ActionResult Details(int id)
+        public ActionResult Details(string name)
         {
-            var crew = _dbContext.Crews.Find(id);
+            var crew = _dbContext.Crews.FirstOrDefault(c => c.Url == name);
             if (crew == null)
             {
                 return HttpNotFound();
             }
 
-            var movieC = (from m in _dbContext.MovieCrews select m).Where(m => m.CrewId == id);
+            var movieC = (from m in _dbContext.MovieCrews select m).Where(m => m.Crew.Url == name);
             var viewModel = new CrewViewModel
             {
                 Id = crew.Id,
@@ -37,123 +37,123 @@ namespace Movie_Theater.Controllers
                 Biography = crew.Biography,
                 AvatarPath = crew.AvatarPath,
                 Movies = (from mv in _dbContext.Movies select mv).Where(mv => movieC.Any(mc => mc.MovieId == mv.Id)),
-                MovieCrews = (from mc in _dbContext.MovieCrews select mc).Where(mc => mc.CrewId == id),
+                MovieCrews = (from mc in _dbContext.MovieCrews select mc).Where(mc => mc.Crew.Url == name),
                 CRoles = (from cr in _dbContext.CRoles select cr)
             };
-
+            ViewBag.Name = viewModel.Name;
             return View(viewModel);
         }
 
-        public ActionResult Create()
-        {
-            return View();
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(CrewViewModel viewModel, HttpPostedFileBase Avatar)
-        {
-            if (ModelState.IsValid)
-            {
-                if (Avatar != null && Avatar.ContentLength > 0)
-                {
-                    var fileName = Path.GetFileName(Avatar.FileName);
-                    var path = Path.Combine(Server.MapPath("~/Content/Images/"), fileName);
-                    Avatar.SaveAs(path);
-                    viewModel.AvatarPath = "/Content/Images/" + fileName;
-                }
-                else
-                {
-                    viewModel.AvatarPath = "/Content/Images/Default.jpg";
-                }
+        //public ActionResult Create()
+        //{
+        //    return View();
+        //}
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Create(CrewViewModel viewModel, HttpPostedFileBase Avatar)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        if (Avatar != null && Avatar.ContentLength > 0)
+        //        {
+        //            var fileName = Path.GetFileName(Avatar.FileName);
+        //            var path = Path.Combine(Server.MapPath("~/Content/Images/"), fileName);
+        //            Avatar.SaveAs(path);
+        //            viewModel.AvatarPath = "/Content/Images/" + fileName;
+        //        }
+        //        else
+        //        {
+        //            viewModel.AvatarPath = "/Content/Images/Default.jpg";
+        //        }
 
-                var crew = new Crew
-                {
-                    Name = viewModel.Name,
-                    DateOfBirth = viewModel.DateOfBirth,
-                    Birthplace = viewModel.Birthplace,
-                    Biography = viewModel.Biography,
-                    AvatarPath = viewModel.AvatarPath
-                };
+        //        var crew = new Crew
+        //        {
+        //            Name = viewModel.Name,
+        //            DateOfBirth = viewModel.DateOfBirth,
+        //            Birthplace = viewModel.Birthplace,
+        //            Biography = viewModel.Biography,
+        //            AvatarPath = viewModel.AvatarPath
+        //        };
 
-                _dbContext.Crews.Add(crew);
-                _dbContext.SaveChanges();
-            }
-            return RedirectToAction("Index");
-        }
+        //        _dbContext.Crews.Add(crew);
+        //        _dbContext.SaveChanges();
+        //    }
+        //    return RedirectToAction("Index");
+        //}
 
-        public ActionResult Edit(int id)
-        {
-            var crew = _dbContext.Crews.Find(id);
+        //public ActionResult Edit(int id)
+        //{
+        //    var crew = _dbContext.Crews.Find(id);
 
-            if (crew == null)
-            {
-                return HttpNotFound();
-            }
+        //    if (crew == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
 
-            var castViewModel = new CrewViewModel
-            {
-                Id = crew.Id,
-                Name = crew.Name,
-                DateOfBirth = crew.DateOfBirth,
-                Birthplace = crew.Birthplace,
-                Biography = crew.Biography,
-                AvatarPath = crew.AvatarPath,
-            };
+        //    var castViewModel = new CrewViewModel
+        //    {
+        //        Id = crew.Id,
+        //        Name = crew.Name,
+        //        DateOfBirth = crew.DateOfBirth,
+        //        Birthplace = crew.Birthplace,
+        //        Biography = crew.Biography,
+        //        AvatarPath = crew.AvatarPath,
+        //    };
 
-            return View(castViewModel);
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(CrewViewModel castViewModel)
-        {
-            if (ModelState.IsValid)
-            {
-                var crew = _dbContext.Crews.Find(castViewModel.Id);
+        //    return View(castViewModel);
+        //}
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit(CrewViewModel castViewModel)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var crew = _dbContext.Crews.Find(castViewModel.Id);
 
-                if (crew == null)
-                {
-                    return HttpNotFound();
-                }
+        //        if (crew == null)
+        //        {
+        //            return HttpNotFound();
+        //        }
 
-                crew.Name = castViewModel.Name;
-                crew.DateOfBirth = castViewModel.DateOfBirth;
-                crew.Birthplace = castViewModel.Birthplace;
-                crew.Biography = castViewModel.Biography;
+        //        crew.Name = castViewModel.Name;
+        //        crew.DateOfBirth = castViewModel.DateOfBirth;
+        //        crew.Birthplace = castViewModel.Birthplace;
+        //        crew.Biography = castViewModel.Biography;
 
-                // Save changes to the database
-                _dbContext.SaveChanges();
+        //        // Save changes to the database
+        //        _dbContext.SaveChanges();
 
-                return RedirectToAction("Index");
-            }
-            return View(castViewModel);
-        }
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View(castViewModel);
+        //}
 
-        public ActionResult Delete(int id)
-        {
-            var crew = _dbContext.Crews.Find(id);
+        //public ActionResult Delete(int id)
+        //{
+        //    var crew = _dbContext.Crews.Find(id);
 
-            if (crew == null)
-            {
-                return HttpNotFound();
-            }
+        //    if (crew == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
 
-            return View(crew);
-        }
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            var crew = _dbContext.Crews.Find(id);
+        //    return View(crew);
+        //}
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(int id)
+        //{
+        //    var crew = _dbContext.Crews.Find(id);
 
-            if (crew == null)
-            {
-                return HttpNotFound();
-            }
+        //    if (crew == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
 
-            _dbContext.Crews.Remove(crew);
-            _dbContext.SaveChanges();
+        //    _dbContext.Crews.Remove(crew);
+        //    _dbContext.SaveChanges();
 
-            return RedirectToAction("Index");
-        }
+        //    return RedirectToAction("Index");
+        //}
     }
 }

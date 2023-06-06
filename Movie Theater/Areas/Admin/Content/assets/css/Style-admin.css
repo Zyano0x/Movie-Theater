@@ -1,4 +1,17 @@
 ﻿/*Ghi đè - begin*/
+body {
+    font-family: 'Open Sans', sans-serif !important;
+    box-sizing: border-box;
+}
+
+.table thead th {
+    font-weight: 500;
+}
+
+#cke_1_contents {
+    height: 400px !important;
+}
+
 .text-danger {
     display: block;
     margin-top: 10px;
@@ -7,6 +20,10 @@
 .page-title {
     color: #727cf5;
     text-transform: uppercase;
+}
+
+table {
+    border-collapse: unset;
 }
 
 .table td {
@@ -64,7 +81,8 @@ select.form-control {
 .table td.poster_path > img,
 .table td.avatar_path > img {
     width: 80px;
-    height: unset;
+    height: 102px;
+    object-fit: cover;
     border-radius: 4px;
 }
 
@@ -90,4 +108,11 @@ select.form-control {
 
 .biography::-webkit-scrollbar-thumb {
     background: #888;
+}
+
+.table td.news-thumnail img {
+    width: 172px;
+    height: 102px;
+    object-fit: cover;
+    border-radius: 4px;
 }

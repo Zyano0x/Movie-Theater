@@ -1,5 +1,7 @@
 ﻿using Movie_Theater.Models;
+using Movie_Theater.Models.Common;
 using Movie_Theater.ViewModels;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,15 +11,23 @@ using System.Web.Mvc;
 
 namespace Movie_Theater.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Staff, Adminstrator")]
+    [AdminAuthorize(Roles = "Staff, Adminstrator")]
     public class MoviesController : Controller
     {
         ApplicationDbContext _dbContext = new ApplicationDbContext();
 
-        public ActionResult Index()
+        public ActionResult Index(string Searchtext, int? page)
         {
-            var movie = _dbContext.Movies.ToList();
-            return View(movie);
+            if (page == null) page = 1;
+            int pageSize = 1;
+            int pageNum = page ?? 1;
+            var movies = from s in _dbContext.Movies select s;
+            if (!string.IsNullOrEmpty(Searchtext))
+            {
+                movies = movies.Where(x => x.Title.Contains(Searchtext));
+            }
+            movies = movies.OrderByDescending(m => m.ReleaseDate);
+            return View(movies.ToPagedList(pageNum, pageSize));
         }
 
         public ActionResult Review(int scores, string comment, int id, string userLogin, int action)
@@ -108,7 +118,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
                 Reviews = _dbContext.Reviews.ToList(),
                 Users = _dbContext.Users.ToList(),
                 Crews = _dbContext.Crews.ToList(),
-                MovieSchedules = _dbContext.MovieSchedules.ToList(),
+                Showings = _dbContext.Showings.ToList(),
                 PosterPath = movie.PosterPath,
                 //Score = movie.Score,
                 //Distributor = movie.Distributor,
@@ -129,7 +139,6 @@ namespace Movie_Theater.Areas.Admin.Controllers
 
             return View(viewModel);
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(MovieViewModel viewModel, HttpPostedFileBase Poster)
@@ -149,7 +158,8 @@ namespace Movie_Theater.Areas.Admin.Controllers
                     MovieGenres = viewModel.GenreIds.Select(g => new MovieGenre { GenreId = g }).ToList(),
                     MovieCrews = viewModel.CastIds.Select(g => new MovieCrew { MovieId = viewModel.Id, CrewId = g, CRoleId = 1 })
                                         .Concat(viewModel.DirectorIds.Select(g => new MovieCrew { MovieId = viewModel.Id, CrewId = g, CRoleId = 2 }))
-                                        .ToList()
+                                        .ToList(),
+                    Url = StringHelper.ConvertText(StringHelper.RemoveDiacritics(viewModel.Title))
                 };
 
                 _dbContext.Movies.Add(movie);
@@ -192,12 +202,12 @@ namespace Movie_Theater.Areas.Admin.Controllers
                 PosterPath = movie.PosterPath,
                 //Score = movie.Score,
                 //Distributor = movie.Distributor,
-                TrailerUrl = movie.TrailerUrl
+                TrailerUrl = movie.TrailerUrl,
+                Url = movie.Url
             };
 
             return View(viewModel);
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(MovieViewModel movieViewModel, HttpPostedFileBase Poster)
@@ -221,21 +231,8 @@ namespace Movie_Theater.Areas.Admin.Controllers
             movie.Rating = movieViewModel.Rating;
             movie.Runtime = movieViewModel.Runtime;
             movie.TrailerUrl = movieViewModel.TrailerUrl;
-
-            if (Poster != null && Poster.ContentLength > 0)
-            {
-                // Delete the old poster if it exists
-                if (System.IO.File.Exists(movie.PosterPath))
-                {
-                    System.IO.File.Delete(movie.PosterPath);
-                }
-
-                // Save the new poster and update the movie's poster path
-                var posterFileName = Path.GetFileName(Poster.FileName);
-                var newPoster = Path.Combine(Server.MapPath("~/Content/Images/"), posterFileName);
-                Poster.SaveAs(newPoster);
-                movie.PosterPath = "/Content/Images/" + posterFileName;
-            }
+            movie.PosterPath = movieViewModel.PosterPath;
+            movie.Url = StringHelper.ConvertText(StringHelper.RemoveDiacritics(movieViewModel.Url));
 
             // Remove existing genres that are not in the viewModel
             var genresToRemove = movie.MovieGenres.Where(mg => !movieViewModel.GenreIds.Contains(mg.GenreId)).ToList();
@@ -325,6 +322,25 @@ namespace Movie_Theater.Areas.Admin.Controllers
             _dbContext.SaveChanges();
 
             return Json(new { success = true });
+        }
+
+        public ActionResult DeleteAll(string ids)
+        {
+            if (!string.IsNullOrEmpty(ids))
+            {
+                var items = ids.Split(',');
+                if (items != null && items.Any())
+                {
+                    foreach (var item in items)
+                    {
+                        var obj = _dbContext.Movies.Find(Convert.ToInt32(item));
+                        _dbContext.Movies.Remove(obj);
+                        _dbContext.SaveChanges();
+                    }
+                }
+                return Json(new { success = true });
+            }
+            return Json(new { success = false });
         }
 
         public string ProcessUpload(HttpPostedFileBase file)

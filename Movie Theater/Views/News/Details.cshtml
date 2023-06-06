@@ -1,0 +1,31 @@
+﻿@model Movie_Theater.Models.News
+
+@{
+    ViewBag.Title = ViewBag.NewsArticle + " - Tin Tức";
+    var youtubeEmbedCodePattern = @"(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/embed\/|youtu\.be\/)([\w-]+)";
+    var youtubeEmbedHtml = "<iframe width=\"560\" height=\"315\" src=\"{0}\" frameborder=\"0\" allow=\"autoplay; encrypted-media\" allowfullscreen></iframe>";
+    var embeddedContent = System.Text.RegularExpressions.Regex.Replace(Model.Detail, youtubeEmbedCodePattern, match => string.Format(youtubeEmbedHtml, match.Value));
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="wrapper-container box-news-detail">
+    <nav class="page-breadcrumb">
+        <ol class="breadcrumb">
+            <li style="max-width: fit-content;" class="breadcrumb-item"><a href="@Url.Action("Index", "News")" style="text-decoration: none">Tin tức</a></li>
+            <li style="display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; -webkit-line-clamp: 1; flex: 1;" class="breadcrumb-item active" aria-current="page">@Model.Title</li>
+        </ol>
+    </nav>
+    <div class="news-details">
+        <h5>@Model.Title</h5>
+        <hr />
+        <div>
+            <span>@Model.Description</span>
+        </div>
+        <div class="publication-info">
+            <span class="date">@Model.PublicationDate.ToString("MMMM dd, yyyy")</span>
+        </div>
+        <div class="content">
+            @Html.Raw(embeddedContent)
+        </div>
+    </div>
+</div>

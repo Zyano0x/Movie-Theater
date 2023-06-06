@@ -16,7 +16,6 @@ using System.IO;
 
 namespace Movie_Theater.Controllers
 {
-    [Authorize]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -57,7 +56,6 @@ namespace Movie_Theater.Controllers
         }
 
         // GET: /Account/Login
-        [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
@@ -66,7 +64,6 @@ namespace Movie_Theater.Controllers
 
         // POST: /Account/Login
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
@@ -168,7 +165,7 @@ namespace Movie_Theater.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, IsEnabled = true };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, IsEnabled = true, RegistrationDate = DateTime.Now };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

@@ -1,4 +1,5 @@
 ﻿using Movie_Theater.Models;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -8,7 +9,7 @@ using System.Web.Mvc;
 
 namespace Movie_Theater.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Staff, Adminstrator")]
+    [AdminAuthorize(Roles = "Staff, Adminstrator")]
     public class GenresController : Controller
     {
         ApplicationDbContext _dbContext;
@@ -18,10 +19,18 @@ namespace Movie_Theater.Areas.Admin.Controllers
         }
 
         // GET: Genres/Index
-        public ActionResult Index()
+        public ActionResult Index(string Searchtext, int? page)
         {
-            var genre = _dbContext.Genres.ToList();
-            return View(genre);
+            if (page == null) page = 1;
+            int pageSize = 10;
+            int pageNum = page ?? 1;
+            var genres = from s in _dbContext.Genres select s;
+            if (!string.IsNullOrEmpty(Searchtext))
+            {
+                genres = genres.Where(x => x.Name.Contains(Searchtext));
+            }
+            genres = genres.OrderBy(m => m.Id);
+            return View(genres.ToPagedList(pageNum, pageSize));
         }
 
         // GET: Genres/Details/ID
@@ -99,6 +108,25 @@ namespace Movie_Theater.Areas.Admin.Controllers
             _dbContext.SaveChanges();
 
             return Json(new { success = true });
+        }
+
+        public ActionResult DeleteAll(string ids)
+        {
+            if (!string.IsNullOrEmpty(ids))
+            {
+                var items = ids.Split(',');
+                if (items != null && items.Any())
+                {
+                    foreach (var item in items)
+                    {
+                        var obj = _dbContext.Genres.Find(Convert.ToInt32(item));
+                        _dbContext.Genres.Remove(obj);
+                        _dbContext.SaveChanges();
+                    }
+                }
+                return Json(new { success = true });
+            }
+            return Json(new { success = false });
         }
     }
 }

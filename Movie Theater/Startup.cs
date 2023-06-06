@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
 using Movie_Theater.Models;
 using Owin;
+using System;
 
 [assembly: OwinStartupAttribute(typeof(Movie_Theater.Startup))]
 namespace Movie_Theater
@@ -38,12 +39,16 @@ namespace Movie_Theater
                 user.UserName = "Zyano";
                 user.Email = "nthdm00@gmail.com";
                 user.IsEnabled = true;
+                user.EmailConfirmed = true;
+                user.RegistrationDate = DateTime.Today;
                 string userPWD = "0x1337";
 
                 var user1 = new ApplicationUser();
                 user1.UserName = "DriftMan";
                 user1.Email = "duypham22102@gmail.com";
                 user1.IsEnabled = true;
+                user1.EmailConfirmed = true;
+                user1.RegistrationDate = DateTime.Today;
                 string user1PWD = "Aa@123";
 
                 var checkUser = UserManager.Create(user, userPWD);

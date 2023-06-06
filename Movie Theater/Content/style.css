@@ -1,10 +1,20 @@
-﻿html {
+﻿/*Ghi đè*/
+.breadcrumb-item + .breadcrumb-item::before {
+    padding: 0 5px;
+}
+
+.breadcrumb-item + .breadcrumb-item {
+    padding-left: unset;
+}
+
+html {
     font-size: 15px;
 }
 
 body {
-    font-family: 'Be Vietnam Pro', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 15px;
+    font-weight: 500;
     box-sizing: border-box;
     background-color: #f3f3f3;
 }
@@ -23,7 +33,7 @@ ul {
     --header-navbar-height: 55px;
     --book-a-ticket-btn-height: 30px;
     --search-height: 42px;
-    --search-bg-color: #212529;
+    --search-bg-color: #2f353b !important;
 }
 
 .padding-top-10 {
@@ -64,15 +74,15 @@ ul {
     color: unset;
 }
 
-.table > tbody > tr > th,
-.table > tbody > tr > td {
-    border-width: 1px 0px 0px 1px;
-    border-style: solid;
-    border-color: #b4b1b2;
-    text-align: center;
-    max-height: 173px;
-    overflow: auto;
-}
+    .table > tbody > tr > th,
+    .table > tbody > tr > td {
+        border-width: 1px 0px 0px 1px;
+        border-style: solid;
+        border-color: #b4b1b2;
+        text-align: center;
+        max-height: 173px;
+        overflow: auto;
+    }
 
 /*.table > tbody > tr > td {
     min-height: 93px;
@@ -134,6 +144,12 @@ ul {
     border-radius: 4px;
 }
 
+.carousel-inner > .item > img {
+    width: 1000px;
+    height: 500px;
+    object-fit: cover;
+}
+/*Ghi đè*/
 /*Layout css*/
 .navbar {
     position: fixed;
@@ -245,7 +261,7 @@ ul {
 
         #header-navbar .change-bg-btn i {
             font-size: 20px;
-            color: #f7c12f;
+            color: #fff;
         }
 
 li:hover .sub-navbar,
@@ -435,7 +451,7 @@ li:hover .sub-navbar,
 
     .carousel-caption h6 {
         text-transform: capitalize;
-        height: 18px;
+        max-height: 20px;
         -webkit-line-clamp: 1;
         margin-bottom: 10px;
         color: #f7c12f;
@@ -524,6 +540,14 @@ li:hover .sub-navbar,
     cursor: pointer;
 }
 
+    .box-news__item .caption {
+        height: 38px;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        -webkit-line-clamp: 2;
+    }
+
     .box-discovery__body__item .img,
     .box-movie__item .img,
     .box-news__item .img {
@@ -548,8 +572,8 @@ li:hover .sub-navbar,
     }
 
     .box-movie__item .img img,
+    .box-discovery__body__item .img img,
     .box-news__item .img img {
-        width: 100%;
         border-radius: 4px;
     }
 
@@ -598,6 +622,9 @@ li:hover .sub-navbar,
 .box-discovery__body__item .img img,
 .box-movie__item .img img {
     transition: transform .1s;
+    width: 190px;
+    height: 280px;
+    object-fit: cover;
 }
 
 .box-discovery__body__item:hover .img img,
@@ -652,7 +679,7 @@ li:hover .sub-navbar,
 .btn-prev {
     width: max-content;
     position: absolute;
-    top: 160px;
+    top: 167px;
     cursor: pointer;
 }
 
@@ -808,7 +835,7 @@ ul.box-movie-info__item__content {
 
 .box-movie-info__item__content > p {
     text-align: justify;
-    max-height: 122px;
+    max-height: 113px;
     overflow: auto;
     padding-right: 5px;
 }
@@ -958,8 +985,10 @@ ul.box-movie-info__item__content {
 }
 
     .box-biography .img img {
-        width: 100%;
         border-radius: 4px;
+        width: 230px;
+        height: 296px;
+        object-fit: cover;
     }
 
     .box-biography .biography a {
@@ -1103,11 +1132,6 @@ ul.box-movie-info__item__content {
     margin-bottom: 15px;
 }
 
-    .box-discovery__body__item .img img {
-        width: 100%;
-        border-radius: 6px;
-    }
-
     .box-discovery__body__item .caption img {
         width: 20px;
     }
@@ -1224,7 +1248,7 @@ ul.box-movie-info__item__content {
         width: 24px;
         height: 24px;
         border: 4px solid #fff;
-        border-top-color: #f7c12f;
+        border-top-color: #9c27b0;
         border-radius: 50%;
         animation: spin 1s linear infinite reverse;
     }
@@ -1244,4 +1268,12 @@ ul.box-movie-info__item__content {
     font-size: 18px;
     margin-top: 16px;
     margin-left: 10px;
+}
+
+.publication-info {
+    margin: 15px 0;
+}
+
+.box-news-detail {
+    font-weight: 400;
 }

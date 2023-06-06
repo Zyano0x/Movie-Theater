@@ -15,13 +15,13 @@ namespace Movie_Theater.Areas.Admin.Controllers
         // GET: Admin/MovieTickets
         public ActionResult Index()
         {
-            var ticket = _dbContext.MovieTickets.Include("Movie").Include("MovieSchedule").Include("User").ToList();
+            var ticket = _dbContext.Tickets.Include("Movie").Include("MovieSchedule").Include("User").ToList();
             return View(ticket);
         }
 
         public ActionResult Edit(int id)
         {
-            var ticket = _dbContext.MovieTickets.Find(id);
+            var ticket = _dbContext.Tickets.Find(id);
             if (ticket == null)
             {
                 return HttpNotFound();
@@ -30,7 +30,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(MovieTicket ticket)
+        public ActionResult Edit(Ticket ticket)
         {
             if (ModelState.IsValid)
             {
@@ -44,13 +44,13 @@ namespace Movie_Theater.Areas.Admin.Controllers
         [HttpPost]
         public JsonResult Delete(int id)
         {
-            var ticket = _dbContext.MovieTickets.Find(id);
+            var ticket = _dbContext.Tickets.Find(id);
             if (ticket == null)
             {
                 return Json(new { success = false, message = "Record not found." });
             }
 
-            _dbContext.MovieTickets.Remove(ticket);
+            _dbContext.Tickets.Remove(ticket);
             _dbContext.SaveChanges();
 
             return Json(new { success = true });

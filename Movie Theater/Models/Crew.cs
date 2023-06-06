@@ -17,6 +17,9 @@ namespace Movie_Theater.Models
         [Display(Name = "Tên")]
         public string Name { get; set; }
 
+        [Display(Name = "Đường Dẫn")]
+        public string Url { get; set; }
+
         [Display(Name = "Ngày Sinh")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
