@@ -1,7 +1,7 @@
 ﻿@model Movie_Theater.ViewModels.CrewViewModel
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = ViewBag.Name + " - A Movie";
 }
 
 <div class="wrapper-container">
@@ -61,11 +61,11 @@
                                         var movieScore = movie.Score;
                                         if (movie.ReleaseDate > DateTime.Now)
                                         {
-                                            <span>...%</span>
+                                            <span>--</span>
                                         }
                                         else if (movie.Score < 1)
                                         {
-                                            <span>100%</span>
+                                            <span>--</span>
                                         }
                                         else
                                         {
@@ -73,7 +73,7 @@
                                         }
                                     }
                                 </td>
-                                <td class="col m-b-7 l-7"><a href="@Url.Action("Details", "Movies", new { id = movie.Id })">@movie.Title</a></td>
+                                <td class="col m-b-7 l-7"><a href="@Url.Action("Details", "Movies", new { name = movie.Url })">@movie.Title</a></td>
                                 <td class="col m-b-2 l-2">
                                     @if (movie.ReleaseDate > DateTime.Now)
                                     {

@@ -17,7 +17,7 @@ using System.Globalization;
 
 namespace Movie_Theater.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Staff, Adminstrator")]
+    [AdminAuthorize(Roles = "Staff, Adminstrator")]
     public class HomeController : Controller
     {
         ApplicationDbContext _dbContext = new ApplicationDbContext();
@@ -54,10 +54,19 @@ namespace Movie_Theater.Areas.Admin.Controllers
             using (var dbContext = new ApplicationDbContext())
             {
                 // Query the database to get the total user count for the given month
-                int userCount = dbContext.Users
-                    .Where(u => u.RegistrationDate.Month == month.Month && u.RegistrationDate.Year == month.Year)
-                    .Count();
+                int userCount = dbContext.Users.Where(u => u.RegistrationDate.Month == month.Month && u.RegistrationDate.Year == month.Year).Count();
+                return userCount;
+            }
+        }
 
+        private int GetTotalUserCountByMonth(int month)
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                // Query the database to get the total user count for the given month
+                int userCount = dbContext.Users
+                                         .Where(u => u.RegistrationDate.Month == month)
+                                         .Count();
                 return userCount;
             }
         }
@@ -70,33 +79,34 @@ namespace Movie_Theater.Areas.Admin.Controllers
                 Session["Username"] = user.Name;
                 Session["Email"] = GetEmail();
             }
-            List<DateTime> registrationDates = new List<DateTime>();
+
+            List<int> registrationMonths = new List<int>();
             List<int> userCounts = new List<int>();
+
             using (var dbContext = new ApplicationDbContext())
             {
-                var query = dbContext.Users
-                     .GroupBy(u => DbFunctions.TruncateTime(u.RegistrationDate))
-                     .Select(g => new
-                     {
-                         RegistrationDate = g.Key,
-                         UserCount = g.Count()
-                     })
-                     .OrderBy(r => r.RegistrationDate)
-                     .ToList();
+                var query = dbContext.Users.GroupBy(u => new { Month = u.RegistrationDate.Month })
+                                           .Select(g => new
+                                           {
+                                               RegistrationMonth = g.Key.Month,
+                                               UserCount = g.Count()
+                                           })
+                                           .OrderBy(r => r.RegistrationMonth)
+                                           .ToList();
 
                 foreach (var result in query)
                 {
-                    registrationDates.Add((DateTime)result.RegistrationDate);
+                    registrationMonths.Add(result.RegistrationMonth);
                     userCounts.Add(result.UserCount);
                 }
             }
 
-            ViewBag.RegistrationDates = registrationDates;
+            ViewBag.RegistrationMonths = registrationMonths;
             ViewBag.UserCounts = userCounts;
             ViewBag.TotalUsers = _dbContext.Users.Count();
 
-            DateTime previousMonth = DateTime.Now.AddMonths(-1);
-            DateTime recentMonth = DateTime.Now;
+            int previousMonth = DateTime.Now.AddMonths(-1).Month;
+            int recentMonth = DateTime.Now.Month;
 
             int previousMonthCount = GetTotalUserCountByMonth(previousMonth);
             int recentMonthCount = GetTotalUserCountByMonth(recentMonth);
@@ -113,19 +123,19 @@ namespace Movie_Theater.Areas.Admin.Controllers
             int trend = 0;
             if (recentMonthCount > previousMonthCount)
             {
-                trend = 2;
+                trend = 2; // Up
             }
             else if (recentMonthCount < previousMonthCount)
             {
-                trend = 1;
+                trend = 1; // Down
             }
             else
             {
-                trend = 0;
+                trend = 0; // No Change
             }
 
             // Pass the values to the view using ViewBag or a view model
-            ViewBag.Percent = percentageChange;
+            ViewBag.Percent = Math.Round(percentageChange, 1);
             ViewBag.Trend = trend;
 
             //================================================================================
@@ -135,15 +145,12 @@ namespace Movie_Theater.Areas.Admin.Controllers
 
             using (var context = new ApplicationDbContext())
             {
-                var genreCounts = context.MovieGenres
-                    .GroupBy(mg => mg.GenreId)
-                    .Select(g => new
-                    {
-                        GenreName = g.FirstOrDefault().Genre.Name,
-                        MovieCount = g.Count()
-                    })
-                    .ToList();
-
+                var genreCounts = context.MovieGenres.GroupBy(mg => mg.GenreId)
+                                                     .Select(g => new
+                                                     {
+                                                         GenreName = g.FirstOrDefault().Genre.Name,
+                                                         MovieCount = g.Count()
+                                                     }).ToList();
                 foreach (var genreCount in genreCounts)
                 {
                     genreNames.Add(genreCount.GenreName);
@@ -156,7 +163,5 @@ namespace Movie_Theater.Areas.Admin.Controllers
             ViewBag.TotalMovies = _dbContext.Movies.Count();
             return View();
         }
-
-        
     }
 }

@@ -20,13 +20,15 @@ namespace Movie_Theater.Controllers
                 var user = User.Identity;
                 Session["Username"] = user.Name;
             }
-            var slider = _dbContext.Sliders.ToList();
-            ViewBag.slider = slider;
+            var newsHome = _dbContext.News.Where(n => n.IsActive == true && n.IsHome == true).ToList();
+            var newsHot = _dbContext.News.Where(n => n.IsActive == true && n.IsHot == true && n.IsHome == false).ToList();
+            ViewBag.NewsHome = newsHome;
+            ViewBag.NewsHot = newsHot;
 
-            var movie = new MovieScheduleViewModel
+            var movie = new ShowingViewModel
             {
                 Movies = _dbContext.Movies,
-                MovieSchedules = _dbContext.MovieSchedules
+                Showings = _dbContext.Showings
             };
             return View(movie);
         }

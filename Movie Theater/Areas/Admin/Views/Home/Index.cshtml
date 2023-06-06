@@ -1,16 +1,7 @@
 ﻿
 @{
-    ViewBag.Title = "Dashborad";
+    ViewBag.Title = "Dashboard";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
-    var registrationDates = ViewBag.RegistrationDates as List<DateTime>;
-    var userCounts = ViewBag.UserCounts as List<int>;
-    var chartData = new List<object>();
-
-    // Convert data to the required format for ApexCharts
-    for (var i = 0; i < registrationDates.Count; i++)
-    {
-        chartData.Add(new { x = registrationDates[i], y = userCounts[i] });
-    }
 }
 
 <section>
@@ -31,7 +22,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-baseline">
-                                <h6 class="card-title mb-0">Total Users</h6>
+                                <h6 class="card-title mb-0">Người Dùng</h6>
                                 @*<div class="dropdown mb-2">
                                     <button class="btn p-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal"></i>
@@ -82,7 +73,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-baseline">
-                                <h6 class="card-title mb-0">Total Movies</h6>
+                                <h6 class="card-title mb-0">Tổng Phim</h6>
                                 @*<div class="dropdown mb-2">
                                     <button class="btn p-0" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal"></i>
@@ -113,7 +104,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 grid-margin stretch-card">
+                @*<div class="col-md-4 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-baseline">
@@ -147,7 +138,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>*@
             </div>
         </div>
     </div> <!-- row -->
@@ -257,7 +248,7 @@
         </div>
     </div> <!-- row -->
 
-    <div class="row">
+    <!--<div class="row">
         <div class="col-lg-5 col-xl-4 grid-margin grid-margin-xl-0 stretch-card">
             <div class="card">
                 <div class="card-body">
@@ -436,17 +427,26 @@
                 </div>
             </div>
         </div>
-    </div> <!-- row -->
+    </div>--> <!-- row -->
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
-    var chartData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(chartData));
+    var registrationMonths = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.RegistrationMonths));
+    var userCounts = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.UserCounts));
+
+    // Define an array of month names
+    var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+    // Map the month numbers to month names
+    var formattedMonths = registrationMonths.map(function (month) {
+        return monthNames[month - 1];
+    });
 
     var options = {
         series: [{
             name: 'Users',
-            data: chartData
+            data: userCounts
         }],
         chart: {
             height: 200,
@@ -464,11 +464,8 @@
             show: false, // Set show property to false to hide the y-axis
         },
         xaxis: {
-            type: 'datetime',
             tickAmount: 5,
-            labels: {
-                format: 'dd MMM'
-            }
+            categories: formattedMonths
         },
         fill: {
             type: 'gradient',

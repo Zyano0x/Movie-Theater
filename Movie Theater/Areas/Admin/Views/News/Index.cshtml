@@ -1,0 +1,386 @@
+﻿@model PagedList.IPagedList<Movie_Theater.Models.News>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Quản lý tin tức";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml"; ;
+}
+
+<section>
+
+    <!-- Default box -->
+    <div class="main-content">
+        <h4 class="page-title">Danh sách Tin Tức</h4>
+        <nav class="page-breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Tin Tức</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Danh sách</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="aside-compose text-align-end">
+        <a href="/Admin/News/Create" class="btn btn-success">Thêm tin tức</a>
+        <a href="#" class="btn btn-danger" id="btn-delete-all">Xóa nhiều tin</a>
+    </div>
+    <hr />
+    @using (Html.BeginForm("Index", "News", FormMethod.Get, new { }))
+    {
+        <div>
+            <div class="input-group input-group-sm" style="justify-content: end; align-items: center; height: 34px;">
+                <input style="height: 100%; color: #fff; background-color: #070d19 !important; border: 1px solid #262f43; border-top-left-radius: 4px; border-bottom-left-radius: 4px; " type="text" name="Searchtext" placeholder="Tìm kiếm theo tiêu đề ... " class="col-md-4" />
+                <span style="height: 100%; border-top-right-radius: 4px; border-bottom-right-radius: 4px; " class="input-group-append">
+                    <button style="font-size: 14px; color: #fff; border-width: 1px 1px 1px 0; border-style: solid; border-color: #262f43; background-color: #1c2374; height: 100%; display: flex; align-items: center; " type="submit" class="btn btn-info btn-flat">Tìm kiếm</button>
+                </span>
+            </div>
+        </div>
+    }
+    <hr />
+    <div class="row margin-left-right-unset">
+        <div class="col-12 col-xl-12 stretch-card">
+            <div class="row flex-grow">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="col-md-1"><input type="checkbox" id="select-all" /></th>
+                            <th class="col-md-2">Tiêu đề</th>
+                            <th class="col-md-2">Ảnh bìa</th>
+                            <th class="col-md-2">Ngày đăng</th>
+                            <th class="col-md-1">Hiển thị</th>
+                            <th class="col-md-1">Trang chủ</th>
+                            <th class="col-md-1">Tin hot</th>
+                            <th class="col-md-3"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            var i = 1;
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="col-md-1">
+                                        <input type="checkbox" class="check-box-item" value="@item.Id" />
+                                    </td>
+                                    <td class="col-md-2 ">
+                                        <div class="biography biography-crews">
+                                            @Html.DisplayFor(modelItem => item.Title)
+                                        </div>
+                                    </td>
+                                    <td class="col-md-2 news-thumnail">
+                                        <img src="@item.Img" alt="@item.Img" />
+                                    </td>
+                                    <td class="col-md-2">
+                                        @Html.DisplayFor(modelItem => item.PublicationDate)
+                                    </td>
+                                    <td class="col-md-1">
+                                        <div>
+                                            @if (item.IsActive == true)
+                                            {
+                                                <span class="disable-btn" data-id="@item.Id" style="cursor: pointer; font-size: 20px; margin: 5px 0;"><i class="fa-solid fa-check text-success"></i></span>
+                                            }
+                                            else
+                                            {
+                                                <span class="enable-btn" data-id="@item.Id" style="cursor: pointer; font-size: 20px; margin: 5px 0;"><i class="fa-solid fa-ban text-danger"></i></span>
+                                            }
+                                        </div>
+                                    </td>
+                                    <td class="col-md-1">
+
+                                        <div>
+                                            @if (item.IsHome == true)
+                                            {
+                                                <span class="disable-home-btn" data-id="@item.Id" style="cursor: pointer; font-size: 20px; margin: 5px 0;"><i class="fa-solid fa-check text-success"></i></span>
+                                            }
+                                            else
+                                            {
+                                                <span class="enable-home-btn" data-id="@item.Id" style="cursor: pointer; font-size: 20px; margin: 5px 0;"><i class="fa-solid fa-ban  text-danger"></i></span>
+                                            }
+                                        </div>
+                                    </td>
+                                    <td class="col-md-1">
+                                        <div>
+                                            @if (item.IsHot == true)
+                                            {
+                                                <span class="disable-hot-btn" data-id="@item.Id" style="cursor: pointer; font-size: 20px; margin: 5px 0;"><i class="fa-solid fa-check text-success"></i></span>
+                                            }
+                                            else
+                                            {
+                                                <span class="enable-hot-btn" data-id="@item.Id" style="cursor: pointer; font-size: 20px; margin: 5px 0;"><i class="fa-solid fa-ban  text-danger"></i></span>
+                                            }
+                                        </div>
+                                    </td>
+                                    <td class="col-md-2">
+                                        <div>
+                                            @Html.ActionLink("Sửa", "Edit", new { id = item.Id }, new { @class = "btn btn-warning mr-2" })
+                                            <button type="submit" class="btn btn-danger delete-btn mr-2" data-id="@item.Id" style="margin: 5px 0;">Xóa</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                i++;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="PageNumber" style="display: flex; justify-content: center; ">
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))
+        </div>
+    </div>
+    <!-- /.card-body -->
+</section>
+<!-- /.content -->
+
+<script>
+    //Page list
+    $(document).ready(function () {
+        var maxLength = 100;
+        $(".show-read-more").each(function () {
+            var myStr = $(this).text();
+            if ($.trim(myStr).length > maxLength) {
+                var newStr = myStr.substring(0, maxLength);
+                var removedStr = myStr.substring(maxLength, $.trim(myStr).length);
+                $(this).empty().html(newStr);
+
+                $(this).append('<a href="javascript:void(0);" class="read-more">xem tiếp...</a>');
+
+                $(this).append('<span class="more-text">' + removedStr + '</span>');
+            }
+        });
+        $(".read-more").click(function () {
+            $(this).siblings(".more-text").contents().unwrap();
+            $(this).remove();
+        });
+    });
+
+    //Delete all
+    $('body').on('click', '#btn-delete-all', function (e) {
+        e.preventDefault();
+        var str = "";
+        var checkBox = $(this).parents('section').find('tr td input:checkbox');
+        var i = 0;
+        checkBox.each(function () {
+            if (this.checked) {
+                checkBox.attr('selected', 'checked');
+                var _id = $(this).val();
+                if (i === 0) {
+                    str += _id;
+                }
+                else {
+                    str += "," + _id;
+                }
+                i++;
+            }
+            else {
+                checkBox.attr('selected', '');
+            }
+        });
+        if (str.length > 0) {
+            var conf = confirm('Bạn có muốn xóa các bản ghi này hay không?');
+            if (conf === true) {
+                $.ajax({
+                    url: '/Admin/News/DeleteAll',
+                    type: 'POST',
+                    data: { ids: str },
+                    success: function (rs) {
+                        checkBox.each(function () {
+                            if (this.checked) {
+                                $(this).closest('tr').remove();
+                            }
+                        });
+                    }
+                });
+            }
+        }
+    });
+
+    $('body').on('change', '#select-all', function () {
+        var checkStatus = this.checked;
+        var checkBox = $(this).parents('.row').find('tr td input:checkbox');
+        checkBox.each(function () {
+            this.checked = checkStatus;
+            if (this.checked) {
+                checkBox.attr('selected', 'checked');
+            }
+            else {
+                checkBox.attr('selected', '');
+            }
+        });
+    });
+
+    //Delete
+    $(function () {
+        $('.delete-btn').click(function (e) {
+            e.preventDefault();
+            var btn = $(this);
+            var id = btn.data('id');
+
+            if (confirm("Bạn có chắc chắn muốn xóa tin này?")) {
+                $.ajax({
+                    url: '/Admin/News/Delete',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (result) {
+                        if (result.success) {
+                            btn.closest('tr').remove(); // Remove the deleted row from the table
+                        } else {
+                            alert(result.message);
+                        }
+                    },
+                    error: function () {
+                        alert('An error occurred while deleting the record.');
+                    }
+                });
+            }
+        });
+    });
+
+    $('body').on('click', '.disable-btn', function () {
+        var btn = $(this);
+        var id = btn.data('id');
+        disableAccount(id, btn);
+    });
+
+    $('body').on('click', '.enable-btn', function () {
+        var btn = $(this);
+        var id = btn.data('id');
+        enableAccount(id, btn);
+    });
+
+    //Active
+    function disableAccount(id, btn) {
+        $.ajax({
+            url: '/Admin/News/IsActive',
+            type: 'POST',
+            data: { id: id },
+            success: function (result) {
+                if (result.success) {
+                    btn.removeClass('disable-btn').addClass('enable-btn').html('<i class="fa-solid fa-ban text-danger"></i>');
+                } else {
+                    alert(result.message);
+                }
+            },
+            error: function () {
+                alert('Đã xảy ra lỗi khi ẩn tin.');
+            }
+        });
+    }
+
+    function enableAccount(id, btn) {
+        $.ajax({
+            url: '/Admin/News/IsActive',
+            type: 'POST',
+            data: { id: id },
+            success: function (result) {
+                if (result.success) {
+                    btn.removeClass('enable-btn').addClass('disable-btn').html('<i class="fa-solid fa-check text-success"></i>');
+                } else {
+                    alert(result.message);
+                }
+            },
+            error: function () {
+                alert('Đã xảy ra lỗi khi hiển thị tin này.');
+            }
+        });
+    }
+
+    //Home
+    $('body').on('click', '.disable-home-btn', function () {
+        var btn = $(this);
+        var id = btn.data('id');
+        disableNewHome(id, btn);
+    });
+
+    $('body').on('click', '.enable-home-btn', function () {
+        var btn = $(this);
+        var id = btn.data('id');
+        enableNewHome(id, btn);
+    });
+
+    function disableNewHome(id, btn) {
+        $.ajax({
+            url: '/Admin/News/IsHome',
+            type: 'POST',
+            data: { id: id },
+            success: function (result) {
+                if (result.success) {
+                    btn.removeClass('disable-home-btn').addClass('enable-home-btn').html('<i class="fa-solid fa-ban text-danger"></i>');
+                } else {
+                    alert(result.message);
+                }
+            },
+            error: function () {
+                alert('Đã xảy ra lỗi khi ẩn tin.');
+            }
+        });
+    }
+
+    function enableNewHome(id, btn) {
+        $.ajax({
+            url: '/Admin/News/IsHome',
+            type: 'POST',
+            data: { id: id },
+            success: function (result) {
+                if (result.success) {
+                    btn.removeClass('enable-home-btn').addClass('disable-home-btn').html('<i class="fa-solid fa-check text-success"></i>');
+                } else {
+                    alert(result.message);
+                }
+            },
+            error: function () {
+                alert('Đã xảy ra lỗi khi hiển thị tin này.');
+            }
+        });
+    }
+
+    //Hot
+    $('body').on('click', '.disable-hot-btn', function () {
+        var btn = $(this);
+        var id = btn.data('id');
+        disableNewHot(id, btn);
+    });
+
+    $('body').on('click', '.enable-hot-btn', function () {
+        var btn = $(this);
+        var id = btn.data('id');
+        enableNewHot(id, btn);
+    });
+
+    function disableNewHot(id, btn) {
+        $.ajax({
+            url: '/Admin/News/IsHot',
+            type: 'POST',
+            data: { id: id },
+            success: function (result) {
+                if (result.success) {
+                    btn.removeClass('disable-hot-btn').addClass('enable-hot-btn').html('<i class="fa-solid fa-ban text-danger"></i>');
+                } else {
+                    alert(result.message);
+                }
+            },
+            error: function () {
+                alert('Đã xảy ra lỗi khi ẩn tin.');
+            }
+        });
+    }
+
+    function enableNewHot(id, btn) {
+        $.ajax({
+            url: '/Admin/News/IsHot',
+            type: 'POST',
+            data: { id: id },
+            success: function (result) {
+                if (result.success) {
+                    btn.removeClass('enable-hot-btn').addClass('disable-hot-btn').html('<i class="fa-solid fa-check text-success"></i>');
+                } else {
+                    alert(result.message);
+                }
+            },
+            error: function () {
+                alert('Đã xảy ra lỗi khi hiển thị tin này.');
+            }
+        });
+    }
+</script>
+
