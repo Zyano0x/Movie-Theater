@@ -1,56 +1,49 @@
 ﻿using Movie_Theater.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
 namespace Movie_Theater.Areas.Admin.Controllers
 {
-    [AccessDeniedAuthorize(Roles = "Adminstrator")]
-    public class MovieTicketsController : Controller
+    public class TheatresController : Controller
     {
         ApplicationDbContext _dbContext = new ApplicationDbContext();
-        // GET: Admin/MovieTickets
+
         public ActionResult Index()
         {
-            var ticket = _dbContext.Tickets.Include("Movie").Include("MovieSchedule").Include("User").ToList();
-            return View(ticket);
+            var model = _dbContext.Theatres.ToList();
+            return View(model);
         }
 
-        public ActionResult Edit(int id)
+        public ActionResult Create()
         {
-            var ticket = _dbContext.Tickets.Find(id);
-            if (ticket == null)
-            {
-                return HttpNotFound();
-            }
-            return View(ticket);
+            return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Ticket ticket)
+        public ActionResult Create(Theatre theatre)
         {
             if (ModelState.IsValid)
             {
-                _dbContext.Entry(ticket).State = EntityState.Modified;
+                _dbContext.Theatres.Add(theatre);
                 _dbContext.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(ticket);
+            return View(theatre);
         }
 
         [HttpPost]
         public JsonResult Delete(int id)
         {
-            var ticket = _dbContext.Tickets.Find(id);
-            if (ticket == null)
+            var theatre = _dbContext.Theatres.Find(id);
+            if (theatre == null)
             {
                 return Json(new { success = false, message = "Record not found." });
             }
 
-            _dbContext.Tickets.Remove(ticket);
+            _dbContext.Theatres.Remove(theatre);
             _dbContext.SaveChanges();
 
             return Json(new { success = true });

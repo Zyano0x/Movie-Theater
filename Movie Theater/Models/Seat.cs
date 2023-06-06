@@ -13,11 +13,11 @@ namespace Movie_Theater.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Display(Name = "Trạng thái")]
-        public bool State { get; set; }
+        [Display(Name = "Ghế")]
+        public string Name { get; set; }
 
-        [Required(ErrorMessage = "Vui lòng nhập giá tiền!")]
-        [Display(Name = "Giá")]
-        public long Cost { get; set; }
+        public bool IsAvailable { get; set; }
+
+        public int OrderId { get; set; }
     }
 }

@@ -10,21 +10,21 @@ using System.ComponentModel;
 
 namespace Movie_Theater.Controllers
 {
-    public class ListMovieController : Controller
+    public class ShowMoviesController : Controller
     {
         public readonly ApplicationDbContext _dbContext = new ApplicationDbContext();
         public ActionResult Index(int? page, string SearchString = "", string FilterMoviesByType = "", int FilterMovieByGenre = 0)
         {
             if (page == null) page = 1;
             //Chỉ lấy 2 loại phim : Chưa khởi chiếu && đã khởi chiếu và có lịch chiếu khả dụng
-            var movies = from m in _dbContext.Movies where m.ReleaseDate > DateTime.Now || _dbContext.MovieSchedules.Any(ms => ms.MovieId == m.Id && ms.EndTime > DateTime.Now) select m;
+            var movies = from m in _dbContext.Movies where m.ReleaseDate > DateTime.Now || _dbContext.Showings.Any(ms => ms.MovieId == m.Id && ms.EndTime > DateTime.Now) select m;
             int pageSize = 10;
             int pageNum = page ?? 1;
 
             ////Những bộ phim chưa tới thời gian khởi chiếu.
             //var checkMovieReleaseDate = (from m in _dbContext.Movies where m.ReleaseDate > DateTime.Now select m.Id).ToList();
             ////Danh sách id các bộ phim đã khởi chiếu và có lịch chiếu khả dụng.(Chưa hết thời gian chiếu && không nằm trong danh sách ở trên)
-            //var scheduleId = (from s in _dbContext.MovieSchedules where s.EndTime > DateTime.Now && (!checkMovieReleaseDate.Contains(s.MovieId)) select s.MovieId).ToList();
+            //var scheduleId = (from s in _dbContext.Showings where s.EndTime > DateTime.Now && (!checkMovieReleaseDate.Contains(s.MovieId)) select s.MovieId).ToList();
             var scheduleId = movies.Where(m => m.ReleaseDate <= DateTime.Now).Select(m => m.Id).ToList();
             if (scheduleId != null && scheduleId.Count > 0)
             {
@@ -50,7 +50,7 @@ namespace Movie_Theater.Controllers
                 if (FilterMoviesByType == "MoviesInTheater")
                 {
                     ViewBag.name = "Phim Đang Chiếu";
-                    movies = movies.Where(m => m.ReleaseDate <= DateTime.Now && _dbContext.MovieSchedules.Any(ms => ms.MovieId == m.Id && ms.EndTime > DateTime.Now));
+                    movies = movies.Where(m => m.ReleaseDate <= DateTime.Now && _dbContext.Showings.Any(ms => ms.MovieId == m.Id && ms.EndTime > DateTime.Now));
                     ViewBag.heading = "DANH SÁCH PHIM : ĐANG CHIẾU";
                 }
                 else if (FilterMoviesByType == "UpcomingMovies")

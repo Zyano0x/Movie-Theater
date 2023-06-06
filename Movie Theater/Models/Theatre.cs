@@ -7,13 +7,14 @@ using System.Web;
 
 namespace Movie_Theater.Models
 {
-    public class Room
+    public class Theatre
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Display(Name = "Trạng thái")]
-        public bool State { get; set; }
+        [Required]
+        [Display(Name = "Tên Rạp")]
+        public string Name { get; set; }
     }
 }

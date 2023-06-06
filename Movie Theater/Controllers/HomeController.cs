@@ -23,10 +23,10 @@ namespace Movie_Theater.Controllers
             var news = _dbContext.News.Where(n => n.IsActive == true).ToList();
             ViewBag.News = news;
 
-            var movie = new MovieScheduleViewModel
+            var movie = new ShowingViewModel
             {
                 Movies = _dbContext.Movies,
-                MovieSchedules = _dbContext.MovieSchedules
+                Showings = _dbContext.Showings
             };
             return View(movie);
         }

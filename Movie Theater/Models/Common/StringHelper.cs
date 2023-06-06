@@ -29,7 +29,9 @@ namespace Movie_Theater.Models.Common
 
         public static string ConvertText(string name)
         {
-            string newName = string.Join("_", name.Split(new char[] { ' ', ':', '.' }).Select(s => s.ToLower()));
+            string[] separators = { " ", ":", "." };
+            string[] nameParts = name.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+            string newName = string.Join("_", nameParts).ToLower();
             return newName;
         }
     }

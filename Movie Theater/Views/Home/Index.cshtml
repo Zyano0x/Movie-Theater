@@ -1,4 +1,4 @@
-﻿@model Movie_Theater.ViewModels.MovieScheduleViewModel
+﻿@model Movie_Theater.ViewModels.ShowingViewModel
 @using System.Linq;
 
 @{
@@ -68,7 +68,7 @@
                 </div>
                 <div class="row sm-gutter box-movie" style="flex-wrap: nowrap;margin-left: 0; margin-right: 0">
                     @{
-                        List<int> lstMovieId = (from ms in Model.MovieSchedules where ms.EndTime > DateTime.Now select ms.MovieId).ToList();
+                        List<int> lstMovieId = (from ms in Model.Showings where ms.EndTime > DateTime.Now select ms.MovieId).ToList();
                         foreach (var movie in Model.Movies)
                         {
                             if (movie.ReleaseDate <= DateTime.Now && lstMovieId.Contains(movie.Id))
@@ -79,7 +79,7 @@
 
                                         <div>
                                             <a href="@Url.Action("Details", "Movies", new { name = movie.Url})">Xem chi tiết</a>
-                                            <a href="@Url.Action("Create","Booking", new { id = movie.Id})">Đặt vé</a>
+                                            <a href="@Url.Action("Create","Booking", new { name = movie.Url})">Đặt vé</a>
                                         </div>
                                     </div>
                                     <div class="caption">

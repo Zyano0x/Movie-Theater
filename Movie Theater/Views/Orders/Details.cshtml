@@ -1,0 +1,134 @@
+﻿@model Movie_Theater.Models.Order
+@using Movie_Theater.Models
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <h4>Order</h4>
+    <hr />
+    <dl class="dl-horizontal"></dl>
+    <p>Status: @Model.Status</p>
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            Movie
+        </th>
+        <th>
+            Show Start Time
+        </th>
+        <th>
+            Ticket Price
+        </th>
+        <th>
+            Seat
+        </th>
+        <th>
+            Theatre
+        </th>
+        @if (Model.Status == OrderStatus.Pending)
+        {
+            <th></th>
+        }
+    </tr>
+
+    @foreach (var tic in Model.Tickets)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => tic.Showing.Movie.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => tic.Showing.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => tic.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => tic.Seat)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => tic.Showing.Theatre.Name)
+            </td>
+            @if (Model.Status == OrderStatus.Pending)
+            {
+                <td>
+                    <button type="submit" class="btn btn-danger delete-btn" data-id="@tic.Id" style="margin: 5px 0;">Xóa</button>
+                </td>
+            }
+        </tr>
+    }
+
+</table>
+<table class="table table-sm table-bordered" style="width:30%">
+    <tr>
+        <th colspan="2" style="text-align:center">Order Summary</th>
+    </tr>
+    <tr>
+        <td>@Html.DisplayNameFor(model => model.Subtotal):</td>
+        <td><span id="SubtotalValue">@Model.Subtotal.ToString("0.00")</span></td>
+    </tr>
+    <tr>
+        <td>@Html.DisplayNameFor(model => model.TaxAmount):</td>
+        <td><span id="TaxAmountValue">@Model.TaxAmount.ToString("0.00")</span></td>
+    </tr>
+    <tr>
+        <td>@Html.DisplayNameFor(model => model.Total):</td>
+        <td><span id="TotalValue">@Model.Total.ToString("0.00")</span></td>
+    </tr>
+</table>
+<p>
+    @if (Model.Status == OrderStatus.Pending)
+    {
+        @Html.ActionLink("Add More Seat", "Edit", "Orders", new { OrderId = Model.Id }, new { @class = "btn btn-primary" })
+        @Html.ActionLink("Thanh Toán", "Checkout", "Orders", new { OrderId = Model.Id }, new { @class = "btn btn-success" })
+    }
+    @if (Model.Status == OrderStatus.Complete)
+    {
+        @Html.ActionLink("Cancel Order", "Cancel", "Orders", new { OrderID = Model.Id }, new { @class = "btn btn-danger" })
+    }
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-warning" })
+
+</p>
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script>
+    $(function () {
+        $('.delete-btn').click(function (e) {
+            e.preventDefault();
+            var btn = $(this);
+            var id = btn.data('id');
+
+            if (confirm("Bạn chắc chắn muốn xóa ghế này?")) {
+                $.ajax({
+                    url: '/Tickets/Delete',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (result) {
+                        if (result.success) {
+                            btn.closest('tr').remove(); // Remove the deleted row from the table
+
+                            // Update the subtotal, tax amount, and total
+                            var subtotal = parseFloat(result.subtotal);
+                            var taxAmount = parseFloat(result.taxAmount);
+                            var total = parseFloat(result.total);
+
+                            $('#SubtotalValue').text(subtotal.toFixed(2));
+                            $('#TaxAmountValue').text(taxAmount.toFixed(2));
+                            $('#TotalValue').text(total.toFixed(2));
+                        } else {
+                            alert(result.message);
+                        }
+                    },
+                    error: function () {
+                        alert('An error occurred while deleting the record.');
+                    }
+                });
+            }
+        });
+    });
+
+</script>
