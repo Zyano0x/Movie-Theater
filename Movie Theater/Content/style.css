@@ -16,7 +16,8 @@ body {
     font-size: 15px;
     font-weight: 500;
     box-sizing: border-box;
-    background-color: #f3f3f3;
+    background-color: #212529;
+    color: #fff;
 }
 
 input, select, textarea {
@@ -717,7 +718,7 @@ li:hover .sub-navbar,
     margin-top: calc(var(--header-navbar-height) + var(--search-height));
     margin-bottom: 20px;
     min-height: 100vh;
-    background-color: #fff;
+    background-color: #212529;
 }
 
     .wrapper-container:before {
