@@ -1,4 +1,17 @@
 ﻿/*Ghi đè - begin*/
+body {
+    font-family: 'Open Sans', sans-serif !important;
+    box-sizing: border-box;
+}
+
+.table thead th {
+    font-weight: 500;
+}
+
+#cke_1_contents {
+    height: 400px !important;
+}
+
 .text-danger {
     display: block;
     margin-top: 10px;
@@ -95,4 +108,11 @@ select.form-control {
 
 .biography::-webkit-scrollbar-thumb {
     background: #888;
+}
+
+.table td.news-thumnail img {
+    width: 172px;
+    height: 102px;
+    object-fit: cover;
+    border-radius: 4px;
 }

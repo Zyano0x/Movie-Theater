@@ -34,6 +34,13 @@ namespace Movie_Theater
                 namespaces: new[] { "Movie_Theater.Controllers" }
             );
 
+            //routes.MapRoute(
+            //    name: "NewsList",
+            //    url: "News",
+            //    defaults: new { controller = "News", action = "Index", name = UrlParameter.Optional },
+            //    namespaces: new[] { "Movie_Theater.Controllers" }
+            //);
+
             routes.MapRoute(
                 name: "CrewDetails",
                 url: "c/{name}",
@@ -72,7 +79,7 @@ namespace Movie_Theater
             routes.MapRoute(
                 name: "ListMovie",
                 url: "danh-sach-phim",
-                defaults: new { controller = "ListMovie", action = "Index", id = UrlParameter.Optional },
+                defaults: new { controller = "Movies", action = "ListMovie", id = UrlParameter.Optional },
                 namespaces: new[] { "Movie_Theater.Controllers" }
             );
 

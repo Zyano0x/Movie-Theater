@@ -7,6 +7,9 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
+using PagedList;
+
 
 namespace Movie_Theater.Areas.Admin.Controllers
 {
@@ -15,41 +18,38 @@ namespace Movie_Theater.Areas.Admin.Controllers
     {
         public ApplicationDbContext _dbContext = new ApplicationDbContext();
         // GET: Banner
-        public ActionResult Index()
+        public ActionResult Index(string Searchtext,int? page)
         {
-            var lstSlide = from s in _dbContext.News select s;
-            return View(lstSlide);
+            if (page == null) page = 1;
+            int pageSize = 5;
+            int pageNum = page ?? 1;
+            var lstNews = from s in _dbContext.News select s;
+            if(!string.IsNullOrEmpty(Searchtext))
+            {
+                lstNews = lstNews.Where(x => x.Title.Contains(Searchtext));
+            }
+            lstNews = lstNews.OrderByDescending(m => m.PublicationDate);
+            return View(lstNews.ToPagedList(pageNum, pageSize));
         }
 
         public ActionResult Create()
         {
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(News viewModel, HttpPostedFileBase image)
+        public ActionResult Create(News viewModel)
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                viewModel.Author = User.Identity.Name;
-                viewModel.PublicationDate = DateTime.Today;
-            }
-
             if (ModelState.IsValid)
             {
-                var news = new News
-                {
-                    Title = viewModel.Title,
-                    Description = viewModel.Description,
-                    Content = viewModel.Content,
-                    Author = viewModel.Author,
-                    PublicationDate = viewModel.PublicationDate,
-                    Img = viewModel.Img,
-                    IsActive = true,
-                    Url = StringHelper.ConvertText(StringHelper.RemoveDiacritics(viewModel.Title)),
-                };
-
-                _dbContext.News.Add(news);
+                viewModel.Url = StringHelper.ConvertText(viewModel.Title);
+                viewModel.Alias = null;
+                viewModel.ModifireDate = DateTime.Now;
+                viewModel.Author = User.Identity.Name;
+                viewModel.PublicationDate = DateTime.Now;
+                viewModel.IsActive = true;
+                _dbContext.News.Add(viewModel);
                 _dbContext.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -64,16 +64,6 @@ namespace Movie_Theater.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
-
-            var a = new News
-            {
-                Img = news.Img,
-                Title = news.Title,
-                Content = news.Content,
-                PublicationDate = news.PublicationDate,
-                Description = news.Description,
-            };
-
             return View(news);
         }
         [HttpPost]
@@ -82,27 +72,96 @@ namespace Movie_Theater.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var news = _dbContext.News.Find(viewModel.Id);
-
-                if (news == null)
-                {
-                    return HttpNotFound();
-                }
-
-                news.Img = viewModel.Img;
-                news.Title = viewModel.Title;
-                news.Description = viewModel.Description;
-                news.Content = viewModel.Content;
-                news.PublicationDate = viewModel.PublicationDate;
-                news.Url = StringHelper.ConvertText(StringHelper.RemoveDiacritics(viewModel.Title));
-
-                // Save changes to the database
+                viewModel.Url = StringHelper.ConvertText(viewModel.Title);
+                viewModel.Alias = null;
+                viewModel.ModifireDate = DateTime.Now;
+                viewModel.Author = User.Identity.Name;
+                _dbContext.News.Attach(viewModel);
+                _dbContext.Entry(viewModel).State = System.Data.Entity.EntityState.Modified;
                 _dbContext.SaveChanges();
-
                 return RedirectToAction("Index");
             }
             return View(viewModel);
         }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Create(News viewModel, HttpPostedFileBase image)
+        //{
+        //    if (User.Identity.IsAuthenticated)
+        //    {
+        //        viewModel.Author = User.Identity.Name;
+        //        viewModel.PublicationDate = DateTime.Today;
+        //    }
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        var news = new News
+        //        {
+        //            Title = viewModel.Title,
+        //            Description = viewModel.Description,
+        //            Detail = viewModel.Detail,
+        //            Author = viewModel.Author,
+        //            PublicationDate = viewModel.PublicationDate,
+        //            Img = viewModel.Img,
+        //            IsActive = true,
+        //            Url = StringHelper.ConvertText(StringHelper.RemoveDiacritics(viewModel.Title)),
+        //        };
+
+        //        _dbContext.News.Add(news);
+        //        _dbContext.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View(viewModel);
+        //}
+
+        //public ActionResult Edit(int Id)
+        //{
+        //    var news = _dbContext.News.Find(Id);
+
+        //    if (news == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+
+        //    var a = new News
+        //    {
+        //        Img = news.Img,
+        //        Title = news.Title,
+        //        Detail = news.Detail,
+        //        PublicationDate = news.PublicationDate,
+        //        Description = news.Description,
+        //    };
+
+        //    return View(news);
+        //}
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit(News viewModel)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var news = _dbContext.News.Find(viewModel.Id);
+
+        //        if (news == null)
+        //        {
+        //            return HttpNotFound();
+        //        }
+
+        //        news.Img = viewModel.Img;
+        //        news.Title = viewModel.Title;
+        //        news.Description = viewModel.Description;
+        //        news.Detail = viewModel.Detail;
+        //        news.PublicationDate = viewModel.PublicationDate;
+        //        news.Url = StringHelper.ConvertText(StringHelper.RemoveDiacritics(viewModel.Title));
+
+        //        // Save changes to the database
+        //        _dbContext.SaveChanges();
+
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View(viewModel);
+        //}
 
         [HttpPost]
         public JsonResult Delete(int id)
@@ -131,6 +190,55 @@ namespace Movie_Theater.Areas.Admin.Controllers
                 return Json(new { success = true, isAcive = item.IsActive });
             }
 
+            return Json(new { success = false });
+        }
+
+        [HttpPost]
+        public JsonResult IsHome(int id)
+        {
+            var item = _dbContext.News.Find(id);
+            if (item != null)
+            {
+                item.IsHome = !item.IsHome;
+                _dbContext.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                _dbContext.SaveChanges();
+                return Json(new { success = true, isHome = item.IsHome });
+            }
+
+            return Json(new { success = false });
+        }
+
+        [HttpPost]
+        public JsonResult IsHot(int id)
+        {
+            var item = _dbContext.News.Find(id);
+            if (item != null)
+            {
+                item.IsHot = !item.IsHot;
+                _dbContext.Entry(item).State = System.Data.Entity.EntityState.Modified;
+                _dbContext.SaveChanges();
+                return Json(new { success = true, isHot = item.IsHot });
+            }
+
+            return Json(new { success = false });
+        }
+
+        public ActionResult DeleteAll(string ids)
+        {
+            if (!string.IsNullOrEmpty(ids))
+            {
+                var items = ids.Split(',');
+                if (items != null && items.Any())
+                {
+                    foreach (var item in items)
+                    {
+                        var obj = _dbContext.News.Find(Convert.ToInt32(item));
+                        _dbContext.News.Remove(obj);
+                        _dbContext.SaveChanges();
+                    }
+                }
+                return Json(new { success = true });
+            }
             return Json(new { success = false });
         }
 

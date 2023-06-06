@@ -151,30 +151,6 @@
                     <h6>ĐÁNH GIÁ</h6>
                 </div>
                 <div class="box-review-body">
-                    @*@if (!User.Identity.IsAuthenticated || ViewBag.CheckTicket == null)
-                    {
-                        <div>
-                            <span>
-                                <strong><i class="fa-solid fa-circle-exclamation" style="color: #fa320a"></i> Lưu ý: <br /></strong>
-                                Bạn cần
-                                @if (!User.Identity.IsAuthenticated)
-                                {<strong>
-                                        @Html.ActionLink("Đăng Nhập", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
-                                    </strong><span>và</span>
-                                }
-                                @if (ViewBag.CheckTicket == null)
-                                {
-                                    <strong>
-                                        @Html.ActionLink("Đặt Vé Phim", "Create", "Booking", new { id = Model.Id }, null)
-                                    </strong>
-                                }
-                                để có thể bình luận!
-                            </span>
-                        </div>
-                    }*@
-
-
-
                     @{
                         var userLogin = System.Web.HttpContext.Current.User.Identity.GetUserId();
                         var action = 1;
@@ -206,6 +182,8 @@
                             </div>
                         }
 
+                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
                         <script>
                             document.addEventListener('DOMContentLoaded', function () {
                                 var scoreInput = document.getElementById('score-review');
@@ -227,9 +205,31 @@
                                     }
                                 }
                             });
+
+                            $(document).ready(function () {
+                                $('#submit-btn').click(function (e) {
+                                    e.preventDefault();
+
+                                    var formData = {
+                                        scores: $('#score-review').val(),
+                                        comment: $('#comment-review').val(),
+                                        id: '@Model.Id',
+                                        userLogin: '@userLogin',
+                                        action: '@action'
+                                    };
+
+                                    $.ajax({
+                                        url: '@Url.Action("Review", "Movies")',
+                                        type: 'POST',
+                                        data: formData,
+                                        success: function (result) {
+                                        },
+                                        error: function (xhr, status, error) {
+                                        }
+                                    });
+                                });
+                            });
                         </script>
-
-
                     }
                 </div>
             </div>
@@ -296,3 +296,4 @@
         }
     }
 </div>
+

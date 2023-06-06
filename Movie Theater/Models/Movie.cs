@@ -29,7 +29,6 @@ namespace Movie_Theater.Models
         public string Synopsis { get; set; }
 
         [Display(Name = "Nhãn")]
-        [DisplayFormat(DataFormatString = "{0}+")]
         public string Rating { get; set; }
 
         [Display(Name = "T.Lượng")]

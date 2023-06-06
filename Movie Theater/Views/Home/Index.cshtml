@@ -7,12 +7,12 @@
 <div class="wrapper-container no-top">
     <div class="wrapper-box-slideshow">
         <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
-            @if (ViewBag.News.Count != 0)
+            @if (ViewBag.NewsHome.Count != 0)
             {
                 <ol class="carousel-indicators">
                     @{
                         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                        for (int i = 1; i < ViewBag.News.Count; i++)
+                        for (int i = 1; i < ViewBag.NewsHome.Count; i++)
                         {
                             <li data-target="#myCarousel" data-slide-to="@i"></li>
                         }
@@ -22,22 +22,22 @@
                 <!-- Wrapper for slides -->
                 <div class="carousel-inner">
                     @{
-                        <a href="@Url.Action("Details", "News", new { name = ViewBag.News[0].Url})" class="item active">
-                            <img src="@ViewBag.News[0].Img" alt="Ảnh 1">
+                        <a href="@Url.Action("Details", "News", new { name = ViewBag.NewsHome[0].Url})" class="item active">
+                            <img src="@ViewBag.NewsHome[0].Img" alt="Ảnh 1">
                             <div class="carousel-caption">
-                                <h6>@ViewBag.News[0].Title</h6>
-                                <p>@ViewBag.News[0].Description</p>
+                                <h6>@ViewBag.NewsHome[0].Title</h6>
+                                <p>@ViewBag.NewsHome[0].Description</p>
                             </div>
                         </a>
-                        if (ViewBag.News.Count > 1)
+                        if (ViewBag.NewsHome.Count > 1)
                         {
-                            for (int i = 1; i < ViewBag.News.Count; i++)
+                            for (int i = 1; i < ViewBag.NewsHome.Count; i++)
                             {
-                                <a href="@Url.Action("Details", "News", new { name = ViewBag.News[i].Url})" class="item">
-                                    <img src="@ViewBag.News[i].Img" alt="Ảnh <@i>">
+                                <a href="@Url.Action("Details", "News", new { name = ViewBag.NewsHome[i].Url})" class="item">
+                                    <img src="@ViewBag.NewsHome[i].Img" alt="Ảnh <@i>">
                                     <div class="carousel-caption">
-                                        <h6>@ViewBag.News[i].Title</h6>
-                                        <p>@ViewBag.News[i].Description</p>
+                                        <h6>@ViewBag.NewsHome[i].Title</h6>
+                                        <p>@ViewBag.NewsHome[i].Description</p>
                                     </div>
                                 </a>
                             }
@@ -548,63 +548,33 @@
             </div>-->
         </div>
 
-        <!--<div class="wrapper-box-news">-->
-        @* Tin tức *@
-        <!--<div class="heading-title">
+        <div class="wrapper-box-news">
+            @* Tin tức *@
+            <div class="heading-title">
                 <h6>TIN TỨC</h6>
-                <a href="@Url.Action("Index", "ListMovie", new {FilterMoviesByType = "UpcomingMovies"})">Xem thêm</a>
+                <a href="@Url.Action("Index", "News")">Xem thêm</a>
             </div>
             <div class="row sm-gutter box-news">
-                <a class="box-news__item col m-b-4 l-4">
-                    <div class="img">
-                        <img src="https://images.fandango.com/cms/assets/0b8d6850-c2b1-11ed-81d8-51a487a38835--rt-tedlasso-v2-470x250.jpg" alt="Alternate Text" />
-                    </div>
-                    <div class="caption">
-                        <h6>Ted Lasso</h6>
-                        <span>The stars on Season 3, Nate & Ted’s Explosive Feud, and Roy’s Swearing</span>
-                    </div>
-                </a><a class="box-news__item col m-b-4 l-4">
-                    <div class="img">
-                        <img src="https://images.fandango.com/cms/assets/0b8d6850-c2b1-11ed-81d8-51a487a38835--rt-tedlasso-v2-470x250.jpg" alt="Alternate Text" />
-                    </div>
-                    <div class="caption">
-                        <h6>Ted Lasso</h6>
-                        <span>The stars on Season 3, Nate & Ted’s Explosive Feud, and Roy’s Swearing</span>
-                    </div>
-                </a><a class="box-news__item col m-b-4 l-4">
-                    <div class="img">
-                        <img src="https://images.fandango.com/cms/assets/0b8d6850-c2b1-11ed-81d8-51a487a38835--rt-tedlasso-v2-470x250.jpg" alt="Alternate Text" />
-                    </div>
-                    <div class="caption">
-                        <h6>Ted Lasso</h6>
-                        <span>The stars on Season 3, Nate & Ted’s Explosive Feud, and Roy’s Swearing</span>
-                    </div>
-                </a><a class="box-news__item col m-b-4 l-4">
-                    <div class="img">
-                        <img src="https://images.fandango.com/cms/assets/0b8d6850-c2b1-11ed-81d8-51a487a38835--rt-tedlasso-v2-470x250.jpg" alt="Alternate Text" />
-                    </div>
-                    <div class="caption">
-                        <h6>Ted Lasso</h6>
-                        <span>The stars on Season 3, Nate & Ted’s Explosive Feud, and Roy’s Swearing</span>
-                    </div>
-                </a><a class="box-news__item col m-b-4 l-4">
-                    <div class="img">
-                        <img src="https://images.fandango.com/cms/assets/0b8d6850-c2b1-11ed-81d8-51a487a38835--rt-tedlasso-v2-470x250.jpg" alt="Alternate Text" />
-                    </div>
-                    <div class="caption">
-                        <h6>Ted Lasso</h6>
-                        <span>The stars on Season 3, Nate & Ted’s Explosive Feud, and Roy’s Swearing</span>
-                    </div>
-                </a><a class="box-news__item col m-b-4 l-4">
-                    <div class="img">
-                        <img src="https://images.fandango.com/cms/assets/0b8d6850-c2b1-11ed-81d8-51a487a38835--rt-tedlasso-v2-470x250.jpg" alt="Alternate Text" />
-                    </div>
-                    <div class="caption">
-                        <h6>Ted Lasso</h6>
-                        <span>The stars on Season 3, Nate & Ted’s Explosive Feud, and Roy’s Swearing</span>
-                    </div>
-                </a>
+                @{
+                    var count = 0;
+                    for (int i = 0; i < ViewBag.NewsHot.Count; i++)
+                    {
+                        count++;
+                        <a href="@Url.Action("Details", "News", new { name = ViewBag.NewsHot[i].Url})" class="box-news__item col m-b-4 l-4">
+                            <div class="img">
+                                <img style="width: 100%; height: 190px;object-fit: cover" src="@ViewBag.NewsHot[i].Img" alt="Tin tức" />
+                            </div>
+                            <div class="caption">
+                                <h6>@ViewBag.NewsHot[i].Title</h6>
+                            </div>
+                        </a>
+                        if (count == 6)
+                        {
+                            break;
+                        }
+                    }
+                }
             </div>
-        </div>-->
+        </div>
     </div>
 </div>

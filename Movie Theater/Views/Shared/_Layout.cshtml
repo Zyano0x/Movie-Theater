@@ -11,7 +11,9 @@
     <title>@ViewBag.Title</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 
     <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
 
@@ -211,8 +213,8 @@
                     // Áp dụng CSS khi trạng thái đã được lưu
                     $('.navbar, body, .wrapper-container ').css('background-color', '#212529');
                     $(':root').css('--search-bg-color', '#989898');
-                    $('.change-bg-btn > i, body').css('color', '#fff');
-                    $('a, .box-movie-info__item__more').not('.container a, .table a, .btn-create a, .box-movie__item .img a, .box-discovery__body__item a, .pagination a').css('color', '#f7c12f');
+                    $('body').css('color', '#fff');
+                    $('a, .box-movie-info__item__more, .change-bg-btn > i').not('.container a, .table a, .btn-create a, .box-movie__item .img a, .box-discovery__body__item a, .pagination a').css('color', '#f7c12f');
                     $('.box-movie__item, .box-discovery__body__item').hover(
                         function () {
                             $(this).find('.caption').css('color', '#f7c12f');
@@ -223,7 +225,8 @@
                     );
                 } else {
                     // Xóa CSS khi click lần thứ hai
-                    $('.change-bg-btn > i, .navbar, body, .wrapper-container, :root, a, .box-movie-info__item__more').removeAttr('style');
+                    $('.change-bg-btn > i,a , .navbar, body, .wrapper-container, :root, .box-movie-info__item__more').removeAttr('style');
+                    $('a, .box-movie-info__item__more, .change-bg-btn > i').not('.container a, .table a, .btn-create a, .box-movie__item .img a, .box-discovery__body__item a, .pagination a').css('text-decoration', 'none');
                     $('.box-movie__item, .box-discovery__body__item').off('mouseenter mouseleave');
                 }
             }
@@ -256,10 +259,10 @@
                 <ul id="header-navbar" class="flex-grow-1">
                     <li>@Html.ActionLink("Trang Chủ", "Index", "Home")</li>
                     <li>
-                        @Html.ActionLink("Phim", "Index", "ListMovie")
+                        @Html.ActionLink("Phim", "ListMovie", "Movies")
                         <ul class="sub-navbar">
-                            <li>@Html.ActionLink("Phim đang chiếu", "Index", "ListMovie", new { FilterMoviesByType = "MoviesInTheater" }, null)</li>
-                            <li>@Html.ActionLink("Phim sắp chiếu", "Index", "ListMovie", new { FilterMoviesByType = "UpcomingMovies" }, null)</li>
+                            <li>@Html.ActionLink("Phim đang chiếu", "ListMovie", "Movies", new { FilterMoviesByType = "MoviesInTheater" }, null)</li>
+                            <li>@Html.ActionLink("Phim sắp chiếu", "ListMovie", "Movies", new { FilterMoviesByType = "UpcomingMovies" }, null)</li>
                         </ul>
                     </li>
                     <li>
@@ -272,28 +275,15 @@
 
                                 foreach (var item in genres)
                                 {
-                                    <li> @Html.ActionLink(item.Name, "index", "listmovie", new { filtermoviebygenre = item.Id }, null) </li>
+                                    <li> @Html.ActionLink(item.Name, "listmovie", "Movies", new { filtermoviebygenre = item.Id }, null) </li>
                                 }
                             }
                         </ul>
                     </li>
-                    @*<li>
-                            <span>Quản Lý</span>
-
-                            <ul class="sub-navbar">
-                                <li>@Html.ActionLink("Phim", "Index", "Movies", new { FilterMoviesByType = "MoviesInTheater" }, null)</li>
-                                <li>@Html.ActionLink("Thể Loại", "Index", "Genres", new { FilterMoviesByType = "MoviesInTheater" }, null)</li>
-                                <li>@Html.ActionLink("Lịch Chiếu", "Index", "Showings", new { FilterMoviesByType = "UpcomingMovies" }, null)</li>
-                                <li>@Html.ActionLink("Nhân Sự Phim", "Index", "Crews", new { FilterMoviesByType = "UpcomingMovies" }, null)</li>
-                                <li>@Html.ActionLink("Slide Show", "Index", "SlideShow", new { FilterMoviesByType = "UpcomingMovies" }, null)</li>
-                                <li>@Html.ActionLink("Đặt vé", "Index", "Home", new { FilterMoviesByType = "UpcomingMovies" }, null)</li>
-                                <li>@Html.ActionLink("Phòng", "Index", "Home", new { FilterMoviesByType = "UpcomingMovies" }, null)</li>
-                                <li>@Html.ActionLink("Ghế", "Index", "Home", new { FilterMoviesByType = "UpcomingMovies" }, null)</li>
-                            </ul>
-                        </li>*@
-                    <li class="change-bg-btn">
+                    <li>@Html.ActionLink("Tin Tức", "Index", "News")</li>
+                    @*<li class="change-bg-btn">
                         <i class="fa-solid fa-sun"></i>
-                    </li>
+                    </li>*@
                 </ul>
                 <div id="login">
                     @Html.ActionLink("Đăng nhập", "Login", "Login", new { @class = "display-none login-failse" })
@@ -320,12 +310,12 @@
                 </div>
             </div>
         </div>
-        @using (Html.BeginForm("Index", "ListMovie", FormMethod.Post))
+        @using (Html.BeginForm("ListMovie", "Movies", FormMethod.Post))
         {
             <div class="navbar__search">
                 <div>
                     <input id="search-field" type="text" name="SearchString" placeholder="Tìm kiếm phim theo tên , mô tả ..." />
-                    <button type="submit" class="navbar__search__icon" id="search-button" >
+                    <button type="submit" class="navbar__search__icon" id="search-button">
                         @* disabled: vô hiệu hóa btn *@
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
