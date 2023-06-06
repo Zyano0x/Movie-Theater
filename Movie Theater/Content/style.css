@@ -1193,14 +1193,13 @@ ul.box-movie-info__item__content {
             }
 
 /*Admin*/
-.wrapper-container > .heading > i {
+.wrapper-container .heading > i {
     font-size: 25px;
-    color: #f7c12f;
     margin-right: 2px;
 }
 
-.wrapper-container > .heading {
-    text-transform: uppercase;
+.wrapper-container .heading {
+    color: #f7c12f;
 }
 
 /*#loader {
