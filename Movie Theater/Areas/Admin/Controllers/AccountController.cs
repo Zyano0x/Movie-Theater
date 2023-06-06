@@ -11,6 +11,9 @@ using System.Web.Mvc;
 using System.Web.Security;
 using System.Net.Sockets;
 using Microsoft.AspNet.Identity.EntityFramework;
+using PagedList;
+using System.Web.UI;
+using PagedList;
 
 namespace Movie_Theater.Areas.Admin.Controllers
 {
@@ -82,7 +85,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
             }
         }
 
-        public ActionResult Index()
+        public ActionResult Index(string Searchtext,int? page)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -90,8 +93,16 @@ namespace Movie_Theater.Areas.Admin.Controllers
                 ViewBag.Email = GetEmail();
                 ViewBag.Username = userInfo.Name;
             }
-            var user = _dbContext.Users.ToList();
-            return View(user);
+            if (page == null) page = 1;
+            int pageSize = 1;
+            int pageNum = page ?? 1;
+            var user = from s in _dbContext.Users select s;
+            if (!string.IsNullOrEmpty(Searchtext))
+            {
+                user = user.Where(x => x.UserName.Contains(Searchtext));
+            }
+            user = user.OrderBy(m => m.Id);
+            return View(user.ToPagedList(pageNum, pageSize));
         }
 
         [AllowAnonymous]
@@ -113,6 +124,14 @@ namespace Movie_Theater.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
+                return View(model);
+            }
+
+            var user = await UserManager.FindByNameAsync(model.Username);
+
+            if (user == null)
+            {
+                ModelState.AddModelError("", "Đăng Nhập Thất Bại.");
                 return View(model);
             }
 

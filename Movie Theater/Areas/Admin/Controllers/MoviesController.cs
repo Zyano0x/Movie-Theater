@@ -1,6 +1,7 @@
 ﻿using Movie_Theater.Models;
 using Movie_Theater.Models.Common;
 using Movie_Theater.ViewModels;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,10 +16,18 @@ namespace Movie_Theater.Areas.Admin.Controllers
     {
         ApplicationDbContext _dbContext = new ApplicationDbContext();
 
-        public ActionResult Index()
+        public ActionResult Index(string Searchtext, int? page)
         {
-            var movie = _dbContext.Movies.ToList();
-            return View(movie);
+            if (page == null) page = 1;
+            int pageSize = 1;
+            int pageNum = page ?? 1;
+            var movies = from s in _dbContext.Movies select s;
+            if (!string.IsNullOrEmpty(Searchtext))
+            {
+                movies = movies.Where(x => x.Title.Contains(Searchtext));
+            }
+            movies = movies.OrderByDescending(m => m.ReleaseDate);
+            return View(movies.ToPagedList(pageNum, pageSize));
         }
 
         public ActionResult Review(int scores, string comment, int id, string userLogin, int action)
@@ -313,6 +322,25 @@ namespace Movie_Theater.Areas.Admin.Controllers
             _dbContext.SaveChanges();
 
             return Json(new { success = true });
+        }
+
+        public ActionResult DeleteAll(string ids)
+        {
+            if (!string.IsNullOrEmpty(ids))
+            {
+                var items = ids.Split(',');
+                if (items != null && items.Any())
+                {
+                    foreach (var item in items)
+                    {
+                        var obj = _dbContext.Movies.Find(Convert.ToInt32(item));
+                        _dbContext.Movies.Remove(obj);
+                        _dbContext.SaveChanges();
+                    }
+                }
+                return Json(new { success = true });
+            }
+            return Json(new { success = false });
         }
 
         public string ProcessUpload(HttpPostedFileBase file)

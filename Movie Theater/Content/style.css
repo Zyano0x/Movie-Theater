@@ -1,11 +1,20 @@
 ﻿/*Ghi đè*/
+.breadcrumb-item + .breadcrumb-item::before {
+    padding: 0 5px;
+}
+
+.breadcrumb-item + .breadcrumb-item {
+    padding-left: unset;
+}
+
 html {
     font-size: 15px;
 }
 
 body {
-    font-family: 'Be Vietnam Pro', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 15px;
+    font-weight: 500;
     box-sizing: border-box;
     background-color: #f3f3f3;
 }
@@ -24,7 +33,7 @@ ul {
     --header-navbar-height: 55px;
     --book-a-ticket-btn-height: 30px;
     --search-height: 42px;
-    --search-bg-color: #212529;
+    --search-bg-color: #2f353b !important;
 }
 
 .padding-top-10 {
@@ -65,15 +74,15 @@ ul {
     color: unset;
 }
 
-.table > tbody > tr > th,
-.table > tbody > tr > td {
-    border-width: 1px 0px 0px 1px;
-    border-style: solid;
-    border-color: #b4b1b2;
-    text-align: center;
-    max-height: 173px;
-    overflow: auto;
-}
+    .table > tbody > tr > th,
+    .table > tbody > tr > td {
+        border-width: 1px 0px 0px 1px;
+        border-style: solid;
+        border-color: #b4b1b2;
+        text-align: center;
+        max-height: 173px;
+        overflow: auto;
+    }
 
 /*.table > tbody > tr > td {
     min-height: 93px;
@@ -252,7 +261,7 @@ ul {
 
         #header-navbar .change-bg-btn i {
             font-size: 20px;
-            color: #f7c12f;
+            color: #fff;
         }
 
 li:hover .sub-navbar,
@@ -442,7 +451,7 @@ li:hover .sub-navbar,
 
     .carousel-caption h6 {
         text-transform: capitalize;
-        height: 18px;
+        height: 22px;
         -webkit-line-clamp: 1;
         margin-bottom: 10px;
         color: #f7c12f;
@@ -530,6 +539,14 @@ li:hover .sub-navbar,
     text-decoration: none;
     cursor: pointer;
 }
+
+    .box-news__item .caption {
+        height: 38px;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        -webkit-line-clamp: 2;
+    }
 
     .box-discovery__body__item .img,
     .box-movie__item .img,
@@ -662,7 +679,7 @@ li:hover .sub-navbar,
 .btn-prev {
     width: max-content;
     position: absolute;
-    top: 160px;
+    top: 167px;
     cursor: pointer;
 }
 
@@ -818,7 +835,7 @@ ul.box-movie-info__item__content {
 
 .box-movie-info__item__content > p {
     text-align: justify;
-    max-height: 122px;
+    max-height: 113px;
     overflow: auto;
     padding-right: 5px;
 }
@@ -1251,4 +1268,12 @@ ul.box-movie-info__item__content {
     font-size: 18px;
     margin-top: 16px;
     margin-left: 10px;
+}
+
+.publication-info {
+    margin: 15px 0;
+}
+
+.box-news-detail {
+    font-weight: 400;
 }

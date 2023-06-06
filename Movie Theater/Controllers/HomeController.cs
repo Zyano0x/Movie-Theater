@@ -20,8 +20,10 @@ namespace Movie_Theater.Controllers
                 var user = User.Identity;
                 Session["Username"] = user.Name;
             }
-            var news = _dbContext.News.Where(n => n.IsActive == true).ToList();
-            ViewBag.News = news;
+            var newsHome = _dbContext.News.Where(n => n.IsActive == true && n.IsHome == true).ToList();
+            var newsHot = _dbContext.News.Where(n => n.IsActive == true && n.IsHot == true && n.IsHome == false).ToList();
+            ViewBag.NewsHome = newsHome;
+            ViewBag.NewsHot = newsHot;
 
             var movie = new MovieScheduleViewModel
             {
