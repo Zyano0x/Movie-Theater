@@ -159,7 +159,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
                     MovieCrews = viewModel.CastIds.Select(g => new MovieCrew { MovieId = viewModel.Id, CrewId = g, CRoleId = 1 })
                                         .Concat(viewModel.DirectorIds.Select(g => new MovieCrew { MovieId = viewModel.Id, CrewId = g, CRoleId = 2 }))
                                         .ToList(),
-                    Url = StringHelper.ConvertText(viewModel.Title)
+                    Url = StringHelper.ConvertText(StringHelper.RemoveDiacritics(viewModel.Title))
                 };
 
                 _dbContext.Movies.Add(movie);
@@ -232,7 +232,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
             movie.Runtime = movieViewModel.Runtime;
             movie.TrailerUrl = movieViewModel.TrailerUrl;
             movie.PosterPath = movieViewModel.PosterPath;
-            movie.Url = movieViewModel.Url;
+            movie.Url = StringHelper.ConvertText(StringHelper.RemoveDiacritics(movieViewModel.Url));
 
             // Remove existing genres that are not in the viewModel
             var genresToRemove = movie.MovieGenres.Where(mg => !movieViewModel.GenreIds.Contains(mg.GenreId)).ToList();

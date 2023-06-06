@@ -259,10 +259,10 @@
                 <ul id="header-navbar" class="flex-grow-1">
                     <li>@Html.ActionLink("Trang Chủ", "Index", "Home")</li>
                     <li>
-                        @Html.ActionLink("Phim", "ListMovie", "Movies")
+                        @Html.ActionLink("Phim", "ShowMovies", "Movies")
                         <ul class="sub-navbar">
-                            <li>@Html.ActionLink("Phim đang chiếu", "ListMovie", "Movies", new { FilterMoviesByType = "MoviesInTheater" }, null)</li>
-                            <li>@Html.ActionLink("Phim sắp chiếu", "ListMovie", "Movies", new { FilterMoviesByType = "UpcomingMovies" }, null)</li>
+                            <li>@Html.ActionLink("Phim đang chiếu", "ShowMovies", "Movies", new { FilterMoviesByType = "MoviesInTheater" }, null)</li>
+                            <li>@Html.ActionLink("Phim sắp chiếu", "ShowMovies", "Movies", new { FilterMoviesByType = "UpcomingMovies" }, null)</li>
                         </ul>
                     </li>
                     <li>

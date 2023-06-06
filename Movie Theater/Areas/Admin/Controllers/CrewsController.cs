@@ -95,6 +95,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
                 crews.Birthplace = castViewModel.Birthplace;
                 crews.Biography = castViewModel.Biography;
                 crews.AvatarPath = castViewModel.AvatarPath;
+                crews.Url = StringHelper.ConvertText(StringHelper.RemoveDiacritics(castViewModel.Name));
 
                 // Save changes to the database
                 _dbContext.SaveChanges();

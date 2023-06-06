@@ -21,7 +21,7 @@ namespace Movie_Theater.Controllers
             return View(movie);
         }
 
-        public ActionResult ListMovie(int? page, string SearchString = "", string FilterMoviesByType = "", int FilterMovieByGenre = 0)
+        public ActionResult ShowMovies(int? page, string SearchString = "", string FilterMoviesByType = "", int FilterMovieByGenre = 0)
         {
             if (page == null) page = 1;
             //Chỉ lấy 2 loại phim : Chưa khởi chiếu && đã khởi chiếu và có lịch chiếu khả dụng
