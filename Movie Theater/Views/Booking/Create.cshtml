@@ -23,23 +23,23 @@
                             </ul>
                         </div>
                         @Html.AntiForgeryToken()
-                    <div class="booking">
-                        <div>
-                            @Html.LabelFor(model => model.TheatreIds, "Rạp : ", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.DropDownListFor(model => model.TheatreSelectId, new SelectList(Model.Theatres, "Id", "Name"), new { @class = "form-control", id = "theatre-dropdown" })
-                                @Html.ValidationMessageFor(model => model.TheatreIds, "", new { @class = "text-danger" })
+                        <div class="booking">
+                            <div>
+                                @Html.LabelFor(model => model.TheatreIds, "Rạp : ", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10" style=" padding: 0;">
+                                    @Html.DropDownListFor(model => model.TheatreSelectId, new SelectList(Model.Theatres, "Id", "Name"), new { @class = "form-control", id = "theatre-dropdown" })
+                                    @Html.ValidationMessageFor(model => model.TheatreIds, "", new { @class = "text-danger" })
+                                </div>
                             </div>
-                        </div>
-                        <div id="showtimes-container">
-                            @Html.LabelFor(model => model.ShowingIds, "Lịch Chiếu : ", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.DropDownListFor(model => model.ShowingSelectId, new SelectList(Model.Showings, "Id", "StartTime"), new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.ShowingIds, "", new { @class = "text-danger" })
+                            <div id="showtimes-container">
+                                @Html.LabelFor(model => model.ShowingIds, "Lịch Chiếu : ", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.ShowingSelectId, new SelectList(Model.Showings, "Id", "StartTime"), new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.ShowingIds, "", new { @class = "text-danger" })
+                                </div>
                             </div>
+                            <button id="bookTicketsButton" class="btn btn-booking">Tiếp tục</button>
                         </div>
-                        <button id="bookTicketsButton" class="btn btn-booking">Đặt vé</button>
-                    </div>
                     </div>
                 </div>
             }
@@ -155,10 +155,9 @@
         height: 40px;
         display: flex;
         align-items: center;
-        justify-content: end;
+        justify-content: space-between;
         margin-top: 10px;
     }
-
         .movie-booking .booking > div {
             display: flex;
             align-items: center;
@@ -169,10 +168,15 @@
                 width: max-content;
                 margin-right: 5px;
                 color: #000;
+                margin-bottom: unset;
             }
 
             .movie-booking .booking > div select {
                 width: max-content;
+            }
+
+            .movie-booking .booking > div:first-child select {
+                width: 149px;
             }
 
         .movie-booking .booking input {
@@ -183,9 +187,11 @@
         .movie-booking .booking button {
             color: #3a3a3a;
             background-color: #f7c12f;
+            font-weight: 600;
         }
 
             .movie-booking .booking button:hover {
-                background-color: #f7c12f91;
+                background-color: #2eaa2e;
+                color: #fff;
             }
 </style>

@@ -84,9 +84,9 @@ namespace Movie_Theater
             );
 
             routes.MapRoute(
-                name: "ListMovie",
+                name: "ShowMovies",
                 url: "danh-sach-phim",
-                defaults: new { controller = "Movies", action = "ListMovie", id = UrlParameter.Optional },
+                defaults: new { controller = "Movies", action = "ShowMovies", id = UrlParameter.Optional },
                 namespaces: new[] { "Movie_Theater.Controllers" }
             );
 

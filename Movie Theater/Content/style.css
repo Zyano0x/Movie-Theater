@@ -3,6 +3,27 @@
     padding: 0 5px;
 }
 
+.white-color {
+    color: #fff !important;
+}
+
+.font-weight-600 {
+    font-weight: 600;
+}
+
+.btn-back {
+    background-color: #666e76 !important;
+    color: #fff !important;
+}
+
+.mr-2 {
+    margin-right: 10px !important;
+}
+
+.table thead th, .table tbody td {
+    text-align: center;
+}
+
 .breadcrumb-item + .breadcrumb-item {
     padding-left: unset;
 }
@@ -35,6 +56,10 @@ ul {
     --book-a-ticket-btn-height: 30px;
     --search-height: 42px;
     --search-bg-color: #2f353b !important;
+}
+
+.text-align-end {
+    text-align: end !important;
 }
 
 .padding-top-10 {
