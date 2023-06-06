@@ -110,17 +110,6 @@
                 .Index(t => t.MovieId);
             
             CreateTable(
-                "dbo.MovieSchedules",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        MovieId = c.Int(nullable: false),
-                        BeginTime = c.DateTime(nullable: false),
-                        EndTime = c.DateTime(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id);
-            
-            CreateTable(
                 "dbo.MovieTickets",
                 c => new
                     {
@@ -233,7 +222,6 @@
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.MovieTickets");
-            DropTable("dbo.MovieSchedules");
             DropTable("dbo.Reviews");
             DropTable("dbo.Genres");
             DropTable("dbo.MovieGenres");

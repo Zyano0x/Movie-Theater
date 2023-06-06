@@ -64,7 +64,9 @@ namespace Movie_Theater.ViewModels
 
         public IEnumerable<Review> Reviews { get; set; }
 
-        public IEnumerable<MovieSchedule> MovieSchedules { get; set; }
+        public IEnumerable<Showing> Showings { get; set; }
+
+        public IEnumerable<Theatre> Theatres { get; set; }
 
         public virtual IEnumerable<ApplicationUser> Users { get; set; }
 

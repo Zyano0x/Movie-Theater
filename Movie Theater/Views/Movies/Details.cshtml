@@ -10,11 +10,11 @@
             <div class="img">
                 <img src="@Model.PosterPath" alt="Alternate Text" />
                 @{
-                    foreach (var ms in Model.MovieSchedules)
+                    foreach (var ms in Model.Showings)
                     {
                         if (ms.MovieId == Model.Id && ms.EndTime > DateTime.Now && (!ViewBag.CheckMovieReleaseDate.Contains(ms.MovieId)))
                         {
-                            <a href="@Url.Action("Create", "Booking", new { id = Model.Id })"><i class="fa-solid fa-ticket"></i>Đặt Vé</a>
+                            <a href="@Url.Action("Create", "Booking", new { name = Model.Url })"><i class="fa-solid fa-ticket"></i>Đặt Vé</a>
                             break;
                         }
                     }

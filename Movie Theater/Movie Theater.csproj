@@ -184,9 +184,11 @@
     <Compile Include="Areas\Admin\Controllers\GenresController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\MovieTicketsController.cs" />
-    <Compile Include="Areas\Admin\Controllers\RoomsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TheatresController.cs" />
     <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
+    <Compile Include="Controllers\OrdersController.cs" />
+    <Compile Include="Controllers\TicketsController.cs" />
     <Compile Include="Migrations\202305211117059_AddStatusMovieTicket.cs" />
     <Compile Include="Migrations\202305211117059_AddStatusMovieTicket.designer.cs">
       <DependentUpon>202305211117059_AddStatusMovieTicket.cs</DependentUpon>
@@ -274,14 +276,38 @@
     <Compile Include="Migrations\202306041406015_update-news-model-01.cs" />
     <Compile Include="Migrations\202306041406015_update-news-model-01.designer.cs">
       <DependentUpon>202306041406015_update-news-model-01.cs</DependentUpon>
+    </Compile>  
+    <Compile Include="Migrations\202306031424398_UpdateDatabase1.cs" />
+    <Compile Include="Migrations\202306031424398_UpdateDatabase1.designer.cs">
+      <DependentUpon>202306031424398_UpdateDatabase1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306040354582_UpdateSeat.cs" />
+    <Compile Include="Migrations\202306040354582_UpdateSeat.designer.cs">
+      <DependentUpon>202306040354582_UpdateSeat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306040425025_UpdateTicketAgain.cs" />
+    <Compile Include="Migrations\202306040425025_UpdateTicketAgain.designer.cs">
+      <DependentUpon>202306040425025_UpdateTicketAgain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306041025557_UpdateSeatsTable.cs" />
+    <Compile Include="Migrations\202306041025557_UpdateSeatsTable.designer.cs">
+      <DependentUpon>202306041025557_UpdateSeatsTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306060330175_Changess.cs" />
+    <Compile Include="Migrations\202306060330175_Changess.designer.cs">
+      <DependentUpon>202306060330175_Changess.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\AccessDeniedAuthorizeAttribute.cs" />
     <Compile Include="Models\AdminAuthorizeAttribute.cs" />
     <Compile Include="Models\Common\StringHelper.cs" />
     <Compile Include="Models\Email.cs" />
-    <Compile Include="Models\Room.cs" />
+    <Compile Include="Models\MoviePrice.cs" />
+    <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\Theatre.cs" />
     <Compile Include="Models\Seat.cs" />
-    <Compile Include="ViewModels\RoomViewModel.cs" />
+    <Compile Include="Models\Utilities\GenerateConfirmationCode.cs" />
+    <Compile Include="Models\Utilities\GenerateTicketPrice.cs" />
+    <Compile Include="ViewModels\TicketViewModel.cs" />
     <Compile Include="VNPay\OrderInfo.cs" />
     <Compile Include="VNPay\VnPayLibary.cs" />
     <Content Include="Areas\Admin\Content\assets\css\dark\style.css" />
@@ -2437,14 +2463,15 @@
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\responsive.css" />
     <Content Include="Content\style.css" />
-    <Compile Include="Areas\Admin\Controllers\MovieSchedulesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ShowingsController.cs" />
     <Compile Include="Areas\Admin\Controllers\MoviesController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CrewsController.cs" />
     <Compile Include="Controllers\GenresController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\MovieSchedulesController.cs" />
+    <Compile Include="Controllers\ShowMoviesController.cs" />
+    <Compile Include="Controllers\ManagesController.cs" />
+    <Compile Include="Controllers\ShowingsController.cs" />
     <Compile Include="Controllers\MoviesController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
@@ -2466,8 +2493,8 @@
     <Compile Include="Models\Movie.cs" />
     <Compile Include="Models\MovieCrew.cs" />
     <Compile Include="Models\MovieGenre.cs" />
-    <Compile Include="Models\MovieSchedule.cs" />
-    <Compile Include="Models\MovieTicket.cs" />
+    <Compile Include="Models\Showing.cs" />
+    <Compile Include="Models\Ticket.cs" />
     <Compile Include="Models\Review.cs" />
     <Compile Include="Models\News.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
@@ -2476,7 +2503,7 @@
     <Compile Include="ViewModels\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="ViewModels\MovieScheduleViewModel.cs" />
+    <Compile Include="ViewModels\ShowingViewModel.cs" />
     <Compile Include="ViewModels\MovieViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -2679,17 +2706,12 @@
     <Content Include="Areas\Admin\Views\Movies\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Account\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Account\New.cshtml" />
-    <Content Include="Areas\Admin\Views\MovieSchedules\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\MovieSchedules\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\MovieSchedules\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\MovieTickets\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\MovieTickets\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Showings\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Showings\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Showings\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\News\Index.cshtml" />
     <Content Include="Areas\Admin\Views\News\Create.cshtml" />
     <Content Include="Areas\Admin\Views\News\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Rooms\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Rooms\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Rooms\Edit.cshtml" />
     <Content Include="Areas\Admin\Content\ckeditor\ckeditor\CHANGES.md" />
     <Content Include="Areas\Admin\Content\ckeditor\ckeditor\LICENSE.md" />
     <Content Include="Areas\Admin\Content\ckeditor\ckeditor\plugins\scayt\LICENSE.md" />
@@ -2702,6 +2724,8 @@
     <Content Include="Areas\Admin\Content\ckeditor\ckeditor\samples\sample_posteddata.php" />
     <Content Include="Areas\Admin\Content\ckeditor\ckeditor\skins\moono\readme.md" />
     <Content Include="Areas\Admin\Content\ckfinder\ckfinder\plugins\fileeditor\codemirror\LICENSE" />
+    <Content Include="Areas\Admin\Views\Theatres\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Theatres\Create.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -2740,23 +2764,26 @@
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\SendCode.cshtml" />
     <Content Include="Views\Account\VerifyCode.cshtml" />
-    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
-    <Content Include="Views\Manage\ChangePassword.cshtml" />
-    <Content Include="Views\Manage\Index.cshtml" />
-    <Content Include="Views\Manage\ManageLogins.cshtml" />
-    <Content Include="Views\Manage\SetPassword.cshtml" />
-    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
+    <Content Include="Views\Manages\AddPhoneNumber.cshtml" />
+    <Content Include="Views\Manages\ChangePassword.cshtml" />
+    <Content Include="Views\Manages\Index.cshtml" />
+    <Content Include="Views\Manages\ManageLogins.cshtml" />
+    <Content Include="Views\Manages\SetPassword.cshtml" />
+    <Content Include="Views\Manages\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Movies\Details.cshtml" />
     <Content Include="Views\Crews\Details.cshtml" />
     <Content Include="Views\Movies\ListMovie.cshtml" />
     <Content Include="Views\Booking\Create.cshtml" />
-    <Content Include="Views\Booking\Status.cshtml" />
+    <Content Include="Views\Orders\Status.cshtml" />
     <Content Include="Areas\Admin\Views\Account\AccessDenied.cshtml" />
-    <Content Include="Views\Booking\ShowSeats.cshtml" />
     <Content Include="Views\News\Details.cshtml" />
     <Content Include="Views\News\Index.cshtml" />
+    <Content Include="Views\Tickets\Create.cshtml" />
+    <Content Include="Views\Orders\Create.cshtml" />
+    <Content Include="Views\Orders\Details.cshtml" />
+    <Content Include="Views\Orders\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
@@ -2866,6 +2893,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202306041406015_update-news-model-01.resx">
       <DependentUpon>202306041406015_update-news-model-01.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306031424398_UpdateDatabase1.resx">
+      <DependentUpon>202306031424398_UpdateDatabase1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306040354582_UpdateSeat.resx">
+      <DependentUpon>202306040354582_UpdateSeat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306040425025_UpdateTicketAgain.resx">
+      <DependentUpon>202306040425025_UpdateTicketAgain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306041025557_UpdateSeatsTable.resx">
+      <DependentUpon>202306041025557_UpdateSeatsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306060330175_Changess.resx">
+      <DependentUpon>202306060330175_Changess.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

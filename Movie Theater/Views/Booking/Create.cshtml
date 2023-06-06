@@ -1,4 +1,4 @@
-﻿@model Movie_Theater.ViewModels.MovieScheduleViewModel
+﻿@model Movie_Theater.ViewModels.ShowingViewModel
 @{
     ViewBag.Title = "Đặt Vé - A Movie";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -22,58 +22,89 @@
                                 <li><strong>Thời lượng: </strong>@movie.Runtime phút</li>
                             </ul>
                         </div>
-                        @using (Html.BeginForm("Create", "Booking", new { id = movie.Id }, FormMethod.Post))
-                        {
-                            @Html.AntiForgeryToken()
+                        @Html.AntiForgeryToken()
                     <div class="booking">
                         <div>
-                            @Html.LabelFor(model => model.MovieScheduleIds, "Lịch Chiếu : ", htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.LabelFor(model => model.TheatreIds, "Rạp : ", htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                @Html.DropDownListFor(model => model.ChooseId, new SelectList(Model.MovieSchedules, "Id", "BeginTime"), new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.MovieScheduleIds, "", new { @class = "text-danger" })
+                                @Html.DropDownListFor(model => model.TheatreSelectId, new SelectList(Model.Theatres, "Id", "Name"), new { @class = "form-control", id = "theatre-dropdown" })
+                                @Html.ValidationMessageFor(model => model.TheatreIds, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        <input type="number" name="Quantity" value="1" min="1" />
-                        <button type="submit" class="btn btn-booking">Đặt vé</button>
-                        @Html.ActionLink("Show Seats", "ShowSeats", new { showtime = ViewData["ShowTime"], moviename = ViewData["Movie"] }, null)
+                        <div id="showtimes-container">
+                            @Html.LabelFor(model => model.ShowingIds, "Lịch Chiếu : ", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => model.ShowingSelectId, new SelectList(Model.Showings, "Id", "StartTime"), new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ShowingIds, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <button id="bookTicketsButton" class="btn btn-booking">Đặt vé</button>
                     </div>
-                        }
                     </div>
                 </div>
             }
         }
     </div>
 </div>
-@*@section scripts{
-    <script>
-        $(function () {
-            $(".btn-booking").click(function (event) {
-                event.preventDefault(); // Ngăn chặn chuyển hướng đến trang khác sau khi người dùng nhấn nút "Đặt vé"
-                var chooseId = $("#ChooseId").val(); // Lấy giá trị của trường "ChooseId" trong form
-                var quantity = $("input[name='Quantity']").val(); // Lấy giá trị của trường "Quantity" trong form
-                var paymentDetails = { chooseId: chooseId, quantity: quantity }; // Tạo đối tượng paymentDetails chứa dữ liệu cần truyền đi
-                $.ajax({
-                    url: "/Booking/Checkout",
-                    type: "POST",
-                    data: JSON.stringify(paymentDetails),
-                    contentType: "application/json; charset=utf-8",
-                    success: function (data) {
-                        if (data.success) {
-                            alert("Đặt vé thành công!");
-                        }
-                        else {
-                            alert("Đặt vé không thành công. Vui lòng thử lại sau!");
-                        }
-                    },
-                    error: function (xhr, ajaxOptions, thrownError) {
-                        alert("Lỗi khi đặt vé: " + thrownError);
-                    }
-                });
-            });
-        });
-    </script>
-}*@
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script>
+    $(function () {
+    // Handle change event of theater dropdown
+    $('#theatre-dropdown').on('change', function () {
+        var selectedTheatreId = $(this).val(); // Get the selected theater ID
 
+        // Make an AJAX call to fetch the updated showtimes based on the selected theater
+        $.ajax({
+            url: '/Booking/GetShowingsByTheatre',
+            type: 'GET',
+            data: { theatreId: selectedTheatreId },
+            success: function (data) {
+                console.log(data); // Log the data to the console for debugging purposes
+
+                // Update the showtimes dropdown with the new data
+                var showingsDropdown = $('#ShowingSelectId');
+                showingsDropdown.empty();
+                $.each(data, function (index, item) {
+                    showingsDropdown.append($('<option></option>').val(item.Id).text(convertTimestampToDateTime(item.StartTime)));
+                });
+
+                // Reset the selected showtime to the first option
+                showingsDropdown.val(showingsDropdown.find('option:first').val());
+
+                // Update the button's onclick attribute
+                updateBookTicketsButton();
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText); // Log any error messages to the console for debugging purposes
+            }
+        });
+    });
+
+    // Handle change event of showtimes dropdown
+    $('#ShowingSelectId').on('change', function () {
+        // Update the button's onclick attribute
+        updateBookTicketsButton();
+    });
+
+    // Trigger the change event on theater dropdown when the page loads
+    $('#theatre-dropdown').trigger('change');
+
+    // Function to convert Unix timestamp to formatted date and time
+    function convertTimestampToDateTime(timestamp) {
+        var milliseconds = parseInt(timestamp.replace("/Date(", "").replace(")/", ""));
+        var date = new Date(milliseconds);
+        var formattedDate = date.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true });
+        return formattedDate;
+    }
+
+    // Function to update the button's onclick attribute
+    function updateBookTicketsButton() {
+        var selectedShowingId = $('#ShowingSelectId').val();
+        var link = '@Url.Action("Create", "Tickets")' + '?ShowingID=' + selectedShowingId;
+        $('#bookTicketsButton').attr('onclick', "location.href='" + link + "'");
+    }
+});
+</script>
 
 <style>
     .movie-booking .img img {

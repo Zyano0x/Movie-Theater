@@ -11,16 +11,16 @@ using Movie_Theater.Models;
 namespace Movie_Theater.Controllers
 {
     [Authorize]
-    public class ManageController : Controller
+    public class ManagesController : Controller
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        public ManageController()
+        public ManagesController()
         {
         }
 
-        public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public ManagesController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;

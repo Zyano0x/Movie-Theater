@@ -118,7 +118,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
                 Reviews = _dbContext.Reviews.ToList(),
                 Users = _dbContext.Users.ToList(),
                 Crews = _dbContext.Crews.ToList(),
-                MovieSchedules = _dbContext.MovieSchedules.ToList(),
+                Showings = _dbContext.Showings.ToList(),
                 PosterPath = movie.PosterPath,
                 //Score = movie.Score,
                 //Distributor = movie.Distributor,

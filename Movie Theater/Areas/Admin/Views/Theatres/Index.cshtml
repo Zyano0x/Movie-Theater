@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Movie_Theater.Models.MovieSchedule>
+﻿@model IEnumerable<Movie_Theater.Models.Theatre>
 
 @{
     ViewBag.Title = "Index";
@@ -10,16 +10,16 @@
 
     <!-- Default box -->
     <div class="main-content">
-        <h4 class="page-title">Danh sách lịch chiếu</h4>
+        <h4 class="page-title">Danh Sách Rạp Phim</h4>
         <nav class="page-breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Lịch chiếu</a></li>
+                <li class="breadcrumb-item"><a href="#">Rạp Phim</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Danh sách</li>
             </ol>
         </nav>
     </div>
     <div class="aside-compose text-align-end">
-        <a href="/Admin/MovieSchedules/Create" class="btn btn-success">Thêm Lịch Chiếu</a>
+        <a href="/Admin/Theatres/Create" class="btn btn-success">Thêm Rạp Phim</a>
     </div>
     <hr />
     <div class="row margin-left-right-unset">
@@ -28,10 +28,8 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th class="col-md-2">Mã Phim</th>
-                            <th class="col-md-2">Tên Phim</th>
-                            <th class="col-md-3">Thời gian bắt đầu</th>
-                            <th class="col-md-3">Thời gian kết thúc</th>
+                            <th class="col-md-2">Mã Rạp</th>
+                            <th class="col-md-8">Tên Rạp</th>
                             <th class="col-md-2"></th>
                         </tr>
                     </thead>
@@ -42,10 +40,8 @@
                             foreach (var item in Model)
                             {
                                 <tr>
-                                    <td class="col-md-2">@item.Movie.Id</td>
-                                    <td class="col-md-2">@item.Movie.Title</td>
-                                    <td class="col-md-3">@item.BeginTime</td>
-                                    <td class="col-md-3">@item.EndTime</td>
+                                    <td class="col-md-2">@item.Id</td>
+                                    <td class="col-md-8">@item.Name</td>
                                     <td class="col-md-2">
                                         <div>
                                             @Html.ActionLink("Sửa", "Edit", new { id = item.Id }, new { @class = "btn btn-warning", style = "margin: 5px 0 5px 0" })
@@ -73,9 +69,9 @@
             var btn = $(this);
             var id = btn.data('id');
 
-            if (confirm("Bạn có chắc chắn muốn xóa lịch chiếu này?")) {
+            if (confirm("Bạn chắc chắn muốn xóa rạp phim này?")) {
                 $.ajax({
-                    url: '/Admin/MovieSchedules/Delete',
+                    url: '/Admin/Theatres/Delete',
                     type: 'POST',
                     data: { id: id },
                     success: function (result) {
@@ -86,7 +82,7 @@
                         }
                     },
                     error: function () {
-                        alert('Đã xảy ra lỗi khi xóa vé phim.');
+                        alert('An error occurred while deleting the record.');
                     }
                 });
             }
