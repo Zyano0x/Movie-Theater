@@ -25,7 +25,7 @@ namespace Movie_Theater.Controllers
         {
             if (page == null) page = 1;
             //Chỉ lấy 2 loại phim : Chưa khởi chiếu && đã khởi chiếu và có lịch chiếu khả dụng
-            var movies = from m in _dbContext.Movies where m.ReleaseDate > DateTime.Now || _dbContext.MovieSchedules.Any(ms => ms.MovieId == m.Id && ms.EndTime > DateTime.Now) select m;
+            var movies = from m in _dbContext.Movies where m.ReleaseDate > DateTime.Now || _dbContext.Showings.Any(ms => ms.MovieId == m.Id && ms.EndTime > DateTime.Now) select m;
             int pageSize = 10;
             int pageNum = page ?? 1;
 
@@ -58,7 +58,7 @@ namespace Movie_Theater.Controllers
                 if (FilterMoviesByType == "MoviesInTheater")
                 {
                     ViewBag.name = "Phim Đang Chiếu";
-                    movies = movies.Where(m => m.ReleaseDate <= DateTime.Now && _dbContext.MovieSchedules.Any(ms => ms.MovieId == m.Id && ms.EndTime > DateTime.Now));
+                    movies = movies.Where(m => m.ReleaseDate <= DateTime.Now && _dbContext.Showings.Any(ms => ms.MovieId == m.Id && ms.EndTime > DateTime.Now));
                     ViewBag.heading = "DANH SÁCH PHIM : ĐANG CHIẾU";
                 }
                 else if (FilterMoviesByType == "UpcomingMovies")
@@ -80,7 +80,6 @@ namespace Movie_Theater.Controllers
             return View(movies.ToPagedList(pageNum, pageSize));
         }
 
-
         public ActionResult Review(int scores, string comment, int id, string userLogin, int action)
         {
             if (!User.Identity.IsAuthenticated)
@@ -88,11 +87,11 @@ namespace Movie_Theater.Controllers
                 // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập và lưu trữ địa chỉ URL của trang chi tiết phim
                 return RedirectToAction("Login", "Account", new { returnUrl = Url.Action("Details", "Movies", new { id = id }) });
             }
-            var checkTicket = (from c in _dbContext.Tickets where c.Order.Id == id && c.Order.User.Id == userLogin && c.Order.Status != 0 select c).FirstOrDefault();
-            Console.WriteLine(userLogin);
+            var checkTicket = (from c in _dbContext.Tickets where c.Showing.Movie.Id == id && c.Order.User.Id == userLogin && (c.Order.Status != OrderStatus.Pending || c.Order.Status != OrderStatus.Cancelled) select c).FirstOrDefault();
+            var movieUrl = _dbContext.Movies.Find(id).Url;
             if (checkTicket == null)
             {
-                return RedirectToAction("Create", "Booking", new { id = id });
+                return RedirectToAction("Create", "Booking", new { name = movieUrl });
             }
 
             if (action == 1)
@@ -152,7 +151,7 @@ namespace Movie_Theater.Controllers
         {
             var userLogin = System.Web.HttpContext.Current.User.Identity.GetUserId();
             var movieTickets = _dbContext.Tickets.ToList();
-            //ViewBag.CheckTicket = movieTickets.FirstOrDefault(c => c.Movie.Url == name && c.UserId == userLogin && c.Status != 0);
+            ViewBag.CheckTicket = movieTickets.FirstOrDefault(c => c.Showing.Movie.Url == name && c.Order.User.Id == userLogin && (c.Order.Status != OrderStatus.Pending || c.Order.Status != OrderStatus.Cancelled));
             ViewBag.CheckMovieReleaseDate = (from m in _dbContext.Movies where m.ReleaseDate > DateTime.Now select m.Id).ToList();
             var movie = _dbContext.Movies
                 .Include("MovieGenres.Genre")
@@ -183,7 +182,8 @@ namespace Movie_Theater.Controllers
                 Crews = _dbContext.Crews.ToList(),
                 Showings = _dbContext.Showings.ToList(),
                 PosterPath = movie.PosterPath,
-                TrailerUrl = movie.TrailerUrl
+                TrailerUrl = movie.TrailerUrl,
+                Url = movie.Url,
             };
 
             return View(viewModel);

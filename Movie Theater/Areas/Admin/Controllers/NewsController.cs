@@ -36,16 +36,14 @@ namespace Movie_Theater.Areas.Admin.Controllers
         {
             return View();
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(News viewModel)
         {
             if (ModelState.IsValid)
             {
-                viewModel.Url = StringHelper.ConvertText(viewModel.Title);
-                viewModel.Alias = null;
-                viewModel.ModifireDate = DateTime.Now;
+                viewModel.Url = StringHelper.ConvertText(StringHelper.RemoveDiacritics(viewModel.Title));
+                viewModel.ModificationDate = DateTime.Now;
                 viewModel.Author = User.Identity.Name;
                 viewModel.PublicationDate = DateTime.Now;
                 viewModel.IsActive = true;
@@ -72,9 +70,8 @@ namespace Movie_Theater.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                viewModel.Url = StringHelper.ConvertText(viewModel.Title);
-                viewModel.Alias = null;
-                viewModel.ModifireDate = DateTime.Now;
+                viewModel.Url = StringHelper.ConvertText(StringHelper.RemoveDiacritics(viewModel.Title));
+                viewModel.ModificationDate = DateTime.Now;
                 viewModel.Author = User.Identity.Name;
                 _dbContext.News.Attach(viewModel);
                 _dbContext.Entry(viewModel).State = System.Data.Entity.EntityState.Modified;

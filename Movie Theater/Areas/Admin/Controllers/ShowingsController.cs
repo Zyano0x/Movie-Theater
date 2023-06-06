@@ -46,7 +46,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
 
             foreach (var s in _dbContext.Showings)
             {
-                if (s.MovieId == viewModel.MovieId && (viewModel.StartTime <= s.EndTime && viewModel.StartTime.AddMinutes(movie.Runtime) >= s.StartTime))
+                if (s.MovieId == viewModel.MovieId && s.TheatreId == viewModel.TheatreId && (viewModel.StartTime <= s.EndTime && viewModel.StartTime.AddMinutes(movie.Runtime) >= s.StartTime))
                 {
                     return RedirectToAction("Create", new { str = "Lịch chiếu bị trùng!", choose = viewModel.MovieId });
                 }

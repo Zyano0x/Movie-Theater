@@ -5,7 +5,7 @@
     {
         @Html.AntiForgeryToken()
         <li>
-            @Html.ActionLink("Thông tin tài khoản", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", @class = "nav-link" })
+            @Html.ActionLink("Thông tin tài khoản", "Index", "Manages", routeValues: null, htmlAttributes: new { title = "Manage", @class = "nav-link" })
         </li>
         <li>@Html.ActionLink("Lịch sử đặt vé", "BookingHistory", "Booking",new { @class = "nav-link" }, null)</li>
         <li><a class="nav-link" href="javascript:document.getElementById('logoutForm').submit()">Đăng xuất</a></li>

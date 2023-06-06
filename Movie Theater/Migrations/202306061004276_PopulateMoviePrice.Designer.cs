@@ -7,13 +7,13 @@ namespace Movie_Theater.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class changenewmodel : IMigrationMetadata
+    public sealed partial class PopulateMoviePrice : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(changenewmodel));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(PopulateMoviePrice));
         
         string IMigrationMetadata.Id
         {
-            get { return "202306031112542_change-new-model"; }
+            get { return "202306061004276_PopulateMoviePrice"; }
         }
         
         string IMigrationMetadata.Source

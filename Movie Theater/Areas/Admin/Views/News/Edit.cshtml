@@ -29,144 +29,128 @@
                                     @Html.AntiForgeryToken()
                                     @Html.HiddenFor(item => item.Id)
                                     @Html.HiddenFor(item => item.PublicationDate)
-                            <div class="form-horizontal">
-                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset padding-left-right-unset" })
-                                    <div class="col-md-12 padding-left-right-unset">
-                                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Img, htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset" })
-                                    <div class="col-md-12 padding-left-right-unset">
-                                        @Html.EditorFor(model => model.Img, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.Img, "", new { @class = "text-danger" })
-                                    </div>
-                                    <div class="col-md-12 padding-left-right-unset" style=" display: flex; align-items: end; margin-bottom: 30px; margin-top: 20px;">
-                                        <input type="file" name="fileUpload" id="fileUpload" accept="image/*"
-                                               style="display:none;" />
-                                        <div style="flex: 1;text-align: center;">
-                                            @if (Model != null && Model.Img != null)
-                                            {
-                                                <img style="max-width: unset; width: 450px; height: 225px; border-radius: 4px; object-fit: cover;" src="@Model.Img" alt="Alternate Text" id="pictureUpload" />
-                                            }
-                                            else
-                                            {
-                                                <img style="max-width: unset; width: 450px; height: 225px; border-radius: 4px; object-fit: cover;" src="~/Areas/Admin/Content/assets/images/slide_show_default.png" alt="Alternate Text" id="pictureUpload" />
-                                            }
+                                    <div class="form-horizontal">
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset padding-left-right-unset" })
+                                            <div class="col-md-12 padding-left-right-unset">
+                                                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
-                                        <input type="button" id="btnUpload" value="Chọn Ảnh" class="btn btn-success" />
-                                    </div>
-                                </div>
 
-                                @section upload
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Img, htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset" })
+                                            <div class="col-md-12 padding-left-right-unset">
+                                                @Html.EditorFor(model => model.Img, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Img, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-md-12 padding-left-right-unset" style=" display: flex; align-items: end; margin-bottom: 30px; margin-top: 20px;">
+                                                <input type="file" name="fileUpload" id="fileUpload" accept="image/*"
+                                                       style="display:none;" />
+                                                <div style="flex: 1;text-align: center;">
+                                                    @if (Model != null && Model.Img != null)
+                                                    {
+                                                        <img style="max-width: unset; width: 450px; height: 225px; border-radius: 4px; object-fit: cover;" src="@Model.Img" alt="Alternate Text" id="pictureUpload" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <img style="max-width: unset; width: 450px; height: 225px; border-radius: 4px; object-fit: cover;" src="~/Areas/Admin/Content/assets/images/slide_show_default.png" alt="Alternate Text" id="pictureUpload" />
+                                                    }
+                                                </div>
+                                                <input type="button" id="btnUpload" value="Chọn Ảnh" class="btn btn-success" />
+                                            </div>
+                                        </div>
+
+                                        @section upload
 {
-                                    <script>
-                                        $(document).ready(function () {
-                                            $('#btnUpload').click(function () {
-                                                $('#fileUpload').trigger('click');
-                                            });
+                                            <script>
+                                                $(document).ready(function () {
+                                                    $('#btnUpload').click(function () {
+                                                        $('#fileUpload').trigger('click');
+                                                    });
 
-                                            $('#fileUpload').change(function () {
-                                                if (window.FormData !== undefined) {
-                                                    var fileUpload = $('#fileUpload').get(0);
-                                                    var files = fileUpload.files;
-                                                    var formData = new FormData();
-                                                    formData.append('file', files[0]);
+                                                    $('#fileUpload').change(function () {
+                                                        if (window.FormData !== undefined) {
+                                                            var fileUpload = $('#fileUpload').get(0);
+                                                            var files = fileUpload.files;
+                                                            var formData = new FormData();
+                                                            formData.append('file', files[0]);
 
-                                                    $.ajax({
-                                                        type: 'POST',
-                                                        url: '/Admin/News/ProcessUpload',
-                                                        contentType: false,
-                                                        processData: false,
-                                                        data: formData,
-                                                        success: function (urlImage) {
-                                                            $('#pictureUpload').attr('src', urlImage);
-                                                            $('#Img').val(urlImage);
-                                                        },
-                                                        error: function (err) {
-                                                            alert('Error: ' + err.statusText);
+                                                            $.ajax({
+                                                                type: 'POST',
+                                                                url: '/Admin/News/ProcessUpload',
+                                                                contentType: false,
+                                                                processData: false,
+                                                                data: formData,
+                                                                success: function (urlImage) {
+                                                                    $('#pictureUpload').attr('src', urlImage);
+                                                                    $('#Img').val(urlImage);
+                                                                },
+                                                                error: function (err) {
+                                                                    alert('Error: ' + err.statusText);
+                                                                }
+                                                            });
                                                         }
                                                     });
-                                                }
-                                            });
-                                        });
-                                    </script>
-                                }
+                                                });
+                                            </script>
+                                        }
 
 
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset" })
-                                    <div class="col-md-12 padding-left-right-unset">
-                                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", rows = "4" })
-                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset" })
+                                            <div class="col-md-12 padding-left-right-unset">
+                                                @Html.TextAreaFor(model => model.Description, new { @class = "form-control", rows = "4" })
+                                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Detail, htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset" })
+                                            <div class="col-md-12 padding-left-right-unset">
+                                                @Html.TextAreaFor(model => model.Detail, new { @class = "form-control", @id = "txtDetail" })
+                                                @Html.ValidationMessageFor(model => model.Detail, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Url, htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset" })
+                                            <div class="col-md-12 padding-left-right-unset">
+                                                @Html.EditorFor(model => model.Url, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Url, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset" })
+                                            <div class="col-md-12 padding-left-right-unset">
+                                                @Html.CheckBoxFor(model => model.IsActive)
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.IsHome, htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset" })
+                                            <div class="col-md-12 padding-left-right-unset">
+                                                @Html.CheckBoxFor(model => model.IsHome)
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.IsHot, htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset" })
+                                            <div class="col-md-12 padding-left-right-unset">
+                                                @Html.CheckBoxFor(model => model.IsHot)
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group text-align-end">
+                                            <div class="col-md-offset-2 col-md-12 padding-left-right-unset">
+                                                <input type="submit" value="Cập nhật" class="btn btn-primary mb-1 mb-md-0 mr-2" />
+                                                <a href="/Admin/News" class="btn btn-secondary">Quay Lại</a>
+                                            </div>
+                                        </div>
+
                                     </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Detail, htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset" })
-                                    <div class="col-md-12 padding-left-right-unset">
-                                        @Html.TextAreaFor(model => model.Detail, new { @class = "form-control", @id = "txtDetail" })
-                                        @Html.ValidationMessageFor(model => model.Detail, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.SeoTitle, htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset" })
-                                    <div class="col-md-12 padding-left-right-unset">
-                                        @Html.EditorFor(model => model.SeoTitle, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.SeoTitle, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.SeoDescription, htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset" })
-                                    <div class="col-md-12 padding-left-right-unset">
-                                        @Html.TextAreaFor(model => model.SeoDescription, new { @class = "form-control", rows = "4" })
-                                        @Html.ValidationMessageFor(model => model.SeoDescription, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.SeoKeywords, htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset" })
-                                    <div class="col-md-12 padding-left-right-unset">
-                                        @Html.TextAreaFor(model => model.SeoKeywords, new { @class = "form-control", rows = "4" })
-                                        @Html.ValidationMessageFor(model => model.SeoKeywords, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset" })
-                                    <div class="col-md-12 padding-left-right-unset">
-                                        @Html.CheckBoxFor(model => model.IsActive)
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.IsHome, htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset" })
-                                    <div class="col-md-12 padding-left-right-unset">
-                                        @Html.CheckBoxFor(model => model.IsHome)
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.IsHot, htmlAttributes: new { @class = "control-label col-md-12 padding-left-right-unset" })
-                                    <div class="col-md-12 padding-left-right-unset">
-                                        @Html.CheckBoxFor(model => model.IsHot)
-                                    </div>
-                                </div>
-
-                                <div class="form-group text-align-end">
-                                    <div class="col-md-offset-2 col-md-12 padding-left-right-unset">
-                                        <input type="submit" value="Cập nhật" class="btn btn-primary mb-1 mb-md-0 mr-2" />
-                                        <a href="/Admin/News" class="btn btn-secondary">Quay Lại</a>
-                                    </div>
-                                </div>
-
-                            </div>
                                 }
                             }
 

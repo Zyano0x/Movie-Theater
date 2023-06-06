@@ -7,13 +7,13 @@ namespace Movie_Theater.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class updatenewsmodel : IMigrationMetadata
+    public sealed partial class ChangessDatabase : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(updatenewsmodel));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(ChangessDatabase));
         
         string IMigrationMetadata.Id
         {
-            get { return "202306041331465_update-news-model"; }
+            get { return "202306060827113_ChangessDatabase"; }
         }
         
         string IMigrationMetadata.Source

@@ -34,12 +34,12 @@ namespace Movie_Theater
                 namespaces: new[] { "Movie_Theater.Controllers" }
             );
 
-            //routes.MapRoute(
-            //    name: "NewsList",
-            //    url: "News",
-            //    defaults: new { controller = "News", action = "Index", name = UrlParameter.Optional },
-            //    namespaces: new[] { "Movie_Theater.Controllers" }
-            //);
+            routes.MapRoute(
+                name: "NewsList",
+                url: "tin-tuc",
+                defaults: new { controller = "News", action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "Movie_Theater.Controllers" }
+            );
 
             routes.MapRoute(
                 name: "CrewDetails",
@@ -56,9 +56,16 @@ namespace Movie_Theater
             );
 
             routes.MapRoute(
+               name: "ChangePassword",
+               url: "doi-mat-khau",
+               defaults: new { controller = "Manages", action = "ChangePassword", id = UrlParameter.Optional },
+               namespaces: new[] { "Movie_Theater.Controllers" }
+           );
+
+            routes.MapRoute(
                 name: "UserManage",
-                url: "quan-ly",
-                defaults: new { controller = "Manage", action = "Index", id = UrlParameter.Optional },
+                url: "quan-ly-tai-khoan",
+                defaults: new { controller = "Manages", action = "Index", id = UrlParameter.Optional },
                 namespaces: new[] { "Movie_Theater.Controllers" }
             );
 

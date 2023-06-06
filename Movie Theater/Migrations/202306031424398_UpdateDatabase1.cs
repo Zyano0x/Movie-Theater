@@ -87,34 +87,10 @@
             AddColumn("dbo.Seats", "Name", c => c.String());
             DropColumn("dbo.Seats", "State");
             DropColumn("dbo.Seats", "Cost");
-            DropTable("dbo.MovieTickets");
-            DropTable("dbo.Rooms");
         }
         
         public override void Down()
         {
-            CreateTable(
-                "dbo.Rooms",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        State = c.Boolean(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id);
-            
-            CreateTable(
-                "dbo.MovieTickets",
-                c => new
-                    {
-                        TicketId = c.Int(nullable: false, identity: true),
-                        MovieScheduleId = c.Int(nullable: false),
-                        UserId = c.String(maxLength: 128),
-                        MovieId = c.Int(nullable: false),
-                        TimeBooking = c.DateTime(nullable: false),
-                        Status = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.TicketId);
-            
             AddColumn("dbo.Seats", "Cost", c => c.Long(nullable: false));
             AddColumn("dbo.Seats", "State", c => c.Boolean(nullable: false));
             DropForeignKey("dbo.Orders", "User_Id", "dbo.AspNetUsers");

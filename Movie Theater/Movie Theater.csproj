@@ -184,6 +184,7 @@
     <Compile Include="Areas\Admin\Controllers\GenresController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\MovieTicketsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
     <Compile Include="Areas\Admin\Controllers\TheatresController.cs" />
     <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
@@ -213,14 +214,6 @@
     <Compile Include="Migrations\202305280320168_UpdateSeatsTable.designer.cs">
       <DependentUpon>202305280320168_UpdateSeatsTable.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202305280412539_AddRooms.cs" />
-    <Compile Include="Migrations\202305280412539_AddRooms.designer.cs">
-      <DependentUpon>202305280412539_AddRooms.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202305290515448_meo-biet-thay-doi-gi.cs" />
-    <Compile Include="Migrations\202305290515448_meo-biet-thay-doi-gi.designer.cs">
-      <DependentUpon>202305290515448_meo-biet-thay-doi-gi.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\202305311612075_AddRegistrationDate.cs" />
     <Compile Include="Migrations\202305311612075_AddRegistrationDate.designer.cs">
       <DependentUpon>202305311612075_AddRegistrationDate.cs</DependentUpon>
@@ -237,21 +230,9 @@
     <Compile Include="Migrations\202306020422566_Changes.designer.cs">
       <DependentUpon>202306020422566_Changes.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202306020534500_UpdateNewsTable.cs" />
-    <Compile Include="Migrations\202306020534500_UpdateNewsTable.designer.cs">
-      <DependentUpon>202306020534500_UpdateNewsTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202306020642327_AddStatusNewsTable.cs" />
-    <Compile Include="Migrations\202306020642327_AddStatusNewsTable.designer.cs">
-      <DependentUpon>202306020642327_AddStatusNewsTable.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\202306021544284_PopulateGenres.cs" />
     <Compile Include="Migrations\202306021544284_PopulateGenres.designer.cs">
       <DependentUpon>202306021544284_PopulateGenres.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202306021553220_UpdateDatabase.cs" />
-    <Compile Include="Migrations\202306021553220_UpdateDatabase.designer.cs">
-      <DependentUpon>202306021553220_UpdateDatabase.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\202306021605041_UpdateTicket.cs" />
     <Compile Include="Migrations\202306021605041_UpdateTicket.designer.cs">
@@ -261,33 +242,9 @@
     <Compile Include="Migrations\202306021611039_ChangeDatabase.designer.cs">
       <DependentUpon>202306021611039_ChangeDatabase.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202306031112542_change-new-model.cs" />
-    <Compile Include="Migrations\202306031112542_change-new-model.designer.cs">
-      <DependentUpon>202306031112542_change-new-model.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202306040918214_add-required-news-model.cs" />
-    <Compile Include="Migrations\202306040918214_add-required-news-model.designer.cs">
-      <DependentUpon>202306040918214_add-required-news-model.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202306041331465_update-news-model.cs" />
-    <Compile Include="Migrations\202306041331465_update-news-model.designer.cs">
-      <DependentUpon>202306041331465_update-news-model.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202306041406015_update-news-model-01.cs" />
-    <Compile Include="Migrations\202306041406015_update-news-model-01.designer.cs">
-      <DependentUpon>202306041406015_update-news-model-01.cs</DependentUpon>
-    </Compile>  
     <Compile Include="Migrations\202306031424398_UpdateDatabase1.cs" />
     <Compile Include="Migrations\202306031424398_UpdateDatabase1.designer.cs">
       <DependentUpon>202306031424398_UpdateDatabase1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202306040354582_UpdateSeat.cs" />
-    <Compile Include="Migrations\202306040354582_UpdateSeat.designer.cs">
-      <DependentUpon>202306040354582_UpdateSeat.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202306040425025_UpdateTicketAgain.cs" />
-    <Compile Include="Migrations\202306040425025_UpdateTicketAgain.designer.cs">
-      <DependentUpon>202306040425025_UpdateTicketAgain.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\202306041025557_UpdateSeatsTable.cs" />
     <Compile Include="Migrations\202306041025557_UpdateSeatsTable.designer.cs">
@@ -296,6 +253,14 @@
     <Compile Include="Migrations\202306060330175_Changess.cs" />
     <Compile Include="Migrations\202306060330175_Changess.designer.cs">
       <DependentUpon>202306060330175_Changess.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306060827113_ChangessDatabase.cs" />
+    <Compile Include="Migrations\202306060827113_ChangessDatabase.designer.cs">
+      <DependentUpon>202306060827113_ChangessDatabase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306061004276_PopulateMoviePrice.cs" />
+    <Compile Include="Migrations\202306061004276_PopulateMoviePrice.designer.cs">
+      <DependentUpon>202306061004276_PopulateMoviePrice.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\AccessDeniedAuthorizeAttribute.cs" />
     <Compile Include="Models\AdminAuthorizeAttribute.cs" />
@@ -2469,12 +2434,10 @@
     <Compile Include="Controllers\CrewsController.cs" />
     <Compile Include="Controllers\GenresController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ShowMoviesController.cs" />
     <Compile Include="Controllers\ManagesController.cs" />
     <Compile Include="Controllers\ShowingsController.cs" />
     <Compile Include="Controllers\MoviesController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
-    <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -2774,7 +2737,6 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Movies\Details.cshtml" />
     <Content Include="Views\Crews\Details.cshtml" />
-    <Content Include="Views\Movies\ListMovie.cshtml" />
     <Content Include="Views\Booking\Create.cshtml" />
     <Content Include="Views\Orders\Status.cshtml" />
     <Content Include="Areas\Admin\Views\Account\AccessDenied.cshtml" />
@@ -2784,6 +2746,7 @@
     <Content Include="Views\Orders\Create.cshtml" />
     <Content Include="Views\Orders\Details.cshtml" />
     <Content Include="Views\Orders\Edit.cshtml" />
+    <Content Include="Views\Movies\ShowMovies.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
@@ -2824,15 +2787,19 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202305050345365_Init.resx">
       <DependentUpon>202305050345365_Init.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202305111533499_PopulateCRoles.resx">
       <DependentUpon>202305111533499_PopulateCRoles.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202305211117059_AddStatusMovieTicket.resx">
       <DependentUpon>202305211117059_AddStatusMovieTicket.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202305220508309_UpdateApplicationUser.resx">
       <DependentUpon>202305220508309_UpdateApplicationUser.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202305231156265_add-required-for-review.resx">
       <DependentUpon>202305231156265_add-required-for-review.cs</DependentUpon>
@@ -2846,12 +2813,6 @@
     <EmbeddedResource Include="Migrations\202305280320168_UpdateSeatsTable.resx">
       <DependentUpon>202305280320168_UpdateSeatsTable.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202305280412539_AddRooms.resx">
-      <DependentUpon>202305280412539_AddRooms.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202305290515448_meo-biet-thay-doi-gi.resx">
-      <DependentUpon>202305290515448_meo-biet-thay-doi-gi.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202305311612075_AddRegistrationDate.resx">
       <DependentUpon>202305311612075_AddRegistrationDate.cs</DependentUpon>
     </EmbeddedResource>
@@ -2864,17 +2825,8 @@
     <EmbeddedResource Include="Migrations\202306020422566_Changes.resx">
       <DependentUpon>202306020422566_Changes.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202306020534500_UpdateNewsTable.resx">
-      <DependentUpon>202306020534500_UpdateNewsTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202306020642327_AddStatusNewsTable.resx">
-      <DependentUpon>202306020642327_AddStatusNewsTable.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202306021544284_PopulateGenres.resx">
       <DependentUpon>202306021544284_PopulateGenres.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202306021553220_UpdateDatabase.resx">
-      <DependentUpon>202306021553220_UpdateDatabase.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202306021605041_UpdateTicket.resx">
       <DependentUpon>202306021605041_UpdateTicket.cs</DependentUpon>
@@ -2882,32 +2834,20 @@
     <EmbeddedResource Include="Migrations\202306021611039_ChangeDatabase.resx">
       <DependentUpon>202306021611039_ChangeDatabase.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202306031112542_change-new-model.resx">
-      <DependentUpon>202306031112542_change-new-model.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202306040918214_add-required-news-model.resx">
-      <DependentUpon>202306040918214_add-required-news-model.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202306041331465_update-news-model.resx">
-      <DependentUpon>202306041331465_update-news-model.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202306041406015_update-news-model-01.resx">
-      <DependentUpon>202306041406015_update-news-model-01.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202306031424398_UpdateDatabase1.resx">
       <DependentUpon>202306031424398_UpdateDatabase1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202306040354582_UpdateSeat.resx">
-      <DependentUpon>202306040354582_UpdateSeat.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202306040425025_UpdateTicketAgain.resx">
-      <DependentUpon>202306040425025_UpdateTicketAgain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202306041025557_UpdateSeatsTable.resx">
       <DependentUpon>202306041025557_UpdateSeatsTable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202306060330175_Changess.resx">
       <DependentUpon>202306060330175_Changess.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306060827113_ChangessDatabase.resx">
+      <DependentUpon>202306060827113_ChangessDatabase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306061004276_PopulateMoviePrice.resx">
+      <DependentUpon>202306061004276_PopulateMoviePrice.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

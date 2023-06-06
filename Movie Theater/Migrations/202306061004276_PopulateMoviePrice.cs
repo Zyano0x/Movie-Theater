@@ -3,16 +3,15 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class UpdateTicketAgain : DbMigration
+    public partial class PopulateMoviePrice : DbMigration
     {
         public override void Up()
         {
-            AddColumn("dbo.Tickets", "Seat", c => c.String());
+            Sql("INSERT INTO MoviePrices (MatineePrice, TuesdayPrice, WeekendPrice, WeekPrice) VALUES (140000, 150000, 165000, 165000)");
         }
         
         public override void Down()
         {
-            DropColumn("dbo.Tickets", "Seat");
         }
     }
 }

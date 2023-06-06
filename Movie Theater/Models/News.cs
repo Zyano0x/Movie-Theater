@@ -23,8 +23,6 @@ namespace Movie_Theater.Models
         [StringLength(150)]
         public string Title { get; set; }
 
-        public string Alias { get; set; }
-
         [Display(Name = "Mô Tả")]
         public string Description { get; set; }
 
@@ -43,7 +41,7 @@ namespace Movie_Theater.Models
         public DateTime PublicationDate { get; set; }
 
         [Display(Name = "Ngày chỉnh Sửa")]
-        public DateTime ModifireDate { get; set; }
+        public DateTime ModificationDate { get; set; }
         public string Url { get; set; }
 
         [Display(Name = "Hiển Thị")]

@@ -15,6 +15,7 @@ namespace Movie_Theater.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        ApplicationDbContext _dbContext = new ApplicationDbContext();
 
         public ManagesController()
         {
@@ -67,6 +68,8 @@ namespace Movie_Theater.Controllers
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
+                Email = UserManager.GetEmail(userId),
+                RegistrationDate = _dbContext.Users.Where(x => x.Id == userId).FirstOrDefault().RegistrationDate,
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),

@@ -54,8 +54,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
             using (var dbContext = new ApplicationDbContext())
             {
                 // Query the database to get the total user count for the given month
-                int userCount = dbContext.Users
-                                         .Where(u => u.RegistrationDate.Month == month.Month && u.RegistrationDate.Year == month.Year).Count();
+                int userCount = dbContext.Users.Where(u => u.RegistrationDate.Month == month.Month && u.RegistrationDate.Year == month.Year).Count();
                 return userCount;
             }
         }
