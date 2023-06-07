@@ -14,6 +14,13 @@ namespace Movie_Theater
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+               name: "BookingHistory",
+               url: "lich-su-dat-ve",
+               defaults: new { controller = "Booking", action = "History", id = UrlParameter.Optional },
+               namespaces: new[] { "Movie_Theater.Controllers" }
+           );
+
+            routes.MapRoute(
                name: "Booking",
                url: "b/{name}",
                defaults: new { controller = "Booking", action = "Create", name = UrlParameter.Optional },

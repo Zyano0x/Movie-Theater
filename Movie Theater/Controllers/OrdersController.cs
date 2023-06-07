@@ -54,7 +54,6 @@ namespace Movie_Theater.Controllers
                 _dbContext.SaveChanges();
                 return RedirectToAction("Details", "Orders", new { OrderID = order.Id });
             }
-            //ViewBag.
             return View(order);
         }
 
@@ -157,6 +156,29 @@ namespace Movie_Theater.Controllers
             return RedirectToAction("Details", "Orders", new { OrderID = order.Id });
         }
 
+        [Authorize]
+        [HttpPost]
+        public JsonResult Cancel(int OrderId)
+        {
+            Order order = _dbContext.Orders.Find(OrderId);
+            if (order == null)
+            {
+                return Json(new { success = false, message = "Record not found." });
+            }
+            if (order.User.Id == User.Identity.GetUserId())
+            {
+                order.Status = OrderStatus.Cancelled;
+                _dbContext.Entry(order).State = EntityState.Modified;
+                _dbContext.SaveChanges();
+
+                return Json(new { success = true });
+            }
+            else
+            {
+                return Json(new { success = false, error = "This is not your Order!" });
+            }
+        }
+
         public ActionResult Checkout(int OrderId)
         {
             string vnp_Returnurl = ConfigurationManager.AppSettings["vnp_Returnurl"]; //URL nhan ket qua tra ve 
@@ -166,6 +188,7 @@ namespace Movie_Theater.Controllers
 
             var OrderTicket = _dbContext.Orders.Find(OrderId);
             Session["OrderID"] = OrderId;
+            Session["Order"] = OrderTicket;
             //Get payment input
             OrderInfo order = new OrderInfo();
             //Save order to db
@@ -190,7 +213,7 @@ namespace Movie_Theater.Controllers
             vnpay.AddRequestData("vnp_OrderType", "other"); //default value: other
             vnpay.AddRequestData("vnp_ReturnUrl", vnp_Returnurl);
             vnpay.AddRequestData("vnp_TxnRef", order.OrderId.ToString()); // Mã tham chiếu của giao dịch tại hệ thống của merchant. Mã này là duy nhất dùng để phân biệt các đơn hàng gửi sang VNPAY. Không được trùng lặp trong ngày
-            
+
             string paymentUrl = vnpay.CreateRequestUrl(vnp_Url, vnp_HashSecret);
             return Redirect(paymentUrl);
         }
