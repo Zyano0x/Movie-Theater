@@ -540,6 +540,25 @@ namespace Movie_Theater.Controllers
                 return availableSeats;
             }
 
+            public static List<SelectListItem> GenerateListSeats()
+            {
+                List<Seat> allSeats = GetAllSeats();
+                List<SelectListItem> availableSeats = new List<SelectListItem>();
+
+                foreach (Seat seat in allSeats)
+                { 
+                    SelectListItem listItem = new SelectListItem
+                    {
+                        Value = seat.Id.ToString(),
+                        Text = seat.Name,
+                    };
+
+                    availableSeats.Add(listItem);
+                }
+
+                return availableSeats;
+            }
+
             public static List<Seat> GetAllSeats()
             {
                 List<Seat> AllSeats = new List<Seat>();

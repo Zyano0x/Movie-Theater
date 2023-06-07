@@ -64,18 +64,12 @@
                     <td class="col-md-2">
                         @Html.DisplayFor(modelItem => tic.Showing.Theatre.Name)
                     </td>
-                    @if (Model.Status == OrderStatus.Pending)
-                    {
-                        <td class="col-md-1">
-                            <button type="submit" class="btn btn-danger delete-btn font-weight-600" data-id="@tic.Id" style="margin: 5px 0;">Xóa</button>
-                        </td>
-                    }
                 </tr>
             }
         </tbody>
     </table>
 
-    <hr/>
+    <hr />
 
     <table class="table table-sm table-bordered" style="width:100%">
         <tr style="color: #f7c12f">
@@ -95,11 +89,12 @@
         </tr>
     </table>
     <p class="text-align-end">
-        @Html.ActionLink("Trở lại", "Index", null, new { @class = "btn btn-back font-weight-600", style = "margin-right: 5px; width: 111px;" })
+        <a href="javascript:history.go(-1)" class="btn btn btn-back font-weight-600" style="border: unset; margin-right: 5px; width: 111px;">Trở lại</a>
         @if (Model.Status == OrderStatus.Pending)
         {
-            @Html.ActionLink("Thêm ghế", "Edit", "Orders", new { OrderId = Model.Id }, new { @class = "btn btn-primary mr-2 white-color font-weight-600", style= "width: 111px; background-color: #f7c12f; border: unset;" })
-            @Html.ActionLink("Thanh Toán", "Checkout", "Orders", new { OrderId = Model.Id }, new { @class = "btn btn-success white-color font-weight-600", style= "width: 111px; background-color: #f7c12f; border: unset;" })
+            @Html.ActionLink("Thêm ghế", "Edit", "Orders", new { OrderId = Model.Id }, new { @class = "btn btn-primary mr-2 white-color font-weight-600", style = "width: 111px; background-color: #f7c12f; border: unset;" })
+            @*<button type="button" class="btn btn-success white-color font-weight-600" id="checkoutButton" style="width: 111px; background-color: #f7c12f; border: unset;">Thanh Toán</button>*@
+            @Html.ActionLink("Thanh Toán", "Checkout", "Orders", new { OrderId = Model.Id }, new { @class = "btn btn-success white-color font-weight-600", style = "width: 111px; background-color: #f7c12f; border: unset;" })
             <button type="button" class="btn btn-danger" id="cancelButton">Hủy Bỏ</button>
         }
     </p>
@@ -127,9 +122,15 @@
                             var taxAmount = parseFloat(result.taxAmount);
                             var total = parseFloat(result.total);
 
-                            $('#SubtotalValue').text(subtotal.toFixed(2));
-                            $('#TaxAmountValue').text(taxAmount.toFixed(2));
-                            $('#TotalValue').text(total.toFixed(2));
+                            $('#SubtotalValue').text(subtotal.toFixed(2) + ' VND');
+                            $('#TaxAmountValue').text(taxAmount.toFixed(2) + ' VND');
+                            $('#TotalValue').text(total.toFixed(2) + ' VND');
+
+                            // Check if there are any remaining tickets
+                            var remainingTickets = $('.delete-btn').length;
+                            if (remainingTickets === 0) {
+                                $('#checkoutButton').prop('disabled', true);
+                            }
                         } else {
                             alert(result.message);
                         }
@@ -179,6 +180,36 @@
         });
     });
 </script>
+@*<script>
+    $(document).ready(function () {
+        $('#checkoutButton').click(function () {
+            if ($(this).is(':disabled')) {
+                return false;
+            }
 
+            // Retrieve the order ID
+            var orderId = @Model.Id;
+
+            // Send an AJAX request to the Checkout action
+            $.ajax({
+                url: '/Orders/Checkout',
+                type: 'POST',
+                data: { OrderId: orderId },
+                success: function (response) {
+                    // Handle the success response, if needed
+                    console.log('Checkout success:', response);
+                    // Perform any additional actions after successful checkout
+                    // Update the button state
+                    $('#checkoutButton').prop('disabled', true);
+                },
+                error: function (xhr, status, error) {
+                    // Handle the error response, if needed
+                    console.log('Checkout error:', xhr.responseText);
+                    // Display an error message or take appropriate action
+                }
+            });
+        });
+    });
+</script>*@
 
 

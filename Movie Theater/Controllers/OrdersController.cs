@@ -54,6 +54,7 @@ namespace Movie_Theater.Controllers
                 _dbContext.SaveChanges();
                 return RedirectToAction("Details", "Orders", new { OrderID = order.Id });
             }
+
             return View(order);
         }
 
@@ -61,6 +62,8 @@ namespace Movie_Theater.Controllers
         public ActionResult Details(int OrderID)
         {
             Order order = _dbContext.Orders.Find(OrderID);
+            Session["Showtimes"] = order.Tickets.First().Showing;
+            Session["Discount"] = order.Tickets.First().EarlyDiscount;
             if (order == null)
             {
                 return HttpNotFound();
@@ -75,6 +78,7 @@ namespace Movie_Theater.Controllers
                 else
                     return View("Error", new string[] { "Oops Sorry!" });
             }
+
         }
 
         [Authorize]
@@ -83,21 +87,23 @@ namespace Movie_Theater.Controllers
             // Retrieve the order from the database
             Order order = _dbContext.Orders.Find(OrderId);
 
-            // Ensure that the order exist
-            if (order == null)
-            {
-                return HttpNotFound();
-            }
-
             string userID = User.Identity.GetUserId();
             if (order.User.Id == userID)
             {
-                ViewBag.AvailableSeats = SeatHelper.FindAvailableSeatsForEdit(order.Tickets.First().Showing.Tickets, userID, OrderId);
-                return View(order);
+                if (!order.Tickets.Any())
+                {
+                    ViewBag.AvailableSeats = SeatHelper.GenerateListSeats();
+                    return View(order);
+                }
+                else
+                {
+                    ViewBag.AvailableSeats = SeatHelper.FindAvailableSeatsForEdit(order.Tickets.First().Showing.Tickets, userID, OrderId);
+                    return View(order);
+                }
             }
             else
             {
-                return View("Error", new string[] { "This is not your order!!" });
+                return HttpNotFound();
             }
         }
         [Authorize]
@@ -106,12 +112,7 @@ namespace Movie_Theater.Controllers
         public ActionResult Edit(int OrderId, int[] SelectedSeats)
         {
             // Retrieve the order from the database
-            Order order = _dbContext.Orders.Find(OrderId);
-            TicketViewModel viewModel = new TicketViewModel
-            {
-                Showing = order.Tickets.First().Showing,
-                EarlyDiscount = order.Tickets.First().EarlyDiscount,
-            };
+            Order order = _dbContext.Orders.Include(o => o.Tickets).SingleOrDefault(o => o.Id == OrderId);
 
             // Ensure that the order exists
             if (order == null)
@@ -119,12 +120,18 @@ namespace Movie_Theater.Controllers
                 return HttpNotFound();
             }
 
+            TicketViewModel viewModel = new TicketViewModel
+            {
+                Showing = order.Tickets.First().Showing,
+                EarlyDiscount = order.Tickets.First().EarlyDiscount,
+            };
+
             string UserId = User.Identity.GetUserId();
 
             // Check if the order belongs to the user
             if (order.User.Id != UserId)
             {
-                return View("Error", new string[] { "This is not your order!" });
+                return HttpNotFound();
             }
 
             // Remove existing tickets for the order
@@ -144,15 +151,12 @@ namespace Movie_Theater.Controllers
                         Price = Models.Utilities.GenerateTicketPrice.GetTicketPrice(viewModel.Showing.StartTime),
                         EarlyDiscount = viewModel.EarlyDiscount,
                     };
-
                     _dbContext.Tickets.Add(newTicket);
                 }
             }
-
             _dbContext.SaveChanges();
 
             ViewBag.AvailableSeats = SeatHelper.FindAvailableSeatsForEdit(order.Tickets.First().Showing.Tickets, UserId, OrderId);
-
             return RedirectToAction("Details", "Orders", new { OrderID = order.Id });
         }
 

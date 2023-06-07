@@ -68,7 +68,7 @@
         @Html.ValidationMessageFor(model => model.Seat, "", new { @class = "text-danger" })
         <div style="display: flex; justify-content: end; margin-top: 20px;">
             <div>
-                @Html.ActionLink("Trở lại", "Index", "Showings", new { @class = "btn btn-back font-weight-600", style = "border: unset; margin-right: 13px; width: 111px;" })
+                <a href="javascript:history.go(-1)" class="btn btn-back font-weight-600" style="border: unset; margin-right: 13px; width: 111px;">Trở lại</a>
             </div>
             <input type="submit" id="createBtn" value="Tiếp tục" class="btn btn-primary" style="width: 111px; background-color: #f7c12f;" />
         </div>

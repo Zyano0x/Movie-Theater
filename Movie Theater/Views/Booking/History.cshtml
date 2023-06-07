@@ -61,6 +61,7 @@
                     @if (item.Status == Movie_Theater.Models.OrderStatus.Pending)
                     {
                         <button type="button" class="btn btn-danger cancel-button" data-order-id="@item.Id">Hủy Bỏ</button>
+                        @Html.ActionLink("Tiếp Tục", "Details", "Orders", new { OrderID = item.Id }, new { @class = "btn btn-primary mr-2 white-color font-weight-600", style = "width: 111px; background-color: #f7c12f; border: unset;" })
                     }
                 </td>
             </tr>
