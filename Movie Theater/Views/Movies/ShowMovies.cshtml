@@ -90,14 +90,14 @@
                                 <img src="@movie.PosterPath" alt="Alternate Text" />
 
                                 <div>
-                                    @{ 
+                                    @{
                                         var encodedName = Movie_Theater.Models.Common.StringHelper.ConvertText(movie.Title);
                                     }
-                                    <a href="@Url.Action("Details", "Movies", new { name = encodedName })">Xem chi tiết</a>
+                                    <a href="@Url.Action("Details", "Movies", new { name = movie.Url})">Xem chi tiết</a>
                                     @{
                                         if (ViewBag.scheduleId.Contains(movie.Id))
                                         {
-                                            <a href="@Url.Action("Create","Booking", new { id = movie.Id})">Đặt vé</a>
+                                            <a href="@Url.Action("Create","Booking", new { name = movie.Url})">Đặt vé</a>
                                         }
                                     }
                                 </div>

@@ -19,7 +19,7 @@ namespace Movie_Theater.Models
 
         [Column(Order = 2)]
         [Display(Name = "Giá Vé")]
-        [DisplayFormat(DataFormatString = "{0:F2}")]
+        [DisplayFormat(DataFormatString = "{0:F2} VND")]
         public decimal Price { get; set; }
 
         [Column(Order = 3)]
