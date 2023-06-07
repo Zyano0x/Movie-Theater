@@ -212,10 +212,8 @@
 
                                 scoreInput.addEventListener('input', toggleButtonState);
                                 commentInput.addEventListener('input', toggleButtonState);
-                                scoreInput.addEventListener('change', toggleButtonState);
-                                commentInput.addEventListener('change', toggleButtonState);
 
-                                toggleButtonState(); // Gọi hàm toggleButtonState khi trang đã tải xong
+                                toggleButtonState(); // Call toggleButtonState function when the page has finished loading
 
                                 function toggleButtonState() {
                                     if (scoreInput.value.trim() !== '' && commentInput.value.trim() !== '') {
@@ -225,30 +223,6 @@
                                     }
                                 }
                             });
-
-                            @*$(document).ready(function () {
-                                $('#submit-btn').click(function (e) {
-                                    e.preventDefault();
-
-                                    var formData = {
-                                        scores: $('#score-review').val(),
-                                        comment: $('#comment-review').val(),
-                                        id: '@Model.Id',
-                                        userLogin: '@userLogin',
-                                        action: '@action'
-                                    };
-
-                                    $.ajax({
-                                        url: '@Url.Action("Review", "Movies")',
-                                        type: 'POST',
-                                        data: formData,
-                                        success: function (result) {
-                                        },
-                                        error: function (xhr, status, error) {
-                                        }
-                                    });
-                                });
-                            });*@
                         </script>
                     }
                 </div>
@@ -296,8 +270,10 @@
                                                 @review.Time
                                             </span>
                                         </div>
-                                        <p>@review.Comment</p>
-
+                                        <p id="review-comment-@review.Id">@review.Comment</p>
+                                        <div>
+                                            <button class="edit-comment-btn" data-review-id="@review.Id">Chỉnh sửa</button>
+                                        </div>
                                         <div class="box-movie-info__item__more">
                                             <span class="more-info">
                                                 Xem thêm
@@ -316,4 +292,3 @@
         }
     }
 </div>
-

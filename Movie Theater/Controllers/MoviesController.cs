@@ -132,7 +132,7 @@ namespace Movie_Theater.Controllers
                     count++;
                 }
             }
-
+            
             foreach (var movie in _dbContext.Movies)
             {
                 if (movie.Id == id)

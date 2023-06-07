@@ -262,6 +262,10 @@
     <Compile Include="Migrations\202306061004276_PopulateMoviePrice.designer.cs">
       <DependentUpon>202306061004276_PopulateMoviePrice.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202306071630310_UpdateReviewsTable.cs" />
+    <Compile Include="Migrations\202306071630310_UpdateReviewsTable.designer.cs">
+      <DependentUpon>202306071630310_UpdateReviewsTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\AccessDeniedAuthorizeAttribute.cs" />
     <Compile Include="Models\AdminAuthorizeAttribute.cs" />
     <Compile Include="Models\Common\Common.cs" />
@@ -2855,6 +2859,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202306061004276_PopulateMoviePrice.resx">
       <DependentUpon>202306061004276_PopulateMoviePrice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306071630310_UpdateReviewsTable.resx">
+      <DependentUpon>202306071630310_UpdateReviewsTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -270,8 +270,8 @@ namespace Movie_Theater.Controllers
                         foreach (var ticket in order.Tickets)
                         {
                             str += "<tr>";
-                            str += "<td style=\"font-size: 12px; font-family: 'Open Sans', sans-serif; color: #ff0000;  line-height: 18px;  vertical-align: top; padding:10px 0;\" class=\"article\">" + ticket.Showing.Movie.Title + "</td>";
-                            str += "<td style=\"font-size: 12px; font-family: 'Open Sans', sans-serif; color: #646a6e;  line-height: 18px;  vertical-align: top; padding:10px 0;>" + "<small>" + ticket.Showing.StartTime + "</small>" + "</td>";
+                            str += "<td style=\"font-size: 12px; font-family: 'Open Sans', sans-serif; color: #c459ee;  line-height: 18px;  vertical-align: top; padding:10px 0;\" class=\"article\">" + ticket.Showing.Movie.Title + "</td>";
+                            str += "<td style=\"font-size: 12px; font-family: 'Open Sans', sans-serif; color: #646a6e; line-height: 18px; vertical-align: top; padding:10px 0;\">" + ticket.Showing.StartTime.ToString("dd/MM/yyyy HH:mm") + "</td>";
                             str += "<td style=\"font-size: 12px; font-family: 'Open Sans', sans-serif; color: #646a6e;  line-height: 18px;  vertical-align: top; padding:10px 0;\" align=\"center\">" + ticket.Seat + "</td>";
                             str += "<td style=\"font-size: 12px; font-family: 'Open Sans', sans-serif; color: #1e2b33;  line-height: 18px;  vertical-align: top; padding:10px 0;\" align=\"right\">" + Common.FormatNumber(ticket.Price, 0) + "</td>";
                             str += "</tr>";
