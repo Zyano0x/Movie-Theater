@@ -8,6 +8,7 @@ namespace Movie_Theater.ViewModels
 {
     public class ShowingViewModel
     {
+        public Movie Movie { get; set; }
         public int ShowingSelectId { get; set; }
         public int TheatreSelectId { get; set; }
 

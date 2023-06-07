@@ -73,7 +73,6 @@
                 </tr>
             }
         </tbody>
-
     </table>
 
     <hr/>
@@ -101,10 +100,7 @@
         {
             @Html.ActionLink("Thêm ghế", "Edit", "Orders", new { OrderId = Model.Id }, new { @class = "btn btn-primary mr-2 white-color font-weight-600", style= "width: 111px; background-color: #f7c12f; border: unset;" })
             @Html.ActionLink("Thanh Toán", "Checkout", "Orders", new { OrderId = Model.Id }, new { @class = "btn btn-success white-color font-weight-600", style= "width: 111px; background-color: #f7c12f; border: unset;" })
-        }
-        @if (Model.Status == OrderStatus.Complete)
-        {
-            @Html.ActionLink("Hủy đặt vé", "Cancel", "Orders", new { OrderID = Model.Id }, new { @class = "btn btn-danger white-color font-weight-600" })
+            <button type="button" class="btn btn-danger" id="cancelButton">Hủy Bỏ</button>
         }
     </p>
 </div>
@@ -145,5 +141,44 @@
             }
         });
     });
-
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var cancelButton = document.getElementById('cancelButton');
+
+        cancelButton.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent the default button behavior
+
+            if (confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
+                var url = '@Url.Action("Cancel", "Orders", new { OrderId = Model.Id })';
+
+                // Send AJAX request to cancel the order
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', url, true);
+                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            // Handle the success response
+                            var response = JSON.parse(xhr.responseText);
+                            if (response.success) {
+                                alert('Đơn hàng đã được hủy thành công!');
+                                window.location.href = '@Url.Action("Index", "Home")'; // Redirect to the home page
+                            } else {
+                                alert(response.error);
+                            }
+                        } else {
+                            // Handle the error response
+                            alert('Lỗi khi hủy đơn hàng!');
+                        }
+                    }
+                };
+                xhr.send();
+            }
+        });
+    });
+</script>
+
+
+
