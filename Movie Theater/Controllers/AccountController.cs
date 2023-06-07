@@ -55,14 +55,12 @@ namespace Movie_Theater.Controllers
             }
         }
 
-        // GET: /Account/Login
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
-        // POST: /Account/Login
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
@@ -151,13 +149,11 @@ namespace Movie_Theater.Controllers
             }
         }
 
-        // GET: /Account/Register
         [AllowAnonymous]
         public ActionResult Register()
         {
             return View();
         }
-        // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -184,7 +180,7 @@ namespace Movie_Theater.Controllers
                     }
                     body = body.Replace("{ConfirmationLink}", callbackUrl);
                     body = body.Replace("{UserName}", model.UserName);
-                    bool IsSendEmail = Email.SendEmail(model.Email, "Confirm your account", body, true);
+                    bool IsSendEmail = Email.SendEmail(model.Email, "Xác Nhận Tài Khoản", body, true);
                     if (IsSendEmail)
                         return RedirectToAction("Login", "Account");
                 }

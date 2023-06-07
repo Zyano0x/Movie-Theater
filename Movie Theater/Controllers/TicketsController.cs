@@ -17,11 +17,6 @@ namespace Movie_Theater.Controllers
     {
         ApplicationDbContext _dbContext = new ApplicationDbContext();
 
-        public ActionResult Index()
-        {
-            return View();
-        }
-
         //[Authorize]
         //public ActionResult Create(int ShowingID)
         //{
@@ -182,12 +177,6 @@ namespace Movie_Theater.Controllers
             ApplicationUser user = _dbContext.Users.Find(User.Identity.GetUserId());
             decimal TicketPrice = Models.Utilities.GenerateTicketPrice.GetTicketPrice(show.StartTime);
 
-            if (SelectedSeats == null || SelectedSeats.Length == 0)
-            {
-                ViewBag.Error = "Vui Lòng Chọn Ghế";
-                return View();
-            }
-
             if (show.SpecialEventStatus == SpecialEvent.NotSpecial)
             {
                 // Vars for determining time between now and showing start time
@@ -238,24 +227,6 @@ namespace Movie_Theater.Controllers
 
                 if (seat != null)
                 {
-                    // Check for overlapping tickets
-                    bool hasOverlappingTicket = boughtTickets.Any(t =>
-                    {
-                        if (t.Showing != null && t.Showing.StartTime != null)
-                        {
-                            return t.Showing.Id != ShowingID &&
-                                   t.Showing.StartTime.Date == show.StartTime.Date &&
-                                   t.Showing.StartTime.Add(t.Showing.EndTime - t.Showing.StartTime) > show.StartTime &&
-                                   show.EndTime > t.Showing.StartTime;
-                        }
-                        return false;
-                    });
-
-                    if (hasOverlappingTicket)
-                    {
-                        return View("Error", new string[] { "Cannot buy overlapping Tickets!" });
-                    }
-
                     // Create a new ticket
                     Ticket newTicket = new Ticket
                     {
@@ -568,7 +539,6 @@ namespace Movie_Theater.Controllers
 
                 return availableSeats;
             }
-
 
             public static List<Seat> GetAllSeats()
             {

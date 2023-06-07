@@ -16,7 +16,7 @@ namespace Movie_Theater.Models
             try
             {
                 string HostAddress = ConfigurationManager.AppSettings["Host"].ToString();
-                string FormEmailId = ConfigurationManager.AppSettings["MailFrom"].ToString();
+                string FormEmailId = ConfigurationManager.AppSettings["Email"].ToString();
                 string Password = ConfigurationManager.AppSettings["Password"].ToString();
                 string Port = ConfigurationManager.AppSettings["Port"].ToString();
                 MailMessage mailMessage = new MailMessage();
