@@ -190,10 +190,6 @@
     <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\TicketsController.cs" />
-    <Compile Include="Migrations\202305211117059_AddStatusMovieTicket.cs" />
-    <Compile Include="Migrations\202305211117059_AddStatusMovieTicket.designer.cs">
-      <DependentUpon>202305211117059_AddStatusMovieTicket.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\202305220508309_UpdateApplicationUser.cs" />
     <Compile Include="Migrations\202305220508309_UpdateApplicationUser.designer.cs">
       <DependentUpon>202305220508309_UpdateApplicationUser.cs</DependentUpon>
@@ -234,10 +230,6 @@
     <Compile Include="Migrations\202306021544284_PopulateGenres.designer.cs">
       <DependentUpon>202306021544284_PopulateGenres.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202306021605041_UpdateTicket.cs" />
-    <Compile Include="Migrations\202306021605041_UpdateTicket.designer.cs">
-      <DependentUpon>202306021605041_UpdateTicket.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\202306021611039_ChangeDatabase.cs" />
     <Compile Include="Migrations\202306021611039_ChangeDatabase.designer.cs">
       <DependentUpon>202306021611039_ChangeDatabase.cs</DependentUpon>
@@ -261,14 +253,6 @@
     <Compile Include="Migrations\202306061004276_PopulateMoviePrice.cs" />
     <Compile Include="Migrations\202306061004276_PopulateMoviePrice.designer.cs">
       <DependentUpon>202306061004276_PopulateMoviePrice.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202306071630310_UpdateReviewsTable.cs" />
-    <Compile Include="Migrations\202306071630310_UpdateReviewsTable.designer.cs">
-      <DependentUpon>202306071630310_UpdateReviewsTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202306071640352_UpdateReviewsTableAgain.cs" />
-    <Compile Include="Migrations\202306071640352_UpdateReviewsTableAgain.designer.cs">
-      <DependentUpon>202306071640352_UpdateReviewsTableAgain.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\AccessDeniedAuthorizeAttribute.cs" />
     <Compile Include="Models\AdminAuthorizeAttribute.cs" />
@@ -2808,10 +2792,6 @@
       <DependentUpon>202305111533499_PopulateCRoles.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202305211117059_AddStatusMovieTicket.resx">
-      <DependentUpon>202305211117059_AddStatusMovieTicket.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202305220508309_UpdateApplicationUser.resx">
       <DependentUpon>202305220508309_UpdateApplicationUser.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -2843,9 +2823,6 @@
     <EmbeddedResource Include="Migrations\202306021544284_PopulateGenres.resx">
       <DependentUpon>202306021544284_PopulateGenres.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202306021605041_UpdateTicket.resx">
-      <DependentUpon>202306021605041_UpdateTicket.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202306021611039_ChangeDatabase.resx">
       <DependentUpon>202306021611039_ChangeDatabase.cs</DependentUpon>
     </EmbeddedResource>
@@ -2863,12 +2840,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202306061004276_PopulateMoviePrice.resx">
       <DependentUpon>202306061004276_PopulateMoviePrice.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202306071630310_UpdateReviewsTable.resx">
-      <DependentUpon>202306071630310_UpdateReviewsTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202306071640352_UpdateReviewsTableAgain.resx">
-      <DependentUpon>202306071640352_UpdateReviewsTableAgain.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

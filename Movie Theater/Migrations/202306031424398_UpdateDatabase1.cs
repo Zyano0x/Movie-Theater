@@ -8,13 +8,7 @@
         public override void Up()
         {
             DropForeignKey("dbo.MovieSchedules", "MovieId", "dbo.Movies");
-            DropForeignKey("dbo.MovieTickets", "MovieId", "dbo.Movies");
-            DropForeignKey("dbo.MovieTickets", "MovieScheduleId", "dbo.MovieSchedules");
-            DropForeignKey("dbo.MovieTickets", "UserId", "dbo.AspNetUsers");
             DropIndex("dbo.MovieSchedules", new[] { "MovieId" });
-            DropIndex("dbo.MovieTickets", new[] { "MovieScheduleId" });
-            DropIndex("dbo.MovieTickets", new[] { "UserId" });
-            DropIndex("dbo.MovieTickets", new[] { "MovieId" });
             CreateTable(
                 "dbo.MoviePrices",
                 c => new
@@ -109,13 +103,7 @@
             DropTable("dbo.Tickets");
             DropTable("dbo.Orders");
             DropTable("dbo.MoviePrices");
-            CreateIndex("dbo.MovieTickets", "MovieId");
-            CreateIndex("dbo.MovieTickets", "UserId");
-            CreateIndex("dbo.MovieTickets", "MovieScheduleId");
             CreateIndex("dbo.MovieSchedules", "MovieId");
-            AddForeignKey("dbo.MovieTickets", "UserId", "dbo.AspNetUsers", "Id");
-            AddForeignKey("dbo.MovieTickets", "MovieScheduleId", "dbo.MovieSchedules", "Id", cascadeDelete: true);
-            AddForeignKey("dbo.MovieTickets", "MovieId", "dbo.Movies", "Id", cascadeDelete: true);
             AddForeignKey("dbo.MovieSchedules", "MovieId", "dbo.Movies", "Id", cascadeDelete: true);
         }
     }
