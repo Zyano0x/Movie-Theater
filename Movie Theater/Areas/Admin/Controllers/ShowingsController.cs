@@ -1,8 +1,7 @@
 ﻿using Movie_Theater.Models;
+using PagedList;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Movie_Theater.Areas.Admin.Controllers
@@ -12,10 +11,19 @@ namespace Movie_Theater.Areas.Admin.Controllers
     {
         public ApplicationDbContext _dbContext = new ApplicationDbContext();
 
-        public ActionResult Index()
+        public ActionResult Index(string Searchtext, int? page)
         {
-            var showtimes = _dbContext.Showings.Include("Movie").ToList();
-            return View(showtimes);
+            //Chỉ hiển thị những suất chiếu còn hạn.
+            if (page == null) page = 1;
+            int pageSize = 10;
+            int pageNum = page ?? 1;
+            var showtimes = _dbContext.Showings.Include("Movie").Where(item => item.EndTime > DateTime.Now).ToList();
+            if (!string.IsNullOrEmpty(Searchtext) && showtimes != null)
+            {
+                showtimes = showtimes.Where(x => x.Movie.Title.ToLower().Contains(Searchtext.ToLower())).ToList();
+            }
+            showtimes = showtimes.OrderBy(m => m.StartTime).ToList();
+            return View(showtimes.ToPagedList(pageNum, pageSize));
         }
 
         public ActionResult Create(string str = "", int choose = 1)
@@ -123,6 +131,25 @@ namespace Movie_Theater.Areas.Admin.Controllers
             _dbContext.SaveChanges();
 
             return Json(new { success = true });
+        }
+
+        public ActionResult DeleteAll(string ids)
+        {
+            if (!string.IsNullOrEmpty(ids))
+            {
+                var items = ids.Split(',');
+                if (items != null && items.Any())
+                {
+                    foreach (var item in items)
+                    {
+                        var obj = _dbContext.Showings.Find(Convert.ToInt32(item));
+                        _dbContext.Showings.Remove(obj);
+                        _dbContext.SaveChanges();
+                    }
+                }
+                return Json(new { success = true });
+            }
+            return Json(new { success = false });
         }
     }
 }
