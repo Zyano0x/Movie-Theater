@@ -276,7 +276,7 @@ namespace Movie_Theater.Controllers
                             str += "<td style=\"font-size: 12px; font-family: 'Open Sans', sans-serif; color: #1e2b33;  line-height: 18px;  vertical-align: top; padding:10px 0;\" align=\"right\">" + Common.FormatNumber(ticket.Price, 0) + "</td>";
                             str += "</tr>";
                             str += "<tr>";
-                            str += "<td height=\"1\" colspan=\"4\" style=\"border-bottom:1px solid #e4e4e4\"></td>";
+                            str += "<td height=\"1\" colspan=\"4\" style=\"border-bottom:1px solid #e4e4e4\">" + "</td>";
                             str += "</tr>";
                         }
                         string body = string.Empty;
