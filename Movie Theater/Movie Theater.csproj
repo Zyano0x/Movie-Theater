@@ -264,6 +264,7 @@
     </Compile>
     <Compile Include="Models\AccessDeniedAuthorizeAttribute.cs" />
     <Compile Include="Models\AdminAuthorizeAttribute.cs" />
+    <Compile Include="Models\Common\Common.cs" />
     <Compile Include="Models\Common\StringHelper.cs" />
     <Compile Include="Models\Email.cs" />
     <Compile Include="Models\MoviePrice.cs" />
@@ -2420,6 +2421,11 @@
     <Content Include="Content\assets\styles\single_responsive.css" />
     <Content Include="Content\assets\styles\single_styles.css" />
     <Content Include="Content\grid.css" />
+    <Content Include="Content\Images\Email\image-1.png" />
+    <Content Include="Content\Images\Email\image-2.png" />
+    <Content Include="Content\Images\Email\image-3.png" />
+    <Content Include="Content\Images\Email\image-4.png" />
+    <Content Include="Content\Images\Email\image-5.gif" />
     <Content Include="Content\Images\Icons\popcorn_icon.png" />
     <Content Include="Content\Images\Icons\user-icon.png" />
     <Content Include="Content\Images\Logo.png" />
@@ -2687,6 +2693,7 @@
     <Content Include="Areas\Admin\Content\ckfinder\ckfinder\plugins\fileeditor\codemirror\LICENSE" />
     <Content Include="Areas\Admin\Views\Theatres\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Theatres\Create.cshtml" />
+    <Content Include="Content\Images\Email\image-6.false" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />

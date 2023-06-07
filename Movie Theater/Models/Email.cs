@@ -20,11 +20,11 @@ namespace Movie_Theater.Models
                 string Password = ConfigurationManager.AppSettings["Password"].ToString();
                 string Port = ConfigurationManager.AppSettings["Port"].ToString();
                 MailMessage mailMessage = new MailMessage();
-                mailMessage.From = new MailAddress(FormEmailId);
+                mailMessage.From = new MailAddress(FormEmailId, "A Movie");
                 mailMessage.Subject = Subject;
                 mailMessage.Body = Message;
                 mailMessage.IsBodyHtml = IsBodyHtml;
-                mailMessage.To.Add(new MailAddress(SenderEmail));
+                mailMessage.To.Add(new MailAddress(SenderEmail, "A Movie"));
                 SmtpClient smtp = new SmtpClient();
                 smtp.Host = HostAddress;
                 smtp.EnableSsl = true;

@@ -1,12 +1,14 @@
 ﻿using Antlr.Runtime.Tree;
 using Microsoft.AspNet.Identity;
 using Movie_Theater.Models;
+using Movie_Theater.Models.Common;
 using Movie_Theater.ViewModels;
 using Movie_Theater.VNPay;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Web;
@@ -264,6 +266,32 @@ namespace Movie_Theater.Controllers
                         //Thanh toán thành công
                         ViewBag.Message = "Thanh toán thành công " + "-" + " Mã giao dịch: " + vnpayTranId;
 
+                        var str = "";
+                        foreach (var ticket in order.Tickets)
+                        {
+                            str += "<tr>";
+                            str += "<td style=\"font-size: 12px; font-family: 'Open Sans', sans-serif; color: #ff0000;  line-height: 18px;  vertical-align: top; padding:10px 0;\" class=\"article\">" + ticket.Showing.Movie.Title + "</td>";
+                            str += "<td style=\"font-size: 12px; font-family: 'Open Sans', sans-serif; color: #646a6e;  line-height: 18px;  vertical-align: top; padding:10px 0;>" + "<small>" + ticket.Showing.StartTime + "</small>" + "</td>";
+                            str += "<td style=\"font-size: 12px; font-family: 'Open Sans', sans-serif; color: #646a6e;  line-height: 18px;  vertical-align: top; padding:10px 0;\" align=\"center\">" + ticket.Seat + "</td>";
+                            str += "<td style=\"font-size: 12px; font-family: 'Open Sans', sans-serif; color: #1e2b33;  line-height: 18px;  vertical-align: top; padding:10px 0;\" align=\"right\">" + Common.FormatNumber(ticket.Price, 0) + "</td>";
+                            str += "</tr>";
+                            str += "<tr>";
+                            str += "<td height=\"1\" colspan=\"4\" style=\"border-bottom:1px solid #e4e4e4\"></td>";
+                            str += "</tr>";
+                        }
+                        string body = string.Empty;
+                        using (StreamReader reader = new StreamReader(Server.MapPath("~/Views/Email/OrderConfirmation.html")))
+                        {
+                            body = reader.ReadToEnd();
+                        }
+                        body = body.Replace("{Ticket}", str);
+                        body = body.Replace("{OrderID}", orderId.ToString());
+                        body = body.Replace("{Username}", order.User.UserName);
+                        body = body.Replace("{OrderDate}", DateTime.Now.ToString("dd/MM/yyyy"));
+                        body = body.Replace("{OrderSubtotal}", Common.FormatNumber(order.Subtotal, 0));
+                        body = body.Replace("{OrderTotal}", Common.FormatNumber(order.Total, 0));
+                        body = body.Replace("{OrderTAX}", Common.FormatNumber(order.TaxAmount, 0));
+                        Email.SendEmail(order.User.Email, "Đặt Vé Thành Công!", body, true);
                     }
                     else
                     {
