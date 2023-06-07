@@ -266,6 +266,10 @@
     <Compile Include="Migrations\202306071630310_UpdateReviewsTable.designer.cs">
       <DependentUpon>202306071630310_UpdateReviewsTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202306071640352_UpdateReviewsTableAgain.cs" />
+    <Compile Include="Migrations\202306071640352_UpdateReviewsTableAgain.designer.cs">
+      <DependentUpon>202306071640352_UpdateReviewsTableAgain.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\AccessDeniedAuthorizeAttribute.cs" />
     <Compile Include="Models\AdminAuthorizeAttribute.cs" />
     <Compile Include="Models\Common\Common.cs" />
@@ -2862,6 +2866,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202306071630310_UpdateReviewsTable.resx">
       <DependentUpon>202306071630310_UpdateReviewsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306071640352_UpdateReviewsTableAgain.resx">
+      <DependentUpon>202306071640352_UpdateReviewsTableAgain.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

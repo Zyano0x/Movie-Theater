@@ -11,14 +11,9 @@ namespace Movie_Theater.Models
     {
         [Key]
         [Column(Order = 1)]
-        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-
-        [Key]
-        [Column(Order = 2)]
         public int MovieId { get; set; }
         [Key]
-        [Column(Order = 3)]
+        [Column(Order = 2)]
         public string UserId { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập điểm!")]

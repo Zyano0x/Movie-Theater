@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -82,13 +83,13 @@ namespace Movie_Theater.Controllers
 
         public ActionResult Review(int scores, string comment, int id, string userLogin, int action)
         {
+            var movieUrl = _dbContext.Movies.Find(id).Url;
             if (!User.Identity.IsAuthenticated)
             {
                 // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập và lưu trữ địa chỉ URL của trang chi tiết phim
-                return RedirectToAction("Login", "Account", new { returnUrl = Url.Action("Details", "Movies", new { id = id }) });
+                return RedirectToAction("Login", "Account", new { returnUrl = Url.Action("Details", "Movies", new { name = movieUrl }) });
             }
             var checkTicket = (from c in _dbContext.Tickets where c.Showing.Movie.Id == id && c.Order.User.Id == userLogin && (c.Order.Status != OrderStatus.Pending || c.Order.Status != OrderStatus.Cancelled) select c).FirstOrDefault();
-            var movieUrl = _dbContext.Movies.Find(id).Url;
             if (checkTicket == null)
             {
                 return RedirectToAction("Create", "Booking", new { name = movieUrl });
