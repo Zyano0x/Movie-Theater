@@ -1,12 +1,14 @@
 ﻿using Antlr.Runtime.Tree;
 using Microsoft.AspNet.Identity;
 using Movie_Theater.Models;
+using Movie_Theater.Models.Common;
 using Movie_Theater.ViewModels;
 using Movie_Theater.VNPay;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Web;
@@ -54,7 +56,7 @@ namespace Movie_Theater.Controllers
                 _dbContext.SaveChanges();
                 return RedirectToAction("Details", "Orders", new { OrderID = order.Id });
             }
-            //ViewBag.
+
             return View(order);
         }
 
@@ -62,6 +64,8 @@ namespace Movie_Theater.Controllers
         public ActionResult Details(int OrderID)
         {
             Order order = _dbContext.Orders.Find(OrderID);
+            Session["Showtimes"] = order.Tickets.First().Showing;
+            Session["Discount"] = order.Tickets.First().EarlyDiscount;
             if (order == null)
             {
                 return HttpNotFound();
@@ -76,6 +80,7 @@ namespace Movie_Theater.Controllers
                 else
                     return View("Error", new string[] { "Oops Sorry!" });
             }
+
         }
 
         [Authorize]
@@ -84,21 +89,23 @@ namespace Movie_Theater.Controllers
             // Retrieve the order from the database
             Order order = _dbContext.Orders.Find(OrderId);
 
-            // Ensure that the order exist
-            if (order == null)
-            {
-                return HttpNotFound();
-            }
-
             string userID = User.Identity.GetUserId();
             if (order.User.Id == userID)
             {
-                ViewBag.AvailableSeats = SeatHelper.FindAvailableSeatsForEdit(order.Tickets.First().Showing.Tickets, userID, OrderId);
-                return View(order);
+                if (!order.Tickets.Any())
+                {
+                    ViewBag.AvailableSeats = SeatHelper.GenerateListSeats();
+                    return View(order);
+                }
+                else
+                {
+                    ViewBag.AvailableSeats = SeatHelper.FindAvailableSeatsForEdit(order.Tickets.First().Showing.Tickets, userID, OrderId);
+                    return View(order);
+                }
             }
             else
             {
-                return View("Error", new string[] { "This is not your order!!" });
+                return HttpNotFound();
             }
         }
         [Authorize]
@@ -107,12 +114,7 @@ namespace Movie_Theater.Controllers
         public ActionResult Edit(int OrderId, int[] SelectedSeats)
         {
             // Retrieve the order from the database
-            Order order = _dbContext.Orders.Find(OrderId);
-            TicketViewModel viewModel = new TicketViewModel
-            {
-                Showing = order.Tickets.First().Showing,
-                EarlyDiscount = order.Tickets.First().EarlyDiscount,
-            };
+            Order order = _dbContext.Orders.Include(o => o.Tickets).SingleOrDefault(o => o.Id == OrderId);
 
             // Ensure that the order exists
             if (order == null)
@@ -120,12 +122,18 @@ namespace Movie_Theater.Controllers
                 return HttpNotFound();
             }
 
+            TicketViewModel viewModel = new TicketViewModel
+            {
+                Showing = order.Tickets.First().Showing,
+                EarlyDiscount = order.Tickets.First().EarlyDiscount,
+            };
+
             string UserId = User.Identity.GetUserId();
 
             // Check if the order belongs to the user
             if (order.User.Id != UserId)
             {
-                return View("Error", new string[] { "This is not your order!" });
+                return HttpNotFound();
             }
 
             // Remove existing tickets for the order
@@ -145,16 +153,36 @@ namespace Movie_Theater.Controllers
                         Price = Models.Utilities.GenerateTicketPrice.GetTicketPrice(viewModel.Showing.StartTime),
                         EarlyDiscount = viewModel.EarlyDiscount,
                     };
-
                     _dbContext.Tickets.Add(newTicket);
                 }
             }
-
             _dbContext.SaveChanges();
 
             ViewBag.AvailableSeats = SeatHelper.FindAvailableSeatsForEdit(order.Tickets.First().Showing.Tickets, UserId, OrderId);
-
             return RedirectToAction("Details", "Orders", new { OrderID = order.Id });
+        }
+
+        [Authorize]
+        [HttpPost]
+        public JsonResult Cancel(int OrderId)
+        {
+            Order order = _dbContext.Orders.Find(OrderId);
+            if (order == null)
+            {
+                return Json(new { success = false, message = "Record not found." });
+            }
+            if (order.User.Id == User.Identity.GetUserId())
+            {
+                order.Status = OrderStatus.Cancelled;
+                _dbContext.Entry(order).State = EntityState.Modified;
+                _dbContext.SaveChanges();
+
+                return Json(new { success = true });
+            }
+            else
+            {
+                return Json(new { success = false, error = "This is not your Order!" });
+            }
         }
 
         public ActionResult Checkout(int OrderId)
@@ -166,6 +194,7 @@ namespace Movie_Theater.Controllers
 
             var OrderTicket = _dbContext.Orders.Find(OrderId);
             Session["OrderID"] = OrderId;
+            Session["Order"] = OrderTicket;
             //Get payment input
             OrderInfo order = new OrderInfo();
             //Save order to db
@@ -190,7 +219,7 @@ namespace Movie_Theater.Controllers
             vnpay.AddRequestData("vnp_OrderType", "other"); //default value: other
             vnpay.AddRequestData("vnp_ReturnUrl", vnp_Returnurl);
             vnpay.AddRequestData("vnp_TxnRef", order.OrderId.ToString()); // Mã tham chiếu của giao dịch tại hệ thống của merchant. Mã này là duy nhất dùng để phân biệt các đơn hàng gửi sang VNPAY. Không được trùng lặp trong ngày
-            
+
             string paymentUrl = vnpay.CreateRequestUrl(vnp_Url, vnp_HashSecret);
             return Redirect(paymentUrl);
         }
@@ -237,6 +266,32 @@ namespace Movie_Theater.Controllers
                         //Thanh toán thành công
                         ViewBag.Message = "Thanh toán thành công " + "-" + " Mã giao dịch: " + vnpayTranId;
 
+                        var str = "";
+                        foreach (var ticket in order.Tickets)
+                        {
+                            str += "<tr>";
+                            str += "<td style=\"font-size: 12px; font-family: 'Open Sans', sans-serif; color: #c459ee;  line-height: 18px;  vertical-align: top; padding:10px 0;\" class=\"article\">" + ticket.Showing.Movie.Title + "</td>";
+                            str += "<td style=\"font-size: 12px; font-family: 'Open Sans', sans-serif; color: #646a6e; line-height: 18px; vertical-align: top; padding:10px 0;\">" + ticket.Showing.StartTime.ToString("dd/MM/yyyy HH:mm") + "</td>";
+                            str += "<td style=\"font-size: 12px; font-family: 'Open Sans', sans-serif; color: #646a6e;  line-height: 18px;  vertical-align: top; padding:10px 0;\" align=\"center\">" + ticket.Seat + "</td>";
+                            str += "<td style=\"font-size: 12px; font-family: 'Open Sans', sans-serif; color: #1e2b33;  line-height: 18px;  vertical-align: top; padding:10px 0;\" align=\"right\">" + Common.FormatNumber(ticket.Price, 0) + "</td>";
+                            str += "</tr>";
+                            str += "<tr>";
+                            str += "<td height=\"1\" colspan=\"4\" style=\"border-bottom:1px solid #e4e4e4\">" + "</td>";
+                            str += "</tr>";
+                        }
+                        string body = string.Empty;
+                        using (StreamReader reader = new StreamReader(Server.MapPath("~/Views/Email/OrderConfirmation.html")))
+                        {
+                            body = reader.ReadToEnd();
+                        }
+                        body = body.Replace("{Ticket}", str);
+                        body = body.Replace("{OrderID}", orderId.ToString());
+                        body = body.Replace("{Username}", order.User.UserName);
+                        body = body.Replace("{OrderDate}", DateTime.Now.ToString("dd/MM/yyyy"));
+                        body = body.Replace("{OrderSubtotal}", Common.FormatNumber(order.Subtotal, 0));
+                        body = body.Replace("{OrderTotal}", Common.FormatNumber(order.Total, 0));
+                        body = body.Replace("{OrderTAX}", Common.FormatNumber(order.TaxAmount, 0));
+                        Email.SendEmail(order.User.Email, "Đặt Vé Thành Công!", body, true);
                     }
                     else
                     {

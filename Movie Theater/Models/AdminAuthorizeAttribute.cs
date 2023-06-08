@@ -13,11 +13,12 @@ namespace Movie_Theater.Models
             if (!filterContext.HttpContext.User.Identity.IsAuthenticated)
             {
                 // Redirect to the custom login URL for the admin area
-                filterContext.Result = new RedirectResult("/Admin/Account/Login");
+                filterContext.Result = new RedirectResult("~/Admin/Account/Login");
             }
             else
             {
-                base.HandleUnauthorizedRequest(filterContext);
+                // Redirect to the custom unauthorized page or URL
+                filterContext.Result = new RedirectResult("~/Admin/Account/Login");
             }
         }
     }

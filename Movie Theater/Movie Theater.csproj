@@ -190,10 +190,6 @@
     <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\TicketsController.cs" />
-    <Compile Include="Migrations\202305211117059_AddStatusMovieTicket.cs" />
-    <Compile Include="Migrations\202305211117059_AddStatusMovieTicket.designer.cs">
-      <DependentUpon>202305211117059_AddStatusMovieTicket.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\202305220508309_UpdateApplicationUser.cs" />
     <Compile Include="Migrations\202305220508309_UpdateApplicationUser.designer.cs">
       <DependentUpon>202305220508309_UpdateApplicationUser.cs</DependentUpon>
@@ -234,10 +230,6 @@
     <Compile Include="Migrations\202306021544284_PopulateGenres.designer.cs">
       <DependentUpon>202306021544284_PopulateGenres.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202306021605041_UpdateTicket.cs" />
-    <Compile Include="Migrations\202306021605041_UpdateTicket.designer.cs">
-      <DependentUpon>202306021605041_UpdateTicket.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\202306021611039_ChangeDatabase.cs" />
     <Compile Include="Migrations\202306021611039_ChangeDatabase.designer.cs">
       <DependentUpon>202306021611039_ChangeDatabase.cs</DependentUpon>
@@ -262,8 +254,13 @@
     <Compile Include="Migrations\202306061004276_PopulateMoviePrice.designer.cs">
       <DependentUpon>202306061004276_PopulateMoviePrice.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202306080322301_UpdateReview.cs" />
+    <Compile Include="Migrations\202306080322301_UpdateReview.designer.cs">
+      <DependentUpon>202306080322301_UpdateReview.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\AccessDeniedAuthorizeAttribute.cs" />
     <Compile Include="Models\AdminAuthorizeAttribute.cs" />
+    <Compile Include="Models\Common\Common.cs" />
     <Compile Include="Models\Common\StringHelper.cs" />
     <Compile Include="Models\Email.cs" />
     <Compile Include="Models\MoviePrice.cs" />
@@ -272,6 +269,7 @@
     <Compile Include="Models\Seat.cs" />
     <Compile Include="Models\Utilities\GenerateConfirmationCode.cs" />
     <Compile Include="Models\Utilities\GenerateTicketPrice.cs" />
+    <Compile Include="ViewModels\ReviewViewModel.cs" />
     <Compile Include="ViewModels\TicketViewModel.cs" />
     <Compile Include="VNPay\OrderInfo.cs" />
     <Compile Include="VNPay\VnPayLibary.cs" />
@@ -2420,6 +2418,11 @@
     <Content Include="Content\assets\styles\single_responsive.css" />
     <Content Include="Content\assets\styles\single_styles.css" />
     <Content Include="Content\grid.css" />
+    <Content Include="Content\Images\Email\image-1.png" />
+    <Content Include="Content\Images\Email\image-2.png" />
+    <Content Include="Content\Images\Email\image-3.png" />
+    <Content Include="Content\Images\Email\image-4.png" />
+    <Content Include="Content\Images\Email\image-5.gif" />
     <Content Include="Content\Images\Icons\popcorn_icon.png" />
     <Content Include="Content\Images\Icons\user-icon.png" />
     <Content Include="Content\Images\Logo.png" />
@@ -2432,12 +2435,10 @@
     <Compile Include="Areas\Admin\Controllers\MoviesController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CrewsController.cs" />
-    <Compile Include="Controllers\GenresController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManagesController.cs" />
     <Compile Include="Controllers\ShowingsController.cs" />
     <Compile Include="Controllers\MoviesController.cs" />
-    <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -2689,6 +2690,7 @@
     <Content Include="Areas\Admin\Content\ckfinder\ckfinder\plugins\fileeditor\codemirror\LICENSE" />
     <Content Include="Areas\Admin\Views\Theatres\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Theatres\Create.cshtml" />
+    <Content Include="Content\Images\Email\image-6.false" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -2703,6 +2705,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Views\Email\EmailVerification.html" />
+    <Content Include="Views\Email\OrderConfirmation.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -2747,6 +2750,7 @@
     <Content Include="Views\Orders\Details.cshtml" />
     <Content Include="Views\Orders\Edit.cshtml" />
     <Content Include="Views\Movies\ShowMovies.cshtml" />
+    <Content Include="Views\Booking\History.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
@@ -2793,10 +2797,6 @@
       <DependentUpon>202305111533499_PopulateCRoles.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202305211117059_AddStatusMovieTicket.resx">
-      <DependentUpon>202305211117059_AddStatusMovieTicket.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202305220508309_UpdateApplicationUser.resx">
       <DependentUpon>202305220508309_UpdateApplicationUser.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -2828,9 +2828,6 @@
     <EmbeddedResource Include="Migrations\202306021544284_PopulateGenres.resx">
       <DependentUpon>202306021544284_PopulateGenres.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202306021605041_UpdateTicket.resx">
-      <DependentUpon>202306021605041_UpdateTicket.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202306021611039_ChangeDatabase.resx">
       <DependentUpon>202306021611039_ChangeDatabase.cs</DependentUpon>
     </EmbeddedResource>
@@ -2848,6 +2845,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202306061004276_PopulateMoviePrice.resx">
       <DependentUpon>202306061004276_PopulateMoviePrice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306080322301_UpdateReview.resx">
+      <DependentUpon>202306080322301_UpdateReview.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

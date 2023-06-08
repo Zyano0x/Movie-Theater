@@ -64,7 +64,7 @@
                 @* Phim đang chiếu *@
                 <div class="heading-title">
                     <h6>PHIM ĐANG CHIẾU</h6>
-                    <a href="@Url.Action("Index", "ListMovie", new {FilterMoviesByType = "MoviesInTheater"})">Xem thêm</a>
+                    <a href="@Url.Action("ShowMovies", "Movies", new {FilterMoviesByType = "MoviesInTheater"})">Xem thêm</a>
                 </div>
                 <div class="row sm-gutter box-movie" style="flex-wrap: nowrap;margin-left: 0; margin-right: 0">
                     @{
@@ -280,7 +280,7 @@
                 @* Phim sắp chiếu *@
                 <div class="heading-title">
                     <h6>PHIM SẮP CHIẾU</h6>
-                    <a href="@Url.Action("Index", "ListMovie", new {FilterMoviesByType = "UpcomingMovies"})">Xem thêm</a>
+                    <a href="@Url.Action("ShowMovies", "Movies", new {FilterMoviesByType = "UpcomingMovies"})">Xem thêm</a>
                 </div>
                 <div class="row sm-gutter box-movie" style="flex-wrap: nowrap;margin-left: 0; margin-right: 0">
                     @{
@@ -520,32 +520,6 @@
                     </div>
                 </div>
             </div>
-
-            @* Phim phổ biến tại các rạp *@
-            <!--<div class="heading-title">
-                <h6>PHIM PHỔ BIẾN TẠI CÁC RẠP</h6>
-                <a href="">Xem thêm</a>
-            </div>-->
-            @* Phim có điểm số cao *@
-            <!--<div class="heading-title">
-                <h6>PHIM CÓ ĐIỂM SỐ CAO</h6>
-                <a href="">Xem thêm</a>
-            </div>-->
-            @* Phim Việt Nam *@
-            <!--<div class="heading-title">
-                <h6>PHIM VIỆT NAM</h6>
-                <a href="">Xem thêm</a>
-            </div>-->
-            @* Phim Mavel *@
-            <!--<div class="heading-title">
-                <h6>PHIM MAVEL</h6>
-                <a href="">Xem thêm</a>
-            </div>-->
-            @* Phim DC *@
-            <!--<div class="heading-title">
-                <h6>PHIM DC</h6>
-                <a href="">Xem thêm</a>
-            </div>-->
         </div>
 
         <div class="wrapper-box-news">
