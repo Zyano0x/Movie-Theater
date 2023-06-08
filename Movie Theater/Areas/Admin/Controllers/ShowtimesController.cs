@@ -7,7 +7,7 @@ using System.Web.Mvc;
 namespace Movie_Theater.Areas.Admin.Controllers
 {
     [AdminAuthorize(Roles = "Staff, Adminstrator")]
-    public class ShowingsController : Controller
+    public class ShowtimesController : Controller
     {
         public ApplicationDbContext _dbContext = new ApplicationDbContext();
 
@@ -17,7 +17,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
             if (page == null) page = 1;
             int pageSize = 10;
             int pageNum = page ?? 1;
-            var showtimes = _dbContext.Showings.Include("Movie").Where(item => item.EndTime > DateTime.Now).ToList();
+            var showtimes = _dbContext.Showtimes.Include("Movie").Where(item => item.EndTime > DateTime.Now).ToList();
             if (!string.IsNullOrEmpty(Searchtext) && showtimes != null)
             {
                 showtimes = showtimes.Where(x => x.Movie.Title.ToLower().Contains(Searchtext.ToLower())).ToList();
@@ -29,7 +29,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
         public ActionResult Create(string str = "", int choose = 1)
         {
             ViewBag.Error = str;
-            var viewModel = new Showing
+            var viewModel = new Showtimes
             {
                 //Khi load lại trang trường chọn phim đã chọn vẫn còn
                 MovieId = choose,
@@ -44,7 +44,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Showing viewModel)
+        public ActionResult Create(Showtimes viewModel)
         {
             var movie = (from m in _dbContext.Movies where m.Id == viewModel.MovieId select m).First();
             if (viewModel.StartTime < DateTime.Now.AddDays(1))
@@ -52,7 +52,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
                 return RedirectToAction("Create", new { str = "Không để trống & thời gian bắt đầu phải cách thời gian thêm lịch 24H", choose = viewModel.MovieId });
             }
 
-            foreach (var s in _dbContext.Showings)
+            foreach (var s in _dbContext.Showtimes)
             {
                 if (s.MovieId == viewModel.MovieId && s.TheatreId == viewModel.TheatreId && (viewModel.StartTime <= s.EndTime && viewModel.StartTime.AddMinutes(movie.Runtime) >= s.StartTime))
                 {
@@ -60,14 +60,14 @@ namespace Movie_Theater.Areas.Admin.Controllers
                 }
             }
 
-            var schedule = new Showing
+            var schedule = new Showtimes
             {
                 MovieId = viewModel.MovieId,
                 StartTime = viewModel.StartTime,
                 EndTime = viewModel.StartTime.AddMinutes(movie.Runtime),
                 TheatreId = viewModel.TheatreId,
             };
-            _dbContext.Showings.Add(schedule);
+            _dbContext.Showtimes.Add(schedule);
             _dbContext.SaveChanges();
 
             return RedirectToAction("Index");
@@ -76,7 +76,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
         public ActionResult Edit(int id, string str = "")
         {
             ViewBag.Error = str;
-            var schedule = _dbContext.Showings.FirstOrDefault(s => s.Id == id);
+            var schedule = _dbContext.Showtimes.FirstOrDefault(s => s.Id == id);
             schedule.MovieIds = _dbContext.Movies.Select(m => m.Id).ToList();
             schedule.Movies = _dbContext.Movies;
             schedule.TheatreIds = _dbContext.Theatres.Select(m => m.Id).ToList();
@@ -91,15 +91,15 @@ namespace Movie_Theater.Areas.Admin.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Showing viewModel)
+        public ActionResult Edit(Showtimes viewModel)
         {
             var movie = (from m in _dbContext.Movies where m.Id == viewModel.MovieId select m).First();
-            var schedule = _dbContext.Showings.FirstOrDefault(s => s.Id == viewModel.Id);
+            var schedule = _dbContext.Showtimes.FirstOrDefault(s => s.Id == viewModel.Id);
             if (viewModel.StartTime < schedule.StartTime)
             {
                 return RedirectToAction("Edit", new { str = "Không để trống & lịch chiếu mới > lịch chiếu cũ", choose = viewModel.MovieId });
             }
-            foreach (var s in _dbContext.Showings)
+            foreach (var s in _dbContext.Showtimes)
             {
                 if (s.MovieId == viewModel.MovieId && s.Id != viewModel.Id)
                 {
@@ -121,13 +121,13 @@ namespace Movie_Theater.Areas.Admin.Controllers
         [HttpPost]
         public JsonResult Delete(int id)
         {
-            var schedule = _dbContext.Showings.Find(id);
+            var schedule = _dbContext.Showtimes.Find(id);
             if (schedule == null)
             {
                 return Json(new { success = false, message = "Record not found." });
             }
 
-            _dbContext.Showings.Remove(schedule);
+            _dbContext.Showtimes.Remove(schedule);
             _dbContext.SaveChanges();
 
             return Json(new { success = true });
@@ -142,8 +142,8 @@ namespace Movie_Theater.Areas.Admin.Controllers
                 {
                     foreach (var item in items)
                     {
-                        var obj = _dbContext.Showings.Find(Convert.ToInt32(item));
-                        _dbContext.Showings.Remove(obj);
+                        var obj = _dbContext.Showtimes.Find(Convert.ToInt32(item));
+                        _dbContext.Showtimes.Remove(obj);
                         _dbContext.SaveChanges();
                     }
                 }

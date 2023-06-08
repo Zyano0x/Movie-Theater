@@ -14,6 +14,34 @@ namespace Movie_Theater
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+              name: "Edit/Add Seats",
+              url: "chinh-sua",
+              defaults: new { controller = "Orders", action = "Edit", id = UrlParameter.Optional },
+              namespaces: new[] { "Movie_Theater.Controllers" }
+          );
+
+            routes.MapRoute(
+               name: "Checkout",
+               url: "thanh-toan",
+               defaults: new { controller = "Orders", action = "Checkout", id = UrlParameter.Optional },
+               namespaces: new[] { "Movie_Theater.Controllers" }
+           );
+
+            routes.MapRoute(
+               name: "Order",
+               url: "thong-tin-ve",
+               defaults: new { controller = "Orders", action = "Details", id = UrlParameter.Optional },
+               namespaces: new[] { "Movie_Theater.Controllers" }
+           );
+
+            routes.MapRoute(
+               name: "Ticket",
+               url: "dat-ve/{name}",
+               defaults: new { controller = "Tickets", action = "Create", name = UrlParameter.Optional },
+               namespaces: new[] { "Movie_Theater.Controllers" }
+           );
+
+            routes.MapRoute(
                name: "BookingHistory",
                url: "lich-su-dat-ve",
                defaults: new { controller = "Booking", action = "History", id = UrlParameter.Optional },

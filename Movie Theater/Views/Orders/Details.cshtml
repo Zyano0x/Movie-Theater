@@ -88,9 +88,9 @@
         <a href="javascript:history.go(-1)" class="btn btn btn-back font-weight-600" style="border: unset; margin-right: 7px; width: 111px;">Trở Lại</a>
         @if (Model.Status == OrderStatus.Pending)
         {
-            @Html.ActionLink("Thêm/Xóa Ghế", "Edit", "Orders", new { OrderId = Model.Id }, new { @class = "btn btn-primary mr-2 white-color font-weight-600", style = "background-color: #f7c12f; border: unset;" })
+            @Html.ActionLink("Thêm/Xóa Ghế", "Edit", "Orders", new { OrderID = Model.Id }, new { @class = "btn btn-primary mr-2 white-color font-weight-600", style = "background-color: #f7c12f; border: unset;" })
             @*<button type="button" class="btn btn-success white-color font-weight-600" id="checkoutButton" style="width: 111px; background-color: #f7c12f; border: unset;">Thanh Toán</button>*@
-            @Html.ActionLink("Thanh Toán", "Checkout", "Orders", new { OrderId = Model.Id }, new { @class = "btn btn-success white-color font-weight-600", style = "width: 111px; background-color: #f7c12f; border: unset; margin-right: 6px;" })
+            @Html.ActionLink("Thanh Toán", "Checkout", "Orders", new { OrderID = Model.Id }, new { @class = "btn btn-success white-color font-weight-600", style = "width: 111px; background-color: #f7c12f; border: unset; margin-right: 6px;" })
             <button style = "width: 111px; border: unset;" type="button" class="btn btn-danger font-weight-600" id="cancelButton">Hủy Bỏ</button>
         }
     </p>
@@ -147,7 +147,7 @@
             event.preventDefault(); // Prevent the default button behavior
 
             if (confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
-                var url = '@Url.Action("Cancel", "Orders", new { OrderId = Model.Id })';
+                var url = '@Url.Action("Cancel", "Orders", new { OrderID = Model.Id })';
 
                 // Send AJAX request to cancel the order
                 var xhr = new XMLHttpRequest();

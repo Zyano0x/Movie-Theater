@@ -14,7 +14,7 @@ namespace Movie_Theater.Models
 {
     public enum SpecialEvent { NotSpecial, Special };
 
-    public class Showing
+    public class Showtimes
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -60,7 +60,7 @@ namespace Movie_Theater.Models
         public IEnumerable<Theatre> Theatres { get; set; }
         public List<int> TheatreIds { get; set; }
 
-        public Showing()
+        public Showtimes()
         {
             if (Tickets == null)
             {

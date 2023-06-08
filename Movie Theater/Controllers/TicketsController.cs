@@ -139,9 +139,9 @@ namespace Movie_Theater.Controllers
         //}
 
         [Authorize]
-        public ActionResult Create(int ShowingID)
+        public ActionResult Create(int Showtimes, string name)
         {
-            Showing show = _dbContext.Showings.Find(ShowingID);
+            Showtimes show = _dbContext.Showtimes.Find(Showtimes);
             ApplicationUser user = _dbContext.Users.Find(User.Identity.GetUserId());
             decimal TicketPrice = Models.Utilities.GenerateTicketPrice.GetTicketPrice(show.StartTime);
 
@@ -171,9 +171,9 @@ namespace Movie_Theater.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public ActionResult Create(int ShowingID, int[] SelectedSeats)
+        public ActionResult Create(int Showtimes, int[] SelectedSeats)
         {
-            Showing show = _dbContext.Showings.Find(ShowingID);
+            Showtimes show = _dbContext.Showtimes.Find(Showtimes);
             ApplicationUser user = _dbContext.Users.Find(User.Identity.GetUserId());
             decimal TicketPrice = Models.Utilities.GenerateTicketPrice.GetTicketPrice(show.StartTime);
 

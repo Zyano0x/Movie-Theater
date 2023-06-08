@@ -1,4 +1,4 @@
-﻿@model Movie_Theater.ViewModels.ShowingViewModel
+﻿@model Movie_Theater.ViewModels.ShowtimesViewModel
 @{
     ViewBag.Title = "Đặt Vé - A Movie";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -32,10 +32,10 @@
                                 </div>
                             </div>
                             <div id="showtimes-container">
-                                @Html.LabelFor(model => model.ShowingIds, "Lịch Chiếu : ", htmlAttributes: new { @class = "control-label col-md-2" })
+                                @Html.LabelFor(model => model.ShowtimesIds, "Lịch Chiếu : ", htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.DropDownListFor(model => model.ShowingSelectId, new SelectList(Model.Showings, "Id", "StartTime"), new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.ShowingIds, "", new { @class = "text-danger" })
+                                    @Html.DropDownListFor(model => model.ShowtimesSelectId, new SelectList(Model.Showtimes, "Id", "StartTime"), new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.ShowtimesIds, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <button id="bookTicketsButton" class="btn btn-booking">Tiếp tục</button>
@@ -47,64 +47,6 @@
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-@*<script>
-        $(function () {
-        // Handle change event of theater dropdown
-        $('#theatre-dropdown').on('change', function () {
-            var selectedTheatreId = $(this).val(); // Get the selected theater ID
-
-            // Make an AJAX call to fetch the updated showtimes based on the selected theater
-            $.ajax({
-                url: '/Booking/GetShowingsByTheatre',
-                type: 'GET',
-                data: { theatreId: selectedTheatreId },
-                success: function (data) {
-                    console.log(data); // Log the data to the console for debugging purposes
-
-                    // Update the showtimes dropdown with the new data
-                    var showingsDropdown = $('#ShowingSelectId');
-                    showingsDropdown.empty();
-                    $.each(data, function (index, item) {
-                        showingsDropdown.append($('<option></option>').val(item.Id).text(convertTimestampToDateTime(item.StartTime)));
-                    });
-
-                    // Reset the selected showtime to the first option
-                    showingsDropdown.val(showingsDropdown.find('option:first').val());
-
-                    // Update the button's onclick attribute
-                    updateBookTicketsButton();
-                },
-                error: function (xhr, status, error) {
-                    console.log(xhr.responseText); // Log any error messages to the console for debugging purposes
-                }
-            });
-        });
-
-        // Handle change event of showtimes dropdown
-        $('#ShowingSelectId').on('change', function () {
-            // Update the button's onclick attribute
-            updateBookTicketsButton();
-        });
-
-        // Trigger the change event on theater dropdown when the page loads
-        $('#theatre-dropdown').trigger('change');
-
-        // Function to convert Unix timestamp to formatted date and time
-        function convertTimestampToDateTime(timestamp) {
-            var milliseconds = parseInt(timestamp.replace("/Date(", "").replace(")/", ""));
-            var date = new Date(milliseconds);
-            var formattedDate = date.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true });
-            return formattedDate;
-        }
-
-        // Function to update the button's onclick attribute
-        function updateBookTicketsButton() {
-            var selectedShowingId = $('#ShowingSelectId').val();
-            var link = '@Url.Action("Create", "Tickets")' + '?ShowingID=' + selectedShowingId;
-            $('#bookTicketsButton').attr('onclick', "location.href='" + link + "'");
-        }
-    });
-    </script>*@
 <script>
     $(function () {
     // Handle change event of theater dropdown
@@ -123,7 +65,7 @@
                 console.log(data); // Log the data to the console for debugging purposes
 
                 // Update the showtimes dropdown with the new data
-                var showingsDropdown = $('#ShowingSelectId');
+                var showingsDropdown = $('#ShowtimesSelectId');
                 showingsDropdown.empty();
                 $.each(data, function (index, item) {
                     showingsDropdown.append($('<option></option>').val(item.Id).text(convertTimestampToDateTime(item.StartTime)));
@@ -142,7 +84,7 @@
     });
 
     // Handle change event of showtimes dropdown
-    $('#ShowingSelectId').on('change', function () {
+        $('#ShowtimesSelectId').on('change', function () {
         // Update the button's onclick attribute
         updateBookTicketsButton();
     });
@@ -160,8 +102,8 @@
 
     // Function to update the button's onclick attribute
     function updateBookTicketsButton() {
-        var selectedShowingId = $('#ShowingSelectId').val();
-        var link = '@Url.Action("Create", "Tickets")' + '?ShowingID=' + selectedShowingId;
+        var selectedShowingId = $('#ShowtimesSelectId').val();
+        var link = '@Url.Action("Create", "Tickets", new {name = Model.Movie.Url})' + '?Showtimes=' + selectedShowingId;
         $('#bookTicketsButton').attr('onclick', "location.href='" + link + "'");
     }
 });

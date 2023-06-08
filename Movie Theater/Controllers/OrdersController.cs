@@ -84,10 +84,10 @@ namespace Movie_Theater.Controllers
         }
 
         [Authorize]
-        public ActionResult Edit(int OrderId)
+        public ActionResult Edit(int OrderID)
         {
             // Retrieve the order from the database
-            Order order = _dbContext.Orders.Find(OrderId);
+            Order order = _dbContext.Orders.Find(OrderID);
 
             string userID = User.Identity.GetUserId();
             if (order.User.Id == userID)
@@ -99,7 +99,7 @@ namespace Movie_Theater.Controllers
                 }
                 else
                 {
-                    ViewBag.AvailableSeats = SeatHelper.FindAvailableSeatsForEdit(order.Tickets.First().Showing.Tickets, userID, OrderId);
+                    ViewBag.AvailableSeats = SeatHelper.FindAvailableSeatsForEdit(order.Tickets.First().Showing.Tickets, userID, OrderID);
                     return View(order);
                 }
             }
@@ -111,10 +111,10 @@ namespace Movie_Theater.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int OrderId, int[] SelectedSeats)
+        public ActionResult Edit(int OrderID, int[] SelectedSeats)
         {
             // Retrieve the order from the database
-            Order order = _dbContext.Orders.Include(o => o.Tickets).SingleOrDefault(o => o.Id == OrderId);
+            Order order = _dbContext.Orders.Include(o => o.Tickets).SingleOrDefault(o => o.Id == OrderID);
 
             // Ensure that the order exists
             if (order == null)
@@ -158,15 +158,15 @@ namespace Movie_Theater.Controllers
             }
             _dbContext.SaveChanges();
 
-            ViewBag.AvailableSeats = SeatHelper.FindAvailableSeatsForEdit(order.Tickets.First().Showing.Tickets, UserId, OrderId);
+            ViewBag.AvailableSeats = SeatHelper.FindAvailableSeatsForEdit(order.Tickets.First().Showing.Tickets, UserId, OrderID);
             return RedirectToAction("Details", "Orders", new { OrderID = order.Id });
         }
 
         [Authorize]
         [HttpPost]
-        public JsonResult Cancel(int OrderId)
+        public JsonResult Cancel(int OrderID)
         {
-            Order order = _dbContext.Orders.Find(OrderId);
+            Order order = _dbContext.Orders.Find(OrderID);
             if (order == null)
             {
                 return Json(new { success = false, message = "Record not found." });
@@ -185,15 +185,15 @@ namespace Movie_Theater.Controllers
             }
         }
 
-        public ActionResult Checkout(int OrderId)
+        public ActionResult Checkout(int OrderID)
         {
             string vnp_Returnurl = ConfigurationManager.AppSettings["vnp_Returnurl"]; //URL nhan ket qua tra ve 
             string vnp_Url = ConfigurationManager.AppSettings["vnp_Url"]; //URL thanh toan cua VNPAY 
             string vnp_TmnCode = ConfigurationManager.AppSettings["vnp_TmnCode"]; //Ma website
             string vnp_HashSecret = ConfigurationManager.AppSettings["vnp_HashSecret"]; //Chuoi bi mat
 
-            var OrderTicket = _dbContext.Orders.Find(OrderId);
-            Session["OrderID"] = OrderId;
+            var OrderTicket = _dbContext.Orders.Find(OrderID);
+            Session["OrderID"] = OrderID;
             Session["Order"] = OrderTicket;
             //Get payment input
             OrderInfo order = new OrderInfo();

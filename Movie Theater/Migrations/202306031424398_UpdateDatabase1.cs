@@ -44,16 +44,16 @@
                         Seat = c.String(),
                         EarlyDiscount = c.String(),
                         Order_Id = c.Int(),
-                        Showing_Id = c.Int(),
+                        Showtimes_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Orders", t => t.Order_Id)
-                .ForeignKey("dbo.Showings", t => t.Showing_Id)
+                .ForeignKey("dbo.Showtimes", t => t.Showtimes_Id)
                 .Index(t => t.Order_Id)
-                .Index(t => t.Showing_Id);
+                .Index(t => t.Showtimes_Id);
             
             CreateTable(
-                "dbo.Showings",
+                "dbo.Showtimes",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),

@@ -71,7 +71,7 @@ namespace Movie_Theater.Controllers
                 // You can return an error view or redirect to an error page
                 return RedirectToAction("NotFound", "Error");
             }
-            var viewModel = new ShowingViewModel
+            var viewModel = new ShowtimesViewModel
             {
                 Movie = movie,
                 Movies = movies,
@@ -83,13 +83,13 @@ namespace Movie_Theater.Controllers
             if (defaultTheatre != null)
             {
                 // Filter showings by movie and default theater
-                viewModel.Showings = _dbContext.Showings.Where(s => s.Movie.Id == movie.Id && s.TheatreId == defaultTheatre.Id && s.EndTime > DateTime.Now).ToList();
-                viewModel.ShowingIds = _dbContext.Showings.Where(s => s.Movie.Url == name && s.TheatreId == defaultTheatre.Id && s.EndTime > DateTime.Now).Select(s => s.Id).ToList();
-                viewModel.ShowingSelectId = viewModel.Showings.FirstOrDefault()?.Id ?? 0;
+                viewModel.Showtimes = _dbContext.Showtimes.Where(s => s.Movie.Id == movie.Id && s.TheatreId == defaultTheatre.Id && s.EndTime > DateTime.Now).ToList();
+                viewModel.ShowtimesIds = _dbContext.Showtimes.Where(s => s.Movie.Url == name && s.TheatreId == defaultTheatre.Id && s.EndTime > DateTime.Now).Select(s => s.Id).ToList();
+                viewModel.ShowtimesSelectId = viewModel.Showtimes.FirstOrDefault()?.Id ?? 0;
             }
             else
             {
-                viewModel.Showings = new List<Showing>();
+                viewModel.Showtimes = new List<Showtimes>();
             }
 
             return View(viewModel);
@@ -98,7 +98,7 @@ namespace Movie_Theater.Controllers
         public ActionResult GetShowings(string name, int theatreId)
         {
             _dbContext.Configuration.ProxyCreationEnabled = false;
-            var showings = _dbContext.Showings.Where(s => s.Movie.Url == name && s.TheatreId == theatreId && s.EndTime > DateTime.Now).ToList();
+            var showings = _dbContext.Showtimes.Where(s => s.Movie.Url == name && s.TheatreId == theatreId && s.EndTime > DateTime.Now).ToList();
 
             return Json(showings, JsonRequestBehavior.AllowGet);
         }

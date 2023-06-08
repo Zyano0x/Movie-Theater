@@ -1,4 +1,4 @@
-﻿@model Movie_Theater.ViewModels.ShowingViewModel
+﻿@model Movie_Theater.ViewModels.ShowtimesViewModel
 @using System.Linq;
 
 @{
@@ -68,7 +68,7 @@
                 </div>
                 <div class="row sm-gutter box-movie" style="flex-wrap: nowrap;margin-left: 0; margin-right: 0">
                     @{
-                        List<int> lstMovieId = (from ms in Model.Showings where ms.EndTime > DateTime.Now select ms.MovieId).ToList();
+                        List<int> lstMovieId = (from ms in Model.Showtimes where ms.EndTime > DateTime.Now select ms.MovieId).ToList();
                         foreach (var movie in Model.Movies)
                         {
                             if (movie.ReleaseDate <= DateTime.Now && lstMovieId.Contains(movie.Id))

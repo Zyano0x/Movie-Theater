@@ -26,7 +26,7 @@ namespace Movie_Theater.Controllers
         {
             if (page == null) page = 1;
             //Chỉ lấy 2 loại phim : Chưa khởi chiếu && đã khởi chiếu và có lịch chiếu khả dụng
-            var movies = from m in _dbContext.Movies where m.ReleaseDate > DateTime.Now || _dbContext.Showings.Any(ms => ms.MovieId == m.Id && ms.EndTime > DateTime.Now) select m;
+            var movies = from m in _dbContext.Movies where m.ReleaseDate > DateTime.Now || _dbContext.Showtimes.Any(ms => ms.MovieId == m.Id && ms.EndTime > DateTime.Now) select m;
             int pageSize = 10;
             int pageNum = page ?? 1;
 
@@ -59,7 +59,7 @@ namespace Movie_Theater.Controllers
                 if (FilterMoviesByType == "MoviesInTheater")
                 {
                     ViewBag.name = "Phim Đang Chiếu";
-                    movies = movies.Where(m => m.ReleaseDate <= DateTime.Now && _dbContext.Showings.Any(ms => ms.MovieId == m.Id && ms.EndTime > DateTime.Now));
+                    movies = movies.Where(m => m.ReleaseDate <= DateTime.Now && _dbContext.Showtimes.Any(ms => ms.MovieId == m.Id && ms.EndTime > DateTime.Now));
                     ViewBag.heading = "DANH SÁCH PHIM : ĐANG CHIẾU";
                 }
                 else if (FilterMoviesByType == "UpcomingMovies")
@@ -213,7 +213,7 @@ namespace Movie_Theater.Controllers
                 Reviews = _dbContext.Reviews.ToList(),
                 Users = _dbContext.Users.ToList(),
                 Crews = _dbContext.Crews.ToList(),
-                Showings = _dbContext.Showings.ToList(),
+                Showings = _dbContext.Showtimes.ToList(),
                 PosterPath = movie.PosterPath,
                 TrailerUrl = movie.TrailerUrl,
                 Url = movie.Url,

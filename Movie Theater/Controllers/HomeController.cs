@@ -25,10 +25,10 @@ namespace Movie_Theater.Controllers
             ViewBag.NewsHome = newsHome;
             ViewBag.NewsHot = newsHot;
 
-            var movie = new ShowingViewModel
+            var movie = new ShowtimesViewModel
             {
                 Movies = _dbContext.Movies,
-                Showings = _dbContext.Showings
+                Showtimes = _dbContext.Showtimes
             };
             return View(movie);
         }

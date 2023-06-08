@@ -34,7 +34,7 @@ namespace Movie_Theater
                         validateInterval: TimeSpan.FromMinutes(30),
                         regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
                 }
-            });            
+            });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // Enables the application to temporarily store user information when they are verifying the second factor in the two-factor authentication process.
@@ -63,24 +63,6 @@ namespace Movie_Theater
             //    ClientId = "",
             //    ClientSecret = ""
             //});
-            // Configure authentication for the user area
-            app.UseCookieAuthentication(new CookieAuthenticationOptions
-            {
-                AuthenticationType = "UserCookie", // Unique authentication type for user area
-                LoginPath = new PathString("~/Account/Login"), // Replace with the appropriate URL for the user login page
-            });
-
-
-            // Configure authentication for the admin area
-            app.Map("/Admin", adminApp =>
-            {
-                adminApp.UseCookieAuthentication(new CookieAuthenticationOptions
-                {
-                    AuthenticationType = "AdminCookie", // Unique authentication type for admin area
-                    LoginPath = new PathString("/Admin/Account/Login"), // Replace with the appropriate URL for the admin login page
-                });
-            });
-
         }
     }
 }
