@@ -21,7 +21,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
         public ActionResult Index(string Searchtext,int? page)
         {
             if (page == null) page = 1;
-            int pageSize = 5;
+            int pageSize = 1;
             int pageNum = page ?? 1;
             var lstNews = from s in _dbContext.News select s;
             if(!string.IsNullOrEmpty(Searchtext))

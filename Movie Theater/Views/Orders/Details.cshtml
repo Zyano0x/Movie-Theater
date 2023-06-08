@@ -32,16 +32,12 @@
                 <th class="col-md-2">
                     Giá vé
                 </th>
-                <th class="col-md-1">
+                <th class="col-md-2">
                     Ghế
                 </th>
                 <th class="col-md-2">
                     Rạp
                 </th>
-                @if (Model.Status == OrderStatus.Pending)
-                {
-                    <th class="col-md-1"></th>
-                }
             </tr>
         </thead>
 
@@ -58,7 +54,7 @@
                     <td class="col-md-2">
                         @Html.DisplayFor(modelItem => tic.Price)
                     </td>
-                    <td class="col-md-1">
+                    <td class="col-md-2">
                         @Html.DisplayFor(modelItem => tic.Seat)
                     </td>
                     <td class="col-md-2">
@@ -89,13 +85,13 @@
         </tr>
     </table>
     <p class="text-align-end">
-        <a href="javascript:history.go(-1)" class="btn btn btn-back font-weight-600" style="border: unset; margin-right: 5px; width: 111px;">Trở lại</a>
+        <a href="javascript:history.go(-1)" class="btn btn btn-back font-weight-600" style="border: unset; margin-right: 7px; width: 111px;">Trở Lại</a>
         @if (Model.Status == OrderStatus.Pending)
         {
-            @Html.ActionLink("Thêm ghế", "Edit", "Orders", new { OrderId = Model.Id }, new { @class = "btn btn-primary mr-2 white-color font-weight-600", style = "width: 111px; background-color: #f7c12f; border: unset;" })
+            @Html.ActionLink("Thêm/Xóa Ghế", "Edit", "Orders", new { OrderId = Model.Id }, new { @class = "btn btn-primary mr-2 white-color font-weight-600", style = "background-color: #f7c12f; border: unset;" })
             @*<button type="button" class="btn btn-success white-color font-weight-600" id="checkoutButton" style="width: 111px; background-color: #f7c12f; border: unset;">Thanh Toán</button>*@
-            @Html.ActionLink("Thanh Toán", "Checkout", "Orders", new { OrderId = Model.Id }, new { @class = "btn btn-success white-color font-weight-600", style = "width: 111px; background-color: #f7c12f; border: unset;" })
-            <button type="button" class="btn btn-danger" id="cancelButton">Hủy Bỏ</button>
+            @Html.ActionLink("Thanh Toán", "Checkout", "Orders", new { OrderId = Model.Id }, new { @class = "btn btn-success white-color font-weight-600", style = "width: 111px; background-color: #f7c12f; border: unset; margin-right: 6px;" })
+            <button style = "width: 111px; border: unset;" type="button" class="btn btn-danger font-weight-600" id="cancelButton">Hủy Bỏ</button>
         }
     </p>
 </div>
