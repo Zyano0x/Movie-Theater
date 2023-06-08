@@ -70,21 +70,26 @@
 
                             <tr>
                                 <td class="col-md-1">
-                                    @if (item.Status != Movie_Theater.Models.OrderStatus.Cancelled)
-                                    {
-                                        <input type="checkbox" class="check-box-item" value="@item.Id" />
-                                    }
-                                </td>
-                                <td class="col-md-2">
-                                    @{
-                                        var movieTitle = "";
-                                        var firstTicket = item.Tickets.FirstOrDefault();
-                                        if (firstTicket != null)
+                                    <div style="display: flex; justify-content: center; min-width: 65.84px;">
+                                        @if (item.Status != Movie_Theater.Models.OrderStatus.Cancelled)
                                         {
-                                            movieTitle = firstTicket.Showing.Movie.Title;
+                                            <input type="checkbox" class="check-box-item" value="@item.Id" />
                                         }
-                                    }
-                                    @movieTitle
+                                    </div>
+                                </td>
+
+                                <td class="col-md-2" colspan="1">
+                                    <div class="min-height-content">
+                                        @{
+                                            var movieTitle = "";
+                                            var firstTicket = item.Tickets.FirstOrDefault();
+                                            if (firstTicket != null)
+                                            {
+                                                movieTitle = firstTicket.Showing.Movie.Title;
+                                            }
+                                        }
+                                        @movieTitle
+                                    </div>
                                 </td>
                                 <td class="col-md-1">
                                     @Html.DisplayFor(modelItem => item.User.UserName)
@@ -109,30 +114,30 @@
                                 @{
                                     if (item.Status == Movie_Theater.Models.OrderStatus.Pending)
                                     {
-                                        <td id="order-status-@item.Id btn-cancel" class="col-md-2" style="color: red">
+                                        <td class="order-status col-md-2" id="order-status-@item.Id" style="color: red">
                                             Chưa thanh toán
                                         </td>
                                     }
                                     else if (item.Status != Movie_Theater.Models.OrderStatus.Cancelled)
                                     {
-                                        <td id="order-status-@item.Id btn-cancel" class="col-md-2" style="color: lime">
+                                        <td class="order-status col-md-2" id="order-status-@item.Id" style="color: lime">
                                             Đã thanh toán
                                         </td>
                                     }
                                     else
                                     {
-                                        <td id="order-status-@item.Id btn-cancel" class="col-md-2" style="color: yellow">
+                                        <td class="order-status col-md-2" id="order-status-@item.Id" style="color: yellow">
                                             Đã hủy
                                         </td>
                                     }
                                 }
                                 <td class="col-md-1">
-                                    @if (item.Status != Movie_Theater.Models.OrderStatus.Cancelled)
-                                    {
-                                        <div style="display: flex; justify-content: space-between">
-                                            <button style="margin-right: 2px; border-radius: 4px; " type="button" class="btn btn-danger cancel-button font-weight-600" data-order-id="@item.Id">Hủy</button>
-                                        </div>
-                                    }
+                                    <div style="display: flex; justify-content: space-between; min-width: 69.33px;">
+                                        @if (item.Status != Movie_Theater.Models.OrderStatus.Cancelled)
+                                        {
+                                            <button style="margin-right: 2px; border-radius: 4px;" type="button" class="btn btn-danger cancel-button font-weight-600" data-order-id="@item.Id">Hủy</button>
+                                        }
+                                    </div>
                                 </td>
                             </tr>
                         }
@@ -148,6 +153,15 @@
         </div>
     </div>
 </section>
+
+<style>
+    .min-height-content {
+        min-height: 30.40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
 
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script>
@@ -183,9 +197,12 @@
                     success: function (rs) {
                         checkBox.each(function () {
                             if (this.checked) {
-                                window.location.reload(true);
+                                var row = $(this).closest('tr');
+                                $(row).find('.order-status').text('Đã hủy').css('color', 'yellow');
+                                $(row).find('.cancel-button, .check-box-item').remove();
                             }
-                        });
+                        }); 
+                        $('body input[type="checkbox"]').prop('checked', false);
                     }
                 });
             }
@@ -227,6 +244,7 @@
         });
     });
 
+    //Cancel
     $(document).ready(function () {
         $('.cancel-button').click(function () {
             var button = $(this);
@@ -242,6 +260,7 @@
                         if (data.success) {
                             alert('Đơn hàng đã được hủy thành công!');
                             $('#order-status-' + orderId).text('Đã hủy').css('color', 'yellow');
+                            button.closest('tr').find('.check-box-item').remove();
                             button.remove();
                         } else {
                             alert(data.error);

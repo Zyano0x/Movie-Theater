@@ -36,16 +36,18 @@
             var item = itemGroup.First();
 
             <tr>
-                <td class="col-md-2">
-                    @{
-                        var movieTitle = "";
-                        var firstTicket = item.Tickets.FirstOrDefault();
-                        if (firstTicket != null)
-                        {
-                            movieTitle = firstTicket.Showing.Movie.Title;
+                <td class="col-md-2" colspan="1">
+                    <div class="min-height-content">
+                        @{
+                            var movieTitle = "";
+                            var firstTicket = item.Tickets.FirstOrDefault();
+                            if (firstTicket != null)
+                            {
+                                movieTitle = firstTicket.Showing.Movie.Title;
+                            }
                         }
-                    }
-                    @movieTitle
+                        @movieTitle
+                    </div>
                 </td>
                 <td class="col-md-1">
                     @Html.DisplayFor(modelItem => item.OrderDate)
@@ -102,6 +104,16 @@
 
     </table>
 </div>
+
+<style>
+    .min-height-content {
+        min-height: 35.75px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script>
     $(document).ready(function () {

@@ -51,6 +51,8 @@ namespace Movie_Theater.Areas.Admin.Controllers
             }
         }
 
+        [Authorize]
+        [HttpPost]
         public ActionResult CancelAll(string ids)
         {
             if (string.IsNullOrEmpty(ids))
