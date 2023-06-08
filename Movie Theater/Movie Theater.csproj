@@ -197,6 +197,7 @@
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\MovieTicketsController.cs" />
     <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\OrdersController.cs" />
     <Compile Include="Areas\Admin\Controllers\TheatresController.cs" />
     <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
@@ -2703,6 +2704,7 @@
     <Content Include="Areas\Admin\Views\Theatres\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Theatres\Create.cshtml" />
     <Content Include="Content\Images\Email\image-6.false" />
+    <Content Include="Areas\Admin\Views\Orders\Index.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
