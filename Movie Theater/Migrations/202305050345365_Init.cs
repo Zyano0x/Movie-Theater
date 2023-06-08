@@ -98,6 +98,7 @@
                 "dbo.Reviews",
                 c => new
                     {
+
                         MovieId = c.Int(nullable: false),
                         UserId = c.String(nullable: false, maxLength: 128),
                         Scores = c.Int(nullable: false),
