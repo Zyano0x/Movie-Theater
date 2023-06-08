@@ -9,7 +9,7 @@ namespace Movie_Theater.Models
 
     public class MoviePrice
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         public Decimal MatineePrice { get; set; }
         public Decimal TuesdayPrice { get; set; }
         public Decimal WeekendPrice { get; set; }

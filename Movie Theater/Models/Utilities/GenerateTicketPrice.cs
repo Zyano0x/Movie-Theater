@@ -24,7 +24,7 @@ namespace Movie_Theater.Models.Utilities
             Boolean bolBefore5 = false; //Variable to check whether it is = or < 5pm
 
             //Create movieprice object that references the most recent record of the MoviePriceID
-            MoviePrice movieprice = _dbContext.MoviePrices.FirstOrDefault(x => x.id == 1);
+            MoviePrice movieprice = _dbContext.MoviePrices.FirstOrDefault(x => x.Id == 1);
 
             ////Get prices of different showings to be able to compare and populate booleans
             Decimal MoviePriceMat = movieprice.MatineePrice;

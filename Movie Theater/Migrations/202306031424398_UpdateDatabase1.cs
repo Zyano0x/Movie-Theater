@@ -13,13 +13,13 @@
                 "dbo.MoviePrices",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
+                        Id = c.Int(nullable: false, identity: true),
                         MatineePrice = c.Decimal(nullable: false, precision: 18, scale: 2),
                         TuesdayPrice = c.Decimal(nullable: false, precision: 18, scale: 2),
                         WeekendPrice = c.Decimal(nullable: false, precision: 18, scale: 2),
                         WeekPrice = c.Decimal(nullable: false, precision: 18, scale: 2),
                     })
-                .PrimaryKey(t => t.id);
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.Orders",

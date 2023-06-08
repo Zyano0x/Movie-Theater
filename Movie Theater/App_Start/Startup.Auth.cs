@@ -63,6 +63,24 @@ namespace Movie_Theater
             //    ClientId = "",
             //    ClientSecret = ""
             //});
+            // Configure authentication for the user area
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationType = "UserCookie", // Unique authentication type for user area
+                LoginPath = new PathString("~/Account/Login"), // Replace with the appropriate URL for the user login page
+            });
+
+
+            // Configure authentication for the admin area
+            app.Map("/Admin", adminApp =>
+            {
+                adminApp.UseCookieAuthentication(new CookieAuthenticationOptions
+                {
+                    AuthenticationType = "AdminCookie", // Unique authentication type for admin area
+                    LoginPath = new PathString("/Admin/Account/Login"), // Replace with the appropriate URL for the admin login page
+                });
+            });
+
         }
     }
 }
