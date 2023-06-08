@@ -2,6 +2,7 @@
 @using Microsoft.AspNet.Identity;
 @{
     ViewBag.Title = Model.Title + " - A Movie";
+    ViewBag.MovieId = Model.Id;
 }
 
 <div class="wrapper-container padding-top-10">
@@ -271,6 +272,7 @@
                                             </span>
                                         </div>
                                         <p>@review.Comment</p>
+
                                         <div class="box-movie-info__item__more">
                                             <span class="more-info">
                                                 Xem thêm
@@ -289,39 +291,6 @@
         }
     }
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var editCommentBtns = document.querySelectorAll('.edit-comment-btn');
 
-        editCommentBtns.forEach(function (btn) {
-            btn.addEventListener('click', function () {
-                var reviewId = btn.getAttribute('data-review-id');
-                var commentElement = document.getElementById('review-comment-' + reviewId);
 
-                var newComment = window.prompt('Enter the new comment', commentElement.innerText);
-                if (newComment !== null) {
-                    updateReviewComment(reviewId, newComment);
-                }
-            });
-        });
 
-        function updateReviewComment(reviewId, newComment) {
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', '/Movies/UpdateComment', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    // Update the comment element with the new comment
-                    var commentElement = document.getElementById('review-comment-' + reviewId);
-                    commentElement.innerText = newComment;
-                } else {
-                    console.error('Error updating the comment. Status code: ' + xhr.status);
-                }
-            };
-            xhr.onerror = function () {
-                console.error('Error updating the comment. Network error.');
-            };
-            xhr.send('reviewId=' + reviewId + '&newComment=' + newComment);
-        }
-    });
-</script>

@@ -254,6 +254,10 @@
     <Compile Include="Migrations\202306061004276_PopulateMoviePrice.designer.cs">
       <DependentUpon>202306061004276_PopulateMoviePrice.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202306080322301_UpdateReview.cs" />
+    <Compile Include="Migrations\202306080322301_UpdateReview.designer.cs">
+      <DependentUpon>202306080322301_UpdateReview.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\AccessDeniedAuthorizeAttribute.cs" />
     <Compile Include="Models\AdminAuthorizeAttribute.cs" />
     <Compile Include="Models\Common\Common.cs" />
@@ -265,6 +269,7 @@
     <Compile Include="Models\Seat.cs" />
     <Compile Include="Models\Utilities\GenerateConfirmationCode.cs" />
     <Compile Include="Models\Utilities\GenerateTicketPrice.cs" />
+    <Compile Include="ViewModels\ReviewViewModel.cs" />
     <Compile Include="ViewModels\TicketViewModel.cs" />
     <Compile Include="VNPay\OrderInfo.cs" />
     <Compile Include="VNPay\VnPayLibary.cs" />
@@ -2840,6 +2845,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202306061004276_PopulateMoviePrice.resx">
       <DependentUpon>202306061004276_PopulateMoviePrice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306080322301_UpdateReview.resx">
+      <DependentUpon>202306080322301_UpdateReview.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

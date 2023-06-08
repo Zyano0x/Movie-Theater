@@ -1,25 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using Newtonsoft.Json;
 
-namespace Movie_Theater.Models
+namespace Movie_Theater.ViewModels
 {
-    public class Review
+    public class ReviewViewModel
     {
-        [Key]
         public int Id { get; set; }
-
-        public int MovieId { get; set; }
-        [JsonIgnore]
-        public Movie Movie { get; set; }
-
-        public string UserId { get; set; }
-        [JsonIgnore]
-        public ApplicationUser User { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập điểm!")]
         public int Scores { get; set; }
@@ -30,5 +19,7 @@ namespace Movie_Theater.Models
         public DateTime Time { get; set; }
 
         public bool IsChanged { get; set; }
+
+        public string UserName { get; set; }
     }
 }
