@@ -28,6 +28,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
             }
             return View(ticket);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Ticket ticket)

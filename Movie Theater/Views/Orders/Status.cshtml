@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "Trạng Thái - A Movie";
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @*<!DOCTYPE html>
@@ -40,10 +40,8 @@
     </body>
     </html>*@
 
-<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_styles.css">
-<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_responsive.css">
 <title>Trạng Thái - A Movie</title>
-<div class="container product_section_container">
+<div class="wrapper-container ">
     <div class="row">
         <div class="col product_section clearfix">
 
@@ -53,15 +51,11 @@
 
             <div class="row">
                 <div class="col-md-12" id="load_data">
-                    <h4 style="text-align:center">@ViewBag.Message</h4>
+                    <h3 style="text-align: center; margin-bottom: 80px; margin-top: 100px; color: #f7c12f"><i style="color: #00c5cb" class="fa-solid fa-champagne-glasses"></i> @ViewBag.Message</h3>
                 </div>
                 <br />
-                <a href="/Home" class="btn btn-primary" style="text-align:center">Back to home</a>
+                <a href="/Home" class="btn" style="max-width: 160px; margin: auto; text-align: center; background-color: #000; font-weight: 600; ">Trở về trang chủ</a>
             </div>
         </div>
     </div>
 </div>
-
-@section scripts{
-    <script src="~/Content/assets/js/categories_custom.js"></script>
-}

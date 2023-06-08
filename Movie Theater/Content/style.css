@@ -3,6 +3,10 @@
     padding: 0 5px;
 }
 
+.btn:hover {
+    opacity: 0.9;
+}
+
 .white-color {
     color: #fff !important;
 }
@@ -18,6 +22,15 @@
 
 .mr-2 {
     margin-right: 10px !important;
+}
+
+.table > tbody > tr > td,
+.table > tbody > tr > th,
+.table > tfoot > tr > td,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > thead > tr > th {
+    vertical-align: middle;
 }
 
 .table thead th, .table tbody td {
