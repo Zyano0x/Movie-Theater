@@ -33,7 +33,7 @@
                             </div>
                             <div id="showtimes-container">
                                 @Html.LabelFor(model => model.ShowtimesIds, "Lịch Chiếu : ", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
+                                <div class="col-md-10" style=" padding: 0;">
                                     @Html.DropDownListFor(model => model.ShowtimesSelectId, new SelectList(Model.Showtimes, "Id", "StartTime"), new { @class = "form-control" })
                                     @Html.ValidationMessageFor(model => model.ShowtimesIds, "", new { @class = "text-danger" })
                                 </div>

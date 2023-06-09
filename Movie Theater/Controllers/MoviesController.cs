@@ -148,38 +148,6 @@ namespace Movie_Theater.Controllers
             return RedirectToAction("Details", "Movies", new { name = url });
         }
 
-        [HttpPost]
-        public ActionResult Update(int reviewId, string newComment)
-        {
-            try
-            {
-                // Retrieve the review from the database or storage
-                var review = _dbContext.Reviews.FirstOrDefault(r => r.Id == reviewId);
-
-                if (review != null)
-                {
-                    // Update the review comment
-                    review.Comment = newComment;
-
-                    // Save the changes to the database or storage
-                    _dbContext.SaveChanges();
-
-                    // Return the updated comment in the response
-                    return Json(new { updatedComment = newComment });
-                }
-                else
-                {
-                    // Review not found, return an error response
-                    return Json(new { error = "Review not found" });
-                }
-            }
-            catch (Exception ex)
-            {
-                // Handle any exceptions that occurred during the update process
-                return Json(new { error = ex.Message });
-            }
-        }
-
         public ActionResult Details(string name)
         {
             var userLogin = System.Web.HttpContext.Current.User.Identity.GetUserId();

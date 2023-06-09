@@ -195,7 +195,6 @@
     <Compile Include="Areas\Admin\Controllers\CrewsController.cs" />
     <Compile Include="Areas\Admin\Controllers\GenresController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
-    <Compile Include="Areas\Admin\Controllers\MovieTicketsController.cs" />
     <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
     <Compile Include="Areas\Admin\Controllers\OrdersController.cs" />
     <Compile Include="Areas\Admin\Controllers\TheatresController.cs" />
