@@ -2,7 +2,7 @@
 {
     using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class UpdateDatabase1 : DbMigration
     {
         public override void Up()
@@ -12,77 +12,77 @@
             CreateTable(
                 "dbo.MoviePrices",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        MatineePrice = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        TuesdayPrice = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        WeekendPrice = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        WeekPrice = c.Decimal(nullable: false, precision: 18, scale: 2),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    MatineePrice = c.Decimal(nullable: false, precision: 18, scale: 2),
+                    TuesdayPrice = c.Decimal(nullable: false, precision: 18, scale: 2),
+                    WeekendPrice = c.Decimal(nullable: false, precision: 18, scale: 2),
+                    WeekPrice = c.Decimal(nullable: false, precision: 18, scale: 2),
+                })
                 .PrimaryKey(t => t.Id);
-            
+
             CreateTable(
                 "dbo.Orders",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        ConfirmationCode = c.Int(nullable: false),
-                        Status = c.Int(nullable: false),
-                        OrderDate = c.DateTime(nullable: false),
-                        User_Id = c.String(maxLength: 128),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    ConfirmationCode = c.Int(nullable: false),
+                    Status = c.Int(nullable: false),
+                    OrderDate = c.DateTime(nullable: false),
+                    User_Id = c.String(maxLength: 128),
+                })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.User_Id)
                 .Index(t => t.User_Id);
-            
+
             CreateTable(
                 "dbo.Tickets",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Price = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        Seat = c.String(),
-                        EarlyDiscount = c.String(),
-                        Order_Id = c.Int(),
-                        Showtimes_Id = c.Int(),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    Price = c.Decimal(nullable: false, precision: 18, scale: 2),
+                    Seat = c.String(),
+                    EarlyDiscount = c.String(),
+                    Order_Id = c.Int(),
+                    Showing_Id = c.Int(),
+                })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Orders", t => t.Order_Id)
-                .ForeignKey("dbo.Showtimes", t => t.Showtimes_Id)
+                .ForeignKey("dbo.Showings", t => t.Showing_Id)
                 .Index(t => t.Order_Id)
-                .Index(t => t.Showtimes_Id);
-            
+                .Index(t => t.Showing_Id);
+
             CreateTable(
-                "dbo.Showtimes",
+                "dbo.Showings",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        MovieId = c.Int(nullable: false),
-                        StartTime = c.DateTime(nullable: false),
-                        EndTime = c.DateTime(nullable: false),
-                        TheatreId = c.Int(nullable: false),
-                        SpecialEventStatus = c.Int(nullable: false),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    MovieId = c.Int(nullable: false),
+                    StartTime = c.DateTime(nullable: false),
+                    EndTime = c.DateTime(nullable: false),
+                    TheatreId = c.Int(nullable: false),
+                    SpecialEventStatus = c.Int(nullable: false),
+                })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Movies", t => t.MovieId, cascadeDelete: true)
                 .ForeignKey("dbo.Theatres", t => t.TheatreId, cascadeDelete: true)
                 .Index(t => t.MovieId)
                 .Index(t => t.TheatreId);
-            
+
             CreateTable(
                 "dbo.Theatres",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    Name = c.String(nullable: false),
+                })
                 .PrimaryKey(t => t.Id);
-            
+
             AddColumn("dbo.Seats", "Name", c => c.String());
             DropColumn("dbo.Seats", "State");
             DropColumn("dbo.Seats", "Cost");
         }
-        
+
         public override void Down()
         {
             AddColumn("dbo.Seats", "Cost", c => c.Long(nullable: false));
