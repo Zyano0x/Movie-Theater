@@ -24,6 +24,6 @@ namespace Movie_Theater.ViewModels
         public String EarlyDiscount { get; set; }
 
         public virtual Order Order { get; set; }
-        public virtual Showing Showing { get; set; }
+        public virtual Showtimes Showing { get; set; }
     }
 }

@@ -50,10 +50,16 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Downloads\ckfinder\ckfinder\bin\Release\CKFinder.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.7.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\lib\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=7.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.7.0.0\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -66,6 +72,12 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -183,8 +195,8 @@
     <Compile Include="Areas\Admin\Controllers\CrewsController.cs" />
     <Compile Include="Areas\Admin\Controllers\GenresController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
-    <Compile Include="Areas\Admin\Controllers\MovieTicketsController.cs" />
     <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\OrdersController.cs" />
     <Compile Include="Areas\Admin\Controllers\TheatresController.cs" />
     <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
@@ -257,6 +269,10 @@
     <Compile Include="Migrations\202306080322301_UpdateReview.cs" />
     <Compile Include="Migrations\202306080322301_UpdateReview.designer.cs">
       <DependentUpon>202306080322301_UpdateReview.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306081631123_RenameShowingsTable.cs" />
+    <Compile Include="Migrations\202306081631123_RenameShowingsTable.Designer.cs">
+      <DependentUpon>202306081631123_RenameShowingsTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\AccessDeniedAuthorizeAttribute.cs" />
     <Compile Include="Models\AdminAuthorizeAttribute.cs" />
@@ -2431,13 +2447,13 @@
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\responsive.css" />
     <Content Include="Content\style.css" />
-    <Compile Include="Areas\Admin\Controllers\ShowingsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ShowtimesController.cs" />
     <Compile Include="Areas\Admin\Controllers\MoviesController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CrewsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManagesController.cs" />
-    <Compile Include="Controllers\ShowingsController.cs" />
+    <Compile Include="Controllers\ShowtimesController.cs" />
     <Compile Include="Controllers\MoviesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -2457,7 +2473,7 @@
     <Compile Include="Models\Movie.cs" />
     <Compile Include="Models\MovieCrew.cs" />
     <Compile Include="Models\MovieGenre.cs" />
-    <Compile Include="Models\Showing.cs" />
+    <Compile Include="Models\Showtimes.cs" />
     <Compile Include="Models\Ticket.cs" />
     <Compile Include="Models\Review.cs" />
     <Compile Include="Models\News.cs" />
@@ -2467,7 +2483,7 @@
     <Compile Include="ViewModels\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="ViewModels\ShowingViewModel.cs" />
+    <Compile Include="ViewModels\ShowtimesViewModel.cs" />
     <Compile Include="ViewModels\MovieViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -2670,9 +2686,9 @@
     <Content Include="Areas\Admin\Views\Movies\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Account\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Account\New.cshtml" />
-    <Content Include="Areas\Admin\Views\Showings\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Showings\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Showings\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Showtimes\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Showtimes\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Showtimes\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\News\Index.cshtml" />
     <Content Include="Areas\Admin\Views\News\Create.cshtml" />
     <Content Include="Areas\Admin\Views\News\Edit.cshtml" />
@@ -2691,6 +2707,7 @@
     <Content Include="Areas\Admin\Views\Theatres\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Theatres\Create.cshtml" />
     <Content Include="Content\Images\Email\image-6.false" />
+    <Content Include="Areas\Admin\Views\Orders\Index.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -2848,6 +2865,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202306080322301_UpdateReview.resx">
       <DependentUpon>202306080322301_UpdateReview.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306081631123_RenameShowingsTable.resx">
+      <DependentUpon>202306081631123_RenameShowingsTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

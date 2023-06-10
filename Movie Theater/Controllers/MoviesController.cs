@@ -26,7 +26,7 @@ namespace Movie_Theater.Controllers
         {
             if (page == null) page = 1;
             //Chỉ lấy 2 loại phim : Chưa khởi chiếu && đã khởi chiếu và có lịch chiếu khả dụng
-            var movies = from m in _dbContext.Movies where m.ReleaseDate > DateTime.Now || _dbContext.Showings.Any(ms => ms.MovieId == m.Id && ms.EndTime > DateTime.Now) select m;
+            var movies = from m in _dbContext.Movies where m.ReleaseDate > DateTime.Now || _dbContext.Showtimes.Any(ms => ms.MovieId == m.Id && ms.EndTime > DateTime.Now) select m;
             int pageSize = 10;
             int pageNum = page ?? 1;
 
@@ -59,7 +59,7 @@ namespace Movie_Theater.Controllers
                 if (FilterMoviesByType == "MoviesInTheater")
                 {
                     ViewBag.name = "Phim Đang Chiếu";
-                    movies = movies.Where(m => m.ReleaseDate <= DateTime.Now && _dbContext.Showings.Any(ms => ms.MovieId == m.Id && ms.EndTime > DateTime.Now));
+                    movies = movies.Where(m => m.ReleaseDate <= DateTime.Now && _dbContext.Showtimes.Any(ms => ms.MovieId == m.Id && ms.EndTime > DateTime.Now));
                     ViewBag.heading = "DANH SÁCH PHIM : ĐANG CHIẾU";
                 }
                 else if (FilterMoviesByType == "UpcomingMovies")
@@ -148,38 +148,6 @@ namespace Movie_Theater.Controllers
             return RedirectToAction("Details", "Movies", new { name = url });
         }
 
-        [HttpPost]
-        public ActionResult Update(int reviewId, string newComment)
-        {
-            try
-            {
-                // Retrieve the review from the database or storage
-                var review = _dbContext.Reviews.FirstOrDefault(r => r.Id == reviewId);
-
-                if (review != null)
-                {
-                    // Update the review comment
-                    review.Comment = newComment;
-
-                    // Save the changes to the database or storage
-                    _dbContext.SaveChanges();
-
-                    // Return the updated comment in the response
-                    return Json(new { updatedComment = newComment });
-                }
-                else
-                {
-                    // Review not found, return an error response
-                    return Json(new { error = "Review not found" });
-                }
-            }
-            catch (Exception ex)
-            {
-                // Handle any exceptions that occurred during the update process
-                return Json(new { error = ex.Message });
-            }
-        }
-
         public ActionResult Details(string name)
         {
             var userLogin = System.Web.HttpContext.Current.User.Identity.GetUserId();
@@ -213,7 +181,7 @@ namespace Movie_Theater.Controllers
                 Reviews = _dbContext.Reviews.ToList(),
                 Users = _dbContext.Users.ToList(),
                 Crews = _dbContext.Crews.ToList(),
-                Showings = _dbContext.Showings.ToList(),
+                Showings = _dbContext.Showtimes.ToList(),
                 PosterPath = movie.PosterPath,
                 TrailerUrl = movie.TrailerUrl,
                 Url = movie.Url,

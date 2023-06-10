@@ -41,11 +41,11 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>Tên người dùng</th>
-                            <th>Email</th>
-                            <th>Mã tài khoản</th>
-                            <th>Trạng thái</th>
-                            <th></th>
+                            <th class="col-md-3">Tên người dùng</th>
+                            <th class="col-md-3">Email</th>
+                            <th class="col-md-3">Mã tài khoản</th>
+                            <th class="col-md-1">Trạng thái</th>
+                            <th class="col-md-2"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -54,26 +54,26 @@
                             foreach (var item in Model)
                             {
                                 <tr>
-                                    <td>
+                                    <td class="col-md-3">
                                         @Html.DisplayFor(modelItem => item.UserName)
                                     </td>
-                                    <td>
+                                    <td class="col-md-3">
                                         @Html.DisplayFor(modelItem => item.Email)
                                     </td>
-                                    <td>
+                                    <td class="col-md-3">
                                         @item.Id
                                     </td>
-                                    <td>
+                                    <td class="col-md-1">
                                         @if (item.IsEnabled == true)
                                         {
-                                            <span>Enabled</span>
+                                            <span style="color: lime">Active</span>
                                         }
                                         @if (item.IsEnabled == false)
                                         {
-                                            <span>Disabled</span>
+                                            <span style="color: red">Inactive</span>
                                         }
                                     </td>
-                                    <td>
+                                    <td class="col-md-2">
                                         @if (item.IsEnabled == true)
                                         {
                                             <button type="submit" class="btn btn-danger disable-btn" data-id="@item.Id" style="margin: 5px 0;">Vô hiệu hóa</button>
@@ -124,7 +124,7 @@
                     success: function (result) {
                         if (result.success) {
                             btn.removeClass('btn btn-danger disable-btn').addClass('btn btn-primary enable-btn').text('Kích hoạt');
-                            btn.parent().prev().text('Disabled');
+                            btn.parent().prev().text('Disabled').css('color','red');
                         } else {
                             alert(result.message);
                         }
@@ -145,7 +145,7 @@
                     success: function (result) {
                         if (result.success) {
                             btn.removeClass('btn btn-primary enable-btn').addClass('btn btn-danger disable-btn').text('Vô hiệu hóa');
-                            btn.parent().prev().text('Enabled');
+                            btn.parent().prev().text('Enabled').css('color', 'lime');;
                         } else {
                             alert(result.message);
                         }

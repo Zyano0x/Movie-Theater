@@ -30,7 +30,7 @@ namespace Movie_Theater.Models
         public DbSet<MovieGenre> MovieGenres { get; set; }
         public DbSet<MovieCrew> MovieCrews { get; set; }
         public DbSet<Review> Reviews { get; set; }
-        public DbSet<Showing> Showings { get; set; }
+        public DbSet<Showtimes> Showtimes { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Seat> Seats { get; set; }
         public DbSet<MoviePrice> MoviePrices { get; set; }

@@ -1,4 +1,4 @@
-﻿@model Movie_Theater.ViewModels.ShowingViewModel
+﻿@model Movie_Theater.ViewModels.ShowtimesViewModel
 @using System.Linq;
 
 @{
@@ -36,7 +36,7 @@
                                 <a href="@Url.Action("Details", "News", new { name = ViewBag.NewsHome[i].Url})" class="item">
                                     <img src="@ViewBag.NewsHome[i].Img" alt="Ảnh <@i>">
                                     <div class="carousel-caption">
-                                        <h6>@ViewBag.NewsHome[i].Title</h6>
+                                        <h6 style="text-transform: uppercase">@ViewBag.NewsHome[i].Title</h6>
                                         <p>@ViewBag.NewsHome[i].Description</p>
                                     </div>
                                 </a>
@@ -68,7 +68,7 @@
                 </div>
                 <div class="row sm-gutter box-movie" style="flex-wrap: nowrap;margin-left: 0; margin-right: 0">
                     @{
-                        List<int> lstMovieId = (from ms in Model.Showings where ms.EndTime > DateTime.Now select ms.MovieId).ToList();
+                        List<int> lstMovieId = (from ms in Model.Showtimes where ms.EndTime > DateTime.Now select ms.MovieId).ToList();
                         foreach (var movie in Model.Movies)
                         {
                             if (movie.ReleaseDate <= DateTime.Now && lstMovieId.Contains(movie.Id))

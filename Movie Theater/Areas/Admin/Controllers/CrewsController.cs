@@ -19,7 +19,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
         public ActionResult Index(string Searchtext, int? page)
         {
             if (page == null) page = 1;
-            int pageSize = 1;
+            int pageSize = 10;
             int pageNum = page ?? 1;
             var crews = from s in _dbContext.Crews select s;
             if (!string.IsNullOrEmpty(Searchtext))

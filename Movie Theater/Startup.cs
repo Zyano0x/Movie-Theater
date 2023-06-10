@@ -4,6 +4,8 @@ using Microsoft.Owin;
 using Movie_Theater.Models;
 using Owin;
 using System;
+using System.Web.Services.Description;
+using Microsoft.Extensions.DependencyInjection;
 
 [assembly: OwinStartupAttribute(typeof(Movie_Theater.Startup))]
 namespace Movie_Theater

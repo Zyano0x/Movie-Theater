@@ -94,7 +94,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
                 ViewBag.Username = userInfo.Name;
             }
             if (page == null) page = 1;
-            int pageSize = 1;
+            int pageSize = 10;
             int pageNum = page ?? 1;
             var user = from s in _dbContext.Users select s;
             if (!string.IsNullOrEmpty(Searchtext))

@@ -31,7 +31,7 @@ namespace Movie_Theater.Models
         public String EarlyDiscount { get; set; }
 
         public virtual Order Order { get; set; }
-        public virtual Showing Showing { get; set; }
+        public virtual Showtimes Showing { get; set; }
 
         public int SeatId
         {
