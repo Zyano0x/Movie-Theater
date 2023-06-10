@@ -271,7 +271,7 @@
       <DependentUpon>202306080322301_UpdateReview.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\202306081631123_RenameShowingsTable.cs" />
-    <Compile Include="Migrations\202306081631123_RenameShowingsTable.designer.cs">
+    <Compile Include="Migrations\202306081631123_RenameShowingsTable.Designer.cs">
       <DependentUpon>202306081631123_RenameShowingsTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\AccessDeniedAuthorizeAttribute.cs" />

@@ -692,7 +692,6 @@ li:hover .sub-navbar,
         display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
-        text-align: justify;
     }
 
 .box-movie .scores {
