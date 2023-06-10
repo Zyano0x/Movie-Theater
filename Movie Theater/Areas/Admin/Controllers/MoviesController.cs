@@ -19,7 +19,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
         public ActionResult Index(string Searchtext, int? page)
         {
             if (page == null) page = 1;
-            int pageSize = 1;
+            int pageSize = 10;
             int pageNum = page ?? 1;
             var movies = from s in _dbContext.Movies select s;
             if (!string.IsNullOrEmpty(Searchtext))
@@ -232,7 +232,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
             movie.Runtime = movieViewModel.Runtime;
             movie.TrailerUrl = movieViewModel.TrailerUrl;
             movie.PosterPath = movieViewModel.PosterPath;
-            movie.Url = StringHelper.ConvertText(StringHelper.RemoveDiacritics(movieViewModel.Url));
+            movie.Url = StringHelper.ConvertText(StringHelper.RemoveDiacritics(movieViewModel.Title));
 
             // Remove existing genres that are not in the viewModel
             var genresToRemove = movie.MovieGenres.Where(mg => !movieViewModel.GenreIds.Contains(mg.GenreId)).ToList();

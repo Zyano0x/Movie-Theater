@@ -15,6 +15,8 @@
             Sql("INSERT INTO Genres (Name) VALUES (N'Chiến Tranh')");
             Sql("INSERT INTO Genres (Name) VALUES (N'Khoa Học - Viễn Tưởng')");
             Sql("INSERT INTO Genres (Name) VALUES (N'Phiêu Lưu')");
+            Sql("INSERT INTO Genres (Name) VALUES (N'Huyền Bí')");
+            Sql("INSERT INTO Genres (Name) VALUES (N'Anime')");
         }
         
         public override void Down()
