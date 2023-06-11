@@ -3,6 +3,40 @@
     padding: 0 5px;
 }
 
+.btn:hover {
+    opacity: 0.9;
+}
+
+.white-color {
+    color: #fff !important;
+}
+
+.font-weight-600 {
+    font-weight: 600;
+}
+
+.btn-back {
+    background-color: #666e76 !important;
+    color: #fff !important;
+}
+
+.mr-2 {
+    margin-right: 10px !important;
+}
+
+.table > tbody > tr > td,
+.table > tbody > tr > th,
+.table > tfoot > tr > td,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > thead > tr > th {
+    vertical-align: middle;
+}
+
+.table thead th, .table tbody td {
+    text-align: center;
+}
+
 .breadcrumb-item + .breadcrumb-item {
     padding-left: unset;
 }
@@ -16,7 +50,8 @@ body {
     font-size: 15px;
     font-weight: 500;
     box-sizing: border-box;
-    background-color: #f3f3f3;
+    background-color: #212529;
+    color: #fff;
 }
 
 input, select, textarea {
@@ -34,6 +69,10 @@ ul {
     --book-a-ticket-btn-height: 30px;
     --search-height: 42px;
     --search-bg-color: #2f353b !important;
+}
+
+.text-align-end {
+    text-align: end !important;
 }
 
 .padding-top-10 {
@@ -653,7 +692,6 @@ li:hover .sub-navbar,
         display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
-        text-align: justify;
     }
 
 .box-movie .scores {
@@ -717,7 +755,7 @@ li:hover .sub-navbar,
     margin-top: calc(var(--header-navbar-height) + var(--search-height));
     margin-bottom: 20px;
     min-height: 100vh;
-    background-color: #fff;
+    background-color: #212529;
 }
 
     .wrapper-container:before {
@@ -1193,14 +1231,13 @@ ul.box-movie-info__item__content {
             }
 
 /*Admin*/
-.wrapper-container > .heading > i {
+.wrapper-container .heading > i {
     font-size: 25px;
-    color: #f7c12f;
     margin-right: 2px;
 }
 
-.wrapper-container > .heading {
-    text-transform: uppercase;
+.wrapper-container .heading {
+    color: #f7c12f;
 }
 
 /*#loader {

@@ -7,13 +7,13 @@ namespace Movie_Theater.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class AddStatusMovieTicket : IMigrationMetadata
+    public sealed partial class UpdateReview : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddStatusMovieTicket));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(UpdateReview));
         
         string IMigrationMetadata.Id
         {
-            get { return "202305211117059_AddStatusMovieTicket"; }
+            get { return "202306080322301_UpdateReview"; }
         }
         
         string IMigrationMetadata.Source

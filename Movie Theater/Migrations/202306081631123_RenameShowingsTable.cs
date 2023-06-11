@@ -3,16 +3,16 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class AddStatusMovieTicket : DbMigration
+    public partial class RenameShowingsTable : DbMigration
     {
         public override void Up()
         {
-            AddColumn("dbo.MovieTickets", "Status", c => c.Int(nullable: true));
+            RenameTable(name: "dbo.Showings", newName: "Showtimes");
         }
         
         public override void Down()
         {
-            DropColumn("dbo.MovieTickets", "Status");
+            RenameTable(name: "dbo.Showtimes", newName: "Showings");
         }
     }
 }

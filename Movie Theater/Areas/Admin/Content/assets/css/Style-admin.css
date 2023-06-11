@@ -4,8 +4,17 @@ body {
     box-sizing: border-box;
 }
 
+.btn-warning {
+    color: #fff !important;
+}
+
+.btn-success {
+    width: 144px;
+}
+
 .table thead th {
     font-weight: 500;
+    border-top: 1px solid #262f43;
 }
 
 #cke_1_contents {
@@ -44,6 +53,16 @@ select.form-control {
 }
 
 /*Ghi đè - end*/
+.btn-search:hover ,
+#btn-delete-all:hover,
+.delete-btn:hover {
+    opacity: 0.9;
+}
+
+#btn-delete-all {
+    width: 172px;
+}
+
 .width-100-percent {
     width: 100% !important;
 }

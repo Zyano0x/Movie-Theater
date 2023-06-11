@@ -1,0 +1,148 @@
+﻿@model IEnumerable<Movie_Theater.Models.Order>
+
+@{
+    ViewBag.Title = "History";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="wrapper-container">
+    <h5 class="heading"><i class="fa-solid fa-clock-rotate-left"></i> Lịch Sử Đặt Vé</h5>
+    <hr />
+    <table class="table table-bordered">
+        <tr style=" color: #f7c12f;">
+            <th class="col-md-2">
+                Phim
+            </th>
+            <th class="col-md-1">
+                Ngày Đặt
+            </th>
+            <th class="col-md-1">
+                Số Tiền
+            </th>
+            <th class="col-md-3">
+                Ghế
+            </th>
+            <th class="col-md-2">
+                Rạp
+            </th>
+            <th class="col-md-2">
+                T.Thái
+            </th>
+            <th class="col-md-1" style="display: revert"></th>
+        </tr>
+
+        @foreach (var itemGroup in Model.GroupBy(x => x.Id))
+        {
+            var item = itemGroup.First();
+
+            <tr>
+                <td class="col-md-2" colspan="1">
+                    <div class="min-height-content">
+                        @{
+                            var movieTitle = "";
+                            var firstTicket = item.Tickets.FirstOrDefault();
+                            if (firstTicket != null)
+                            {
+                                movieTitle = firstTicket.Showing.Movie.Title;
+                            }
+                        }
+                        @movieTitle
+                    </div>
+                </td>
+                <td class="col-md-1">
+                    @Html.DisplayFor(modelItem => item.OrderDate)
+                </td>
+                <td class="col-md-1">
+                    @Html.DisplayFor(modelItem => item.Total)
+                </td>
+                <td class="col-md-3">
+                    @string.Join(" | ", item.Tickets.Select(ticket => ticket.Seat))
+                </td>
+                <td class="col-md-2">
+                    @{
+                        var theatreName = "";
+                        var firstShowing = firstTicket?.Showing;
+                        if (firstShowing != null)
+                        {
+                            theatreName = firstShowing.Theatre.Name;
+                        }
+                    }
+                    @theatreName
+                </td>
+                @{
+                    if (item.Status == Movie_Theater.Models.OrderStatus.Pending)
+                    {
+                        <td id="order-status-@item.Id" class="col-md-2" style="color: red">
+                            Chưa thanh toán
+                        </td>
+                    }
+                    else if (item.Status != Movie_Theater.Models.OrderStatus.Cancelled)
+                    {
+                        <td id="order-status-@item.Id" class="col-md-2" style="color: lime">
+                            Đã thanh toán
+                        </td>
+                    }
+                    else
+                    {
+                        <td id="order-status-@item.Id" class="col-md-2" style="color: yellow">
+                            Đã hủy
+                        </td>
+                    }
+                }
+                <td class="col-md-1" style="display: revert">
+                    @if (item.Status == Movie_Theater.Models.OrderStatus.Pending)
+                    {
+                        <div style="display: flex; justify-content: space-between">
+                            <button style="margin-right: 2px; border-radius: 4px; " type="button" class="btn btn-danger cancel-button font-weight-600" data-order-id="@item.Id">Hủy</button>
+                            @Html.ActionLink("T.Toán", "Details", "Orders", new { OrderID = item.Id }, new { @class = "btn btn-primary white-color font-weight-600", style = "background-color: #f7c12f; border: unset; border-radius: 4px;", id = "order-link-" + item.Id })
+                        </div>
+                    }
+                </td>
+            </tr>
+        }
+
+
+    </table>
+</div>
+
+<style>
+    .min-height-content {
+        min-height: 35.75px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.cancel-button').click(function () {
+            var button = $(this);
+            var buttonCheckout = $('#order-link-' + button.attr('data-order-id'));
+            var orderId = button.attr('data-order-id');
+
+            if (confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
+                $.ajax({
+                    url: '/Orders/Cancel',
+                    type: 'POST',
+                    data: { OrderId: orderId },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.success) {
+                            alert('Đơn hàng đã được hủy thành công!');
+                            $('#order-status-' + orderId).text('Đã hủy').css('color', 'yellow');
+                            button.remove();
+                            buttonCheckout.remove();
+                        } else {
+                            alert(data.error);
+                        }
+                    },
+                    error: function () {
+                        alert('Lỗi khi hủy đơn hàng!');
+                    }
+                });
+            }
+        });
+    });
+</script>

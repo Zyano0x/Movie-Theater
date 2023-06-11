@@ -1,7 +1,7 @@
 ﻿@model Movie_Theater.Models.Ticket
 @using Movie_Theater.Models
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Chọn Ghế";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -9,47 +9,52 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="wrapper-container">
-        <h4>Ticket</h4>
+    <div class="wrapper-container" style=" background-color: #2f353b;">
+        <h5 class="heading"><i style="font-size: 20px" class="fa-solid fa-couch"></i> Chọn Ghế</h5>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Showing.Id)
 
         <div>
             <dl class="dl-horizontal">
-                <dt>
+                <dt style="text-align: start;">
                     Movie Title:
                 </dt>
-                <dd>
+                <dd style="text-align: end;">
                     @Html.DisplayFor(m => Model.Showing.Movie.Title)
                 </dd>
-                <dt>
+                <hr />
+                <dt style="text-align: start;">
                     Rating:
                 </dt>
-                <dd>
+                <dd style="text-align: end;">
                     @Html.DisplayFor(m => Model.Showing.Movie.Rating)
                 </dd>
-                <dt>
+                <hr />
+                <dt style="text-align: start;">
                     Start Time:
                 </dt>
-                <dd>
+                <dd style="text-align: end;">
                     @Html.DisplayFor(m => Model.Showing.StartTime)
                 </dd>
-                <dt>
+                <hr />
+                <dt style="text-align: start;">
                     Ticket Price:
                 </dt>
-                <dd>
+                <dd style="text-align: end; color: #f7c12f;">
                     @Html.DisplayFor(m => m.Price)
-                </dd>
-                <dd>
                     @if (@ViewBag.Advance != "Không Giảm Giá")
-                    {<p class="text-info">@ViewBag.Advance</p>}
+                    {<p class="text-info">#@ViewBag.Advance</p>}
                 </dd>
             </dl>
         </div>
         <br />
         <div>
-            <h4>Chọn Ghế:</h4>
+            <div>
+                <h6 style="color: #f7c12f; text-align: center; padding-bottom: 5px; margin-bottom: 30px;">
+                    <span style="width: 49%; display: block; margin: auto; border-bottom: 4px solid #f7c12f; padding-bottom: 5px; ">MÀN HÌNH</span>
+                </h6>
+            </div>
             <div class="seat-container">
                 @foreach (var seat in ViewBag.AllSeats)
                 {
@@ -61,38 +66,32 @@
             </div>
         </div>
         @Html.ValidationMessageFor(model => model.Seat, "", new { @class = "text-danger" })
-        <input type="submit" id="createBtn" value="Create" class="btn btn-primary" />
+        <div style="display: flex; justify-content: end; margin-top: 20px;">
+            <div>
+                <a href="javascript:history.go(-1)" class="btn btn-back font-weight-600" style="border: unset; margin-right: 13px; width: 111px;">Trở lại</a>
+            </div>
+            <input type="submit" id="createBtn" value="Tiếp tục" class="btn btn-primary" style="width: 111px; background-color: #f7c12f;" />
+        </div>
     </div>
 }
-
-
-<div>
-    @Html.ActionLink("Back to List", "Index", "Showings")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
 
 <style>
-    .wrapper-container {
-        width: 100%;
-        max-width: 600px;
-        margin: 0 auto;
-        padding: 20px;
-    }
-
     .seat-container {
         display: flex;
+        justify-content: space-between;
         flex-wrap: wrap;
+        color: #000;
     }
 
     .seat-item {
         display: flex;
         align-items: center;
-        margin-right: 10px;
         margin-bottom: 10px;
-        width: calc(100% / 10); /* Set the width to 1/8th of the container */
+        width: calc(101% / 9); /* Set the width to 1/8th of the container */
     }
 
         .seat-item input[type="checkbox"] {
@@ -107,6 +106,7 @@
             cursor: pointer;
             width: 100%;
             text-align: center;
+            border-radius: 4px;
         }
 
         .seat-item input[type="checkbox"]:checked + label {
@@ -127,11 +127,10 @@
     }
 
     .btn-primary {
-        background-color: #007bff;
         color: #fff;
-        padding: 10px 20px;
-        border: none;
+        font-weight: 600;
         cursor: pointer;
+        border: unset;
     }
 
         .btn-primary:hover {

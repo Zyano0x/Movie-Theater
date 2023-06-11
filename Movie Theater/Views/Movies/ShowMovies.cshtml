@@ -8,7 +8,7 @@
 <div class="wrapper-container">
     <div class="box-discovery">
         <div class="box-discovery__header">
-            <h5 style="text-transform: uppercase;"><i class="fa-solid fa-photo-film"></i>  @ViewBag.heading</h5>
+            <h5 class="heading" style="text-transform: uppercase;"><i class="fa-solid fa-photo-film"></i>  @ViewBag.heading</h5>
         </div>
 
         @*<div class="box-discovery__filters-nav">
@@ -90,14 +90,14 @@
                                 <img src="@movie.PosterPath" alt="Alternate Text" />
 
                                 <div>
-                                    @{ 
+                                    @{
                                         var encodedName = Movie_Theater.Models.Common.StringHelper.ConvertText(movie.Title);
                                     }
-                                    <a href="@Url.Action("Details", "Movies", new { name = encodedName })">Xem chi tiết</a>
+                                    <a href="@Url.Action("Details", "Movies", new { name = movie.Url})">Xem chi tiết</a>
                                     @{
                                         if (ViewBag.scheduleId.Contains(movie.Id))
                                         {
-                                            <a href="@Url.Action("Create","Booking", new { id = movie.Id})">Đặt vé</a>
+                                            <a href="@Url.Action("Create","Booking", new { name = movie.Url})">Đặt vé</a>
                                         }
                                     }
                                 </div>

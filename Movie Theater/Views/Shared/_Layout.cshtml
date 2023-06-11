@@ -170,6 +170,7 @@
             //Vô hiệu hóa search-button khi search-field chưa có dữ liệu và ngược lại sẽ khởi động search-button
             const searchField = document.getElementById('search-field');
             const searchButton = document.getElementById('search-button');
+            searchButton.disabled = true;
 
             searchField.addEventListener('input', function () {
                 searchButton.disabled = searchField.value === '';
@@ -193,43 +194,52 @@
 
             //Chuyển bg
             // Sử dụng một biến để theo dõi trạng thái hiện tại của nút
-            var isClicked = false;
-
-            // Kiểm tra nếu đã có trạng thái được lưu trong Local Storage
-            var savedState = localStorage.getItem('cssState');
-            if (savedState) {
-                isClicked = JSON.parse(savedState);
-                applyCSS(isClicked);
-            }
-
-            $(".change-bg-btn > i").click(function () {
-                isClicked = !isClicked;
-                applyCSS(isClicked);
-                saveState(isClicked);
-            });
-
-            function applyCSS(isClicked) {
-                if (isClicked) {
-                    // Áp dụng CSS khi trạng thái đã được lưu
-                    $('.navbar, body, .wrapper-container ').css('background-color', '#212529');
-                    $(':root').css('--search-bg-color', '#989898');
-                    $('body').css('color', '#fff');
-                    $('a, .box-movie-info__item__more, .change-bg-btn > i').not('.container a, .table a, .btn-create a, .box-movie__item .img a, .box-discovery__body__item a, .pagination a').css('color', '#f7c12f');
-                    $('.box-movie__item, .box-discovery__body__item').hover(
-                        function () {
-                            $(this).find('.caption').css('color', '#f7c12f');
-                        },
-                        function () {
-                            $(this).find('.caption').css('color', '');
-                        }
-                    );
-                } else {
-                    // Xóa CSS khi click lần thứ hai
-                    $('.change-bg-btn > i,a , .navbar, body, .wrapper-container, :root, .box-movie-info__item__more').removeAttr('style');
-                    $('a, .box-movie-info__item__more, .change-bg-btn > i').not('.container a, .table a, .btn-create a, .box-movie__item .img a, .box-discovery__body__item a, .pagination a').css('text-decoration', 'none');
-                    $('.box-movie__item, .box-discovery__body__item').off('mouseenter mouseleave');
+            $('a, .box-movie-info__item__more, .change-bg-btn > i').not('.container a, .table a, .btn-create a, .box-movie__item .img a, .box-discovery__body__item a, .pagination a').css('color', '#f7c12f');
+            $('.box-movie__item, .box-discovery__body__item').hover(
+                function () {
+                    $(this).find('.caption').css('color', '#f7c12f');
+                },
+                function () {
+                    $(this).find('.caption').css('color', '');
                 }
-            }
+            );
+
+            //var isClicked = false;
+
+            //// Kiểm tra nếu đã có trạng thái được lưu trong Local Storage
+            //var savedState = localStorage.getItem('cssState');
+            //if (savedState) {
+            //    isClicked = JSON.parse(savedState);
+            //    applyCSS(isClicked);
+            //}
+
+            //$(".change-bg-btn > i").click(function () {
+            //    isClicked = !isClicked;
+            //    applyCSS(isClicked);
+            //    saveState(isClicked);
+            //});
+
+            //function applyCSS(isClicked) {
+            //    if (isClicked) {
+            //        // Áp dụng CSS khi trạng thái đã được lưu
+            //        $('.navbar, body, .wrapper-container ').css('background-color', '#212529');
+            //        $('body').css('color', '#fff');
+            //        $('a, .box-movie-info__item__more, .change-bg-btn > i').not('.container a, .table a, .btn-create a, .box-movie__item .img a, .box-discovery__body__item a, .pagination a').css('color', '#f7c12f');
+            //        $('.box-movie__item, .box-discovery__body__item').hover(
+            //            function () {
+            //                $(this).find('.caption').css('color', '#f7c12f');
+            //            },
+            //            function () {
+            //                $(this).find('.caption').css('color', '');
+            //            }
+            //        );
+            //    } else {
+            //        // Xóa CSS khi click lần thứ hai
+            //        $('.change-bg-btn > i,a , .navbar, body, .wrapper-container, :root, .box-movie-info__item__more').removeAttr('style');
+            //        $('a, .box-movie-info__item__more, .change-bg-btn > i').not('.container a, .table a, .btn-create a, .box-movie__item .img a, .box-discovery__body__item a, .pagination a').css('text-decoration', 'none');
+            //        $('.box-movie__item, .box-discovery__body__item').off('mouseenter mouseleave');
+            //    }
+            //}
 
             function saveState(isClicked) {
                 // Lưu trạng thái vào Local Storage
@@ -275,15 +285,15 @@
 
                                 foreach (var item in genres)
                                 {
-                                    <li> @Html.ActionLink(item.Name, "listmovie", "Movies", new { filtermoviebygenre = item.Id }, null) </li>
+                                    <li> @Html.ActionLink(item.Name, "ShowMovies", "Movies", new { filtermoviebygenre = item.Id }, null) </li>
                                 }
                             }
                         </ul>
                     </li>
                     <li>@Html.ActionLink("Tin Tức", "Index", "News")</li>
-                    <li class="change-bg-btn">
-                        <i class="fa-solid fa-sun"></i>
-                    </li>
+                    @*<li class="change-bg-btn">
+                            <i class="fa-solid fa-sun"></i>
+                        </li>*@
                 </ul>
                 <div id="login">
                     @Html.ActionLink("Đăng nhập", "Login", "Login", new { @class = "display-none login-failse" })
@@ -310,7 +320,7 @@
                 </div>
             </div>
         </div>
-        @using (Html.BeginForm("ListMovie", "Movies", FormMethod.Post))
+        @using (Html.BeginForm("ShowMovies", "Movies", FormMethod.Post))
         {
             <div class="navbar__search">
                 <div>
