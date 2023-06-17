@@ -10,34 +10,34 @@ namespace Movie_Theater.Models.Utilities
         public static Decimal GetTicketPrice(DateTime ShowDate)
 
         {
-            //we need a db context to connect to the database
+            // We need a db context to connect to the database
             ApplicationDbContext _dbContext = new ApplicationDbContext();
 
             //Create return value 
             decimal TicketPrice;
 
-            ////Initiate bol values to figure out what day/time it is
-            Boolean bolWeekend = false; //Variable to check whether the current day is a Weekday(M-F)
-            Boolean bolMatinee = false; //Variable to check whether current time < 12:00pm
-            Boolean bolFriday = false; //Variable to check whether current day is Friday, because half of friday is the weekend
-            Boolean bolTuesday = false; //Variable to check whether it is a discount day or not
-            Boolean bolBefore5 = false; //Variable to check whether it is = or < 5pm
+            // Initiate bol values to figure out what day/time it is
+            Boolean bolWeekend = false; // Variable to check whether the current day is a Weekday(M-F)
+            Boolean bolMatinee = false; // Variable to check whether current time < 12:00pm
+            Boolean bolFriday = false;  // Variable to check whether current day is Friday, because half of friday is the weekend
+            Boolean bolTuesday = false; // Variable to check whether it is a discount day or not
+            Boolean bolBefore5 = false; // Variable to check whether it is = or < 5pm
 
-            //Create movieprice object that references the most recent record of the MoviePriceID
+            // Create movieprice object that references the most recent record of the MoviePriceID
             MoviePrice movieprice = _dbContext.MoviePrices.FirstOrDefault(x => x.Id == 1);
 
-            ////Get prices of different showings to be able to compare and populate booleans
+            // Get prices of different showings to be able to compare and populate booleans
             Decimal MoviePriceMat = movieprice.MatineePrice;
             Decimal MoviePriceWeek = movieprice.WeekPrice;
             Decimal MoviePriceWeeknd = movieprice.WeekendPrice;
             Decimal MoviePriceTues = movieprice.TuesdayPrice;
 
-            //Convert showtime date into a comparable type 
+            // Convert showtime date into a comparable type 
 
             String strday = ShowDate.DayOfWeek.ToString();
             Int32 inthour = ShowDate.Hour;
 
-            //Use Decisions statements to accurately populate booleans
+            // Use Decisions statements to accurately populate booleans
             if (strday == "Friday")
             {
                 bolFriday = true;
