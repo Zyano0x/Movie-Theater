@@ -99,7 +99,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
             var user = from s in _dbContext.Users select s;
             if (!string.IsNullOrEmpty(Searchtext))
             {
-                user = user.Where(x => x.UserName.Contains(Searchtext));
+                user = user.Where(x => x.UserName.Replace(" ","").Contains(Searchtext.Replace(" ", "")));
             }
             user = user.OrderBy(m => m.Id);
             return View(user.ToPagedList(pageNum, pageSize));

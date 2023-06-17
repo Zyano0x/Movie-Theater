@@ -20,7 +20,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
             var showtimes = _dbContext.Showtimes.Include("Movie").Where(item => item.EndTime > DateTime.Now).ToList();
             if (!string.IsNullOrEmpty(Searchtext) && showtimes != null)
             {
-                showtimes = showtimes.Where(x => x.Movie.Title.ToLower().Contains(Searchtext.ToLower())).ToList();
+                showtimes = showtimes.Where(x => x.Movie.Title.ToLower().Replace(" ", "").Contains(Searchtext.ToLower().Replace(" ", ""))).ToList();
             }
             showtimes = showtimes.OrderBy(m => m.StartTime).ToList();
             return View(showtimes.ToPagedList(pageNum, pageSize));

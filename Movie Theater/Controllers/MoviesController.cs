@@ -45,28 +45,28 @@ namespace Movie_Theater.Controllers
             }
 
             ViewBag.heading = "DANH SÁCH PHIM";
-            ViewBag.name = "";
 
             //Tìm kiếm
             if (!String.IsNullOrEmpty(SearchString))
             {
-                movies = movies.Where(m => m.Title.Contains(SearchString) || m.Synopsis.Contains(SearchString));
+                movies = movies.Where(m => m.Title.Replace(" ", "").Contains(SearchString.Replace(" ", "")) || m.Synopsis.Replace(" ", "").Contains(SearchString.Replace(" ", "")));
                 ViewBag.heading = "KẾT QUẢ TÌM KIẾM '" + SearchString + "' : ";
+                ViewBag.Search = SearchString;
             }
             //Lọc phim theo loại (đang chiếu , sắp chiếu ,...)
             else if (!String.IsNullOrEmpty(FilterMoviesByType))
             {
                 if (FilterMoviesByType == "MoviesInTheater")
                 {
-                    ViewBag.name = "Phim Đang Chiếu";
                     movies = movies.Where(m => m.ReleaseDate <= DateTime.Now && _dbContext.Showtimes.Any(ms => ms.MovieId == m.Id && ms.EndTime > DateTime.Now));
                     ViewBag.heading = "DANH SÁCH PHIM : ĐANG CHIẾU";
+                    ViewBag.FilterMoviesByType = "MoviesInTheater";
                 }
                 else if (FilterMoviesByType == "UpcomingMovies")
                 {
-                    ViewBag.name = "Phim Sắp Chiếu";
                     movies = movies.Where(m => m.ReleaseDate > DateTime.Now);
                     ViewBag.heading = "DANH SÁCH PHIM : SẮP CHIẾU";
+                    ViewBag.FilterMoviesByType = "UpcomingMovies";
                 }
             }
             //Lọc phim theo thể loại (theo 1 thể loại duy nhất)
@@ -75,7 +75,7 @@ namespace Movie_Theater.Controllers
                 var movieGenre = (from mg in _dbContext.MovieGenres select mg).Where(mg => mg.GenreId == FilterMovieByGenre);
                 movies = movies.Where(m => movieGenre.Any(mg => mg.MovieId == m.Id));//chọn tất cả các phim có Id tương ứng với bất kỳ MovieId nào trong movieGenre.
                 ViewBag.heading = "DANH SÁCH PHIM : " + (from g in _dbContext.Genres where g.Id == FilterMovieByGenre select g.Name).First();
-                ViewBag.name = (from g in _dbContext.Genres where g.Id == FilterMovieByGenre select g.Name).First();
+                ViewBag.FilterMovieByGenre = (from g in _dbContext.Genres where g.Id == FilterMovieByGenre select g.Id).First();
             }
             movies = movies.OrderBy(m => m.Title);
             return View(movies.ToPagedList(pageNum, pageSize));

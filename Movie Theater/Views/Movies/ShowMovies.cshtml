@@ -132,7 +132,25 @@
 
                     <div>
                         <div class="PageNumber" style="display: flex; justify-content: center; ">
-                            @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))
+                            @{
+                                if (ViewBag.Search != null)
+                                {
+                                    @Html.PagedListPager(Model, page => Url.Action("ShowMovies", new { page = page, SearchString = ViewBag.Search }))
+                                }
+                                else if (ViewBag.FilterMoviesByType != null)
+                                {
+                                    @Html.PagedListPager(Model, page => Url.Action("ShowMovies", new { page = page, FilterMoviesByType = ViewBag.FilterMoviesByType }))
+
+                                }
+                                else if (ViewBag.FilterMovieByGenre != null)
+                                {
+                                    @Html.PagedListPager(Model, page => Url.Action("ShowMovies", new { page = page, FilterMovieByGenre = ViewBag.FilterMovieByGenre }))
+                                }
+                                else
+                                {
+                                    @Html.PagedListPager(Model, page => Url.Action("ShowMovies", new { page = page }))
+                                }
+                            }
                         </div>
                     </div>
                 }
