@@ -24,7 +24,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
             var crews = from s in _dbContext.Crews select s;
             if (!string.IsNullOrEmpty(Searchtext))
             {
-                crews = crews.Where(x => x.Name.Contains(Searchtext));
+                crews = crews.Where(x => x.Name.Replace(" ", "").Contains(Searchtext.Replace(" ", "")));
             }
             crews = crews.OrderBy(m => m.Name);
             return View(crews.ToPagedList(pageNum, pageSize));

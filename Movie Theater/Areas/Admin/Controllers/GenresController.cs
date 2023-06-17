@@ -27,7 +27,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
             var genres = from s in _dbContext.Genres select s;
             if (!string.IsNullOrEmpty(Searchtext))
             {
-                genres = genres.Where(x => x.Name.Contains(Searchtext));
+                genres = genres.Where(x => x.Name.Replace(" ", "").Contains(Searchtext.Replace(" ", "")));
             }
             genres = genres.OrderBy(m => m.Id);
             return View(genres.ToPagedList(pageNum, pageSize));

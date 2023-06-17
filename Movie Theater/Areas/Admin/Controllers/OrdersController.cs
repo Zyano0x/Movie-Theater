@@ -26,7 +26,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
                                         .ToList();
             if (!string.IsNullOrEmpty(Searchtext))
             {
-                booking = booking.Where(x => x.User.UserName.ToLower().Contains(Searchtext.ToLower())).ToList();
+                booking = booking.Where(x => x.User.UserName.ToLower().Replace(" ", "").Contains(Searchtext.ToLower().Replace(" ", ""))).ToList();
             }
             booking = booking.OrderByDescending(m => m.OrderDate).ToList();
             return View(booking.ToPagedList(pageNum, pageSize));

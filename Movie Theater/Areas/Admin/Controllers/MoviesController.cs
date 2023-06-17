@@ -24,7 +24,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
             var movies = from s in _dbContext.Movies select s;
             if (!string.IsNullOrEmpty(Searchtext))
             {
-                movies = movies.Where(x => x.Title.Contains(Searchtext));
+                movies = movies.Where(x => x.Title.Replace(" ", "").Contains(Searchtext.Replace(" ", "")));
             }
             movies = movies.OrderByDescending(m => m.ReleaseDate);
             return View(movies.ToPagedList(pageNum, pageSize));

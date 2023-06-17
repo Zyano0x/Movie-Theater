@@ -26,7 +26,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
             var lstNews = from s in _dbContext.News select s;
             if(!string.IsNullOrEmpty(Searchtext))
             {
-                lstNews = lstNews.Where(x => x.Title.Contains(Searchtext));
+                lstNews = lstNews.Where(x => x.Title.Replace(" ", "").Contains(Searchtext.Replace(" ", "")));
             }
             lstNews = lstNews.OrderByDescending(m => m.PublicationDate);
             return View(lstNews.ToPagedList(pageNum, pageSize));

@@ -20,7 +20,7 @@ namespace Movie_Theater.Areas.Admin.Controllers
             var theatres = _dbContext.Theatres.ToList();
             if (!string.IsNullOrEmpty(Searchtext))
             {
-                theatres = theatres.Where(x => x.Name.ToLower().Contains(Searchtext.ToLower())).ToList();
+                theatres = theatres.Where(x => x.Name.ToLower().Replace(" ", "").Contains(Searchtext.ToLower().Replace(" ", ""))).ToList();
             }
             theatres = theatres.OrderBy(m => m.Id).ToList();
             return View(theatres.ToPagedList(pageNum, pageSize));
