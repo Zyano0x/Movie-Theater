@@ -62,35 +62,28 @@ namespace Movie_Theater.Controllers
         public ActionResult Create(string name)
         {
             var movie = _dbContext.Movies.FirstOrDefault(m => m.Url == name);
-            var movies = _dbContext.Movies.Where(m => m.Url == name).ToList();
-            var theaters = _dbContext.Theatres.ToList();
-            var defaultTheatre = theaters.FirstOrDefault();
             if (movie == null)
             {
                 // Handle the case when the movie is not found
                 // You can return an error view or redirect to an error page
                 return RedirectToAction("NotFound", "Error");
             }
+
+            var showtimes = _dbContext.Showtimes.Where(s => s.Movie.Id == movie.Id && s.EndTime > DateTime.Now).ToList();
+            var theaterIdsWithShowtimes = showtimes.Select(s => s.TheatreId).Distinct().ToList();
+            var theaters = _dbContext.Theatres.Where(t => theaterIdsWithShowtimes.Contains(t.Id)).ToList();
+
             var viewModel = new ShowtimesViewModel
             {
                 Movie = movie,
-                Movies = movies,
+                Movies = new List<Movie> { movie },
                 Theatres = theaters,
-                TheatreIds = theaters.Select(s => s.Id).ToList(),
-                TheatreSelectId = defaultTheatre?.Id ?? 0,
+                TheatreIds = theaters.Select(t => t.Id).ToList(),
+                TheatreSelectId = theaters.FirstOrDefault()?.Id ?? 0,
+                Showtimes = showtimes,
+                ShowtimesIds = showtimes.Select(s => s.Id).ToList(),
+                ShowtimesSelectId = showtimes.FirstOrDefault()?.Id ?? 0
             };
-
-            if (defaultTheatre != null)
-            {
-                // Filter showings by movie and default theater
-                viewModel.Showtimes = _dbContext.Showtimes.Where(s => s.Movie.Id == movie.Id && s.TheatreId == defaultTheatre.Id && s.EndTime > DateTime.Now).ToList();
-                viewModel.ShowtimesIds = _dbContext.Showtimes.Where(s => s.Movie.Url == name && s.TheatreId == defaultTheatre.Id && s.EndTime > DateTime.Now).Select(s => s.Id).ToList();
-                viewModel.ShowtimesSelectId = viewModel.Showtimes.FirstOrDefault()?.Id ?? 0;
-            }
-            else
-            {
-                viewModel.Showtimes = new List<Showtimes>();
-            }
 
             return View(viewModel);
         }
